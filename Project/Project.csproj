@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\js\site.js" />
     <None Include="wwwroot\public\css\animate.css" />
     <None Include="wwwroot\public\css\animate.min.css" />
     <None Include="wwwroot\public\css\bootstrap-touch-slider.css" />
