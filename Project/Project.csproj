@@ -1,0 +1,119 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\public\css\animate.css" />
+    <None Include="wwwroot\public\css\animate.min.css" />
+    <None Include="wwwroot\public\css\bootstrap-touch-slider.css" />
+    <None Include="wwwroot\public\css\bootstrap.min.css" />
+    <None Include="wwwroot\public\css\colors.css" />
+    <None Include="wwwroot\public\css\custom.css" />
+    <None Include="wwwroot\public\css\flaticon.css" />
+    <None Include="wwwroot\public\css\font-awesome.css" />
+    <None Include="wwwroot\public\css\font-awesome.min.css" />
+    <None Include="wwwroot\public\css\owl.carousel.css" />
+    <None Include="wwwroot\public\css\prettyPhoto.css" />
+    <None Include="wwwroot\public\css\pr_loading.css" />
+    <None Include="wwwroot\public\css\responsive.css" />
+    <None Include="wwwroot\public\css\timeline.min.css" />
+    <None Include="wwwroot\public\css\versions.css" />
+    <None Include="wwwroot\public\fonts\Flaticon.eot" />
+    <None Include="wwwroot\public\fonts\Flaticon.svg" />
+    <None Include="wwwroot\public\fonts\Flaticon.ttf" />
+    <None Include="wwwroot\public\fonts\Flaticon.woff" />
+    <None Include="wwwroot\public\fonts\fontawesome-webfont.eot" />
+    <None Include="wwwroot\public\fonts\fontawesome-webfont.svg" />
+    <None Include="wwwroot\public\fonts\fontawesome-webfont.ttf" />
+    <None Include="wwwroot\public\fonts\fontawesome-webfont.woff" />
+    <None Include="wwwroot\public\fonts\fontawesome-webfont.woff2" />
+    <None Include="wwwroot\public\fonts\FontAwesome.otf" />
+    <None Include="wwwroot\public\images\about_02.jpg" />
+    <None Include="wwwroot\public\images\about_03.jpg" />
+    <None Include="wwwroot\public\images\ajax-loader.gif" />
+    <None Include="wwwroot\public\images\arrow-left.svg" />
+    <None Include="wwwroot\public\images\arrow-right.svg" />
+    <None Include="wwwroot\public\images\banner.jpg" />
+    <None Include="wwwroot\public\images\bg.png" />
+    <None Include="wwwroot\public\images\hosting_01.jpg" />
+    <None Include="wwwroot\public\images\hosting_02.jpg" />
+    <None Include="wwwroot\public\images\hosting_03.jpg" />
+    <None Include="wwwroot\public\images\img-01.jpg" />
+    <None Include="wwwroot\public\images\img-02.jpg" />
+    <None Include="wwwroot\public\images\img-03.jpg" />
+    <None Include="wwwroot\public\images\img-04.jpg" />
+    <None Include="wwwroot\public\images\logo-hosting.png" />
+    <None Include="wwwroot\public\images\logo_01.png" />
+    <None Include="wwwroot\public\images\logo_02.png" />
+    <None Include="wwwroot\public\images\logo_03.png" />
+    <None Include="wwwroot\public\images\logo_04.png" />
+    <None Include="wwwroot\public\images\logo_05.png" />
+    <None Include="wwwroot\public\images\logo_06.png" />
+    <None Include="wwwroot\public\images\parallax_04.jpg" />
+    <None Include="wwwroot\public\images\prettyPhoto\dark_rounded\btnNext.png" />
+    <None Include="wwwroot\public\images\prettyPhoto\dark_rounded\btnPrevious.png" />
+    <None Include="wwwroot\public\images\prettyPhoto\dark_rounded\contentPattern.png" />
+    <None Include="wwwroot\public\images\prettyPhoto\dark_rounded\default_thumbnail.gif" />
+    <None Include="wwwroot\public\images\prettyPhoto\dark_rounded\loader.gif" />
+    <None Include="wwwroot\public\images\prettyPhoto\dark_rounded\sprite.png" />
+    <None Include="wwwroot\public\images\prettyPhoto\dark_square\btnNext.png" />
+    <None Include="wwwroot\public\images\prettyPhoto\dark_square\btnPrevious.png" />
+    <None Include="wwwroot\public\images\prettyPhoto\dark_square\contentPattern.png" />
+    <None Include="wwwroot\public\images\prettyPhoto\dark_square\default_thumbnail.gif" />
+    <None Include="wwwroot\public\images\prettyPhoto\dark_square\loader.gif" />
+    <None Include="wwwroot\public\images\prettyPhoto\dark_square\sprite.png" />
+    <None Include="wwwroot\public\images\prettyPhoto\default\default_thumb.png" />
+    <None Include="wwwroot\public\images\prettyPhoto\default\loader.gif" />
+    <None Include="wwwroot\public\images\prettyPhoto\default\sprite.png" />
+    <None Include="wwwroot\public\images\prettyPhoto\default\sprite_next.png" />
+    <None Include="wwwroot\public\images\prettyPhoto\default\sprite_prev.png" />
+    <None Include="wwwroot\public\images\prettyPhoto\default\sprite_x.png" />
+    <None Include="wwwroot\public\images\prettyPhoto\default\sprite_y.png" />
+    <None Include="wwwroot\public\images\prettyPhoto\facebook\btnNext.png" />
+    <None Include="wwwroot\public\images\prettyPhoto\facebook\btnPrevious.png" />
+    <None Include="wwwroot\public\images\prettyPhoto\facebook\contentPatternBottom.png" />
+    <None Include="wwwroot\public\images\prettyPhoto\facebook\contentPatternLeft.png" />
+    <None Include="wwwroot\public\images\prettyPhoto\facebook\contentPatternRight.png" />
+    <None Include="wwwroot\public\images\prettyPhoto\facebook\contentPatternTop.png" />
+    <None Include="wwwroot\public\images\prettyPhoto\facebook\default_thumbnail.gif" />
+    <None Include="wwwroot\public\images\prettyPhoto\facebook\loader.gif" />
+    <None Include="wwwroot\public\images\prettyPhoto\facebook\sprite.png" />
+    <None Include="wwwroot\public\images\prettyPhoto\light_rounded\btnNext.png" />
+    <None Include="wwwroot\public\images\prettyPhoto\light_rounded\btnPrevious.png" />
+    <None Include="wwwroot\public\images\prettyPhoto\light_rounded\default_thumbnail.gif" />
+    <None Include="wwwroot\public\images\prettyPhoto\light_rounded\loader.gif" />
+    <None Include="wwwroot\public\images\prettyPhoto\light_rounded\sprite.png" />
+    <None Include="wwwroot\public\images\prettyPhoto\light_square\btnNext.png" />
+    <None Include="wwwroot\public\images\prettyPhoto\light_square\btnPrevious.png" />
+    <None Include="wwwroot\public\images\prettyPhoto\light_square\default_thumbnail.gif" />
+    <None Include="wwwroot\public\images\prettyPhoto\light_square\loader.gif" />
+    <None Include="wwwroot\public\images\prettyPhoto\light_square\sprite.png" />
+    <None Include="wwwroot\public\images\slider-01.jpg" />
+    <None Include="wwwroot\public\images\slider-02.jpg" />
+    <None Include="wwwroot\public\images\slider-03.jpg" />
+    <None Include="wwwroot\public\images\testi_01.png" />
+    <None Include="wwwroot\public\images\testi_02.png" />
+    <None Include="wwwroot\public\images\testi_03.png" />
+    <None Include="wwwroot\public\images\world-map.png" />
+    <None Include="wwwroot\public\js\01-custom-places-example.js" />
+    <None Include="wwwroot\public\js\all.js" />
+    <None Include="wwwroot\public\js\custom.js" />
+    <None Include="wwwroot\public\js\mapsed.js" />
+    <None Include="wwwroot\public\js\modernizer.js" />
+    <None Include="wwwroot\public\js\timeline.min.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.11" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="Areas\Admin\Models\" />
+  </ItemGroup>
+
+</Project>
