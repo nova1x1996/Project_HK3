@@ -3,27 +3,28 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Project.Areas.Admin.Controllers
 {
-    public class FrequentlyAskedQuestionController : Controller
+    [Area("Admin")]
+    public class ChannelsController : Controller
     {
-        // GET: FrequentlyAskedQuestionController
+        // GET: ChannelsController
         public ActionResult Index()
         {
             return View();
         }
 
-        // GET: FrequentlyAskedQuestionController/Details/5
+        // GET: ChannelsController/Details/5
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: FrequentlyAskedQuestionController/Create
+        // GET: ChannelsController/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: FrequentlyAskedQuestionController/Create
+        // POST: ChannelsController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(IFormCollection collection)
@@ -38,13 +39,13 @@ namespace Project.Areas.Admin.Controllers
             }
         }
 
-        // GET: FrequentlyAskedQuestionController/Edit/5
+        // GET: ChannelsController/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: FrequentlyAskedQuestionController/Edit/5
+        // POST: ChannelsController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
@@ -59,13 +60,13 @@ namespace Project.Areas.Admin.Controllers
             }
         }
 
-        // GET: FrequentlyAskedQuestionController/Delete/5
+        // GET: ChannelsController/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: FrequentlyAskedQuestionController/Delete/5
+        // POST: ChannelsController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)

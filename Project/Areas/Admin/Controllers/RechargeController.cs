@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Project.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class RechargeController : Controller
     {
         // GET: RechargeController

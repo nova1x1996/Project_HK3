@@ -4,27 +4,27 @@ using Microsoft.AspNetCore.Mvc;
 namespace Project.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class FeedbackQuestionsController : Controller
+    public class PackagesController : Controller
     {
-        // GET: FeedbackQuestionsController
+        // GET: PackagesController
         public ActionResult Index()
         {
             return View();
         }
 
-        // GET: FeedbackQuestionsController/Details/5
+        // GET: PackagesController/Details/5
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: FeedbackQuestionsController/Create
+        // GET: PackagesController/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: FeedbackQuestionsController/Create
+        // POST: PackagesController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(IFormCollection collection)
@@ -39,13 +39,13 @@ namespace Project.Areas.Admin.Controllers
             }
         }
 
-        // GET: FeedbackQuestionsController/Edit/5
+        // GET: PackagesController/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: FeedbackQuestionsController/Edit/5
+        // POST: PackagesController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
@@ -60,13 +60,13 @@ namespace Project.Areas.Admin.Controllers
             }
         }
 
-        // GET: FeedbackQuestionsController/Delete/5
+        // GET: PackagesController/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: FeedbackQuestionsController/Delete/5
+        // POST: PackagesController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)
