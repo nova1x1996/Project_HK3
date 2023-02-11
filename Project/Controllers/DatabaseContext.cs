@@ -8,15 +8,9 @@ namespace Project.Controllers
     {
         protected readonly IConfiguration Configuration;
 
-        public DatabaseContext(IConfiguration configuration) 
+        public DatabaseContext(IConfiguration configuration, DbContextOptions options) : base(options)
         {
             Configuration = configuration;
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder options)
-        {
-            // connect to sql server with connection string from app settings
-            options.UseSqlServer(Configuration.GetConnectionString("WebDatabase"));
         }
 
         public DbSet<User> User { get; set; }
