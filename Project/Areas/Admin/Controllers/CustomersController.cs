@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Project.Models;
 using System.Runtime.InteropServices;
 
 namespace Project.Areas.Admin.Controllers
@@ -7,10 +9,17 @@ namespace Project.Areas.Admin.Controllers
     [Area("Admin")]
     public class CustomersController : Controller
     {
+        public DatabaseContext db { get; set; }
+        public CustomersController(DatabaseContext _db)
+        {
+            db = _db;
+        }
+
         // GET: CustomerController
         public ActionResult Index()
         {
-            return View();
+            var model = db.User.Include(a=>a.package).ToList();
+            return View(model);
         }
 
         // GET: CustomerController/Details/5
