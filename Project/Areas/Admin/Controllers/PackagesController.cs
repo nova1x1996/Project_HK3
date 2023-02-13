@@ -38,6 +38,8 @@ namespace Project.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Create(Package newPackage)
         {
+      
+
             try
             {
                 var package = db.Packages.SingleOrDefault(p => p.id.Equals(newPackage.id));
@@ -49,7 +51,7 @@ namespace Project.Areas.Admin.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Fail");
+                    ModelState.AddModelError(string.Empty, ModelState.ErrorCount.ToString());
                 }
             }
             catch (Exception ex)
