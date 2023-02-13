@@ -17,6 +17,8 @@
 
     <!-- Custom styles for this template-->
     <link href="/AssetAdmin/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="/AssetAdmin/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+    <link href="/AssetAdmin/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
 </head>
 
@@ -439,7 +441,10 @@
 
     <!-- Bootstrap core JavaScript-->
     <script src="/AssetAdmin/vendor/jquery/jquery.min.js"></script>
+    <script src="/AssetAdmin/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="/AssetAdmin/vendor/datatables/dataTables.bootstrap4.min.js"></script>
     <script src="/AssetAdmin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    @RenderSection("Scripts", required: false)
 
     <!-- Core plugin JavaScript-->
     <script src="/AssetAdmin/vendor/jquery-easing/jquery.easing.min.js"></script>

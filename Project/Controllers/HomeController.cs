@@ -9,16 +9,13 @@ namespace Project.Controllers
     public class HomeController : Controller
     {
         private DatabaseContext db { set; get; }
-        public HomeController(DatabaseContext _db)
-        {
-            db = _db;
-        }
         
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, DatabaseContext _db)
         {
             _logger = logger;
+            db = _db;
         }
 
         //Đăng nhập 
