@@ -1,0 +1,71 @@
+﻿@model IEnumerable<Project.Models.SetUpBox>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<style>
+    .card_head{
+        display: flex !important;
+        justify-content: space-between!important;
+    }
+
+    .setup_title{
+        font-size: 40px !important;
+    }
+</style>
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800 text-center mt-5 mb-4 setup_title">Set-Up-Box List</h1>
+   @* <p class="mb-4">
+        DataTables is a third party plugin that is used to generate the demo table below.
+        For more information about DataTables, please visit the <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.
+    </p>*@
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 card_head">
+            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+            <a asp-area="Admin" asp-controller="SetUpBox" asp-action="Create"><button class="btn btn-primary">Create new</button></a>
+        </div>
+       
+        <div class="card-body">
+            <div class="table-responsive">
+
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Details</th>
+                            <th>Price</th>
+                            <th>Image</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>       
+
+                    <tbody>
+                        @foreach (var item in Model) {
+                        
+                            <tr>
+                                <td>@item.name</td>
+                                <td>@item.details</td>
+                                <td>@item.price</td>
+                                <td>
+                                    <img src="@item.img" width="80px">
+                                </td>
+                                <td>
+                                    <a href=""><button class="btn btn-warning">Edit</button></a>
+                                    <a href=""><button class="btn btn-danger">Delete</button></a>
+                                </td>
+                            </tr>
+                       
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
