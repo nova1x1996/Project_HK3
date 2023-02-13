@@ -1,15 +1,25 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Project.Models;
+using System.Runtime.InteropServices;
 
 namespace Project.Areas.Admin.Controllers
 {
     [Area("Admin")]
     public class PackagesController : Controller
     {
+        public DatabaseContext db { get; set; }
+        public PackagesController(DatabaseContext _db)
+        {
+            db = _db;
+        }
+
         // GET: PackagesController
         public ActionResult Index()
         {
-            return View();
+            var model = db.Packages.ToList();
+            return View(model);
         }
 
         // GET: PackagesController/Details/5
@@ -26,17 +36,28 @@ namespace Project.Areas.Admin.Controllers
 
         // POST: PackagesController/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(Package newPackage)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                var package = db.Packages.SingleOrDefault(p => p.id.Equals(newPackage.id));
+                if (package == null && ModelState.IsValid)
+                {
+                    db.Packages.Add(newPackage);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Fail");
+                }
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+
+                ModelState.AddModelError(string.Empty, ex.Message);
             }
+            return View();
         }
 
         // GET: PackagesController/Edit/5
