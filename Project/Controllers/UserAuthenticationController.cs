@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Project.Repositories.Implementation;
 using Project.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Project.Controllers
 {
@@ -63,10 +64,14 @@ namespace Project.Controllers
             //Thêm vào để add Customer
             if(result.Message.Equals("You have registered successfully"))
             {
+                var u1 = await db.Users.SingleOrDefaultAsync(u => u.UserName.Equals(model.Username));
+
                 var c1 = new Customer();
                 c1.card_number = card_number;
                 c1.phone = phone;
                 c1.address = address;
+                c1.user_id = u1.Id;
+              
                 await db.Customers.AddAsync(c1);
                 await db.SaveChangesAsync();
 
