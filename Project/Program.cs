@@ -14,11 +14,9 @@ builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
 builder.Services.AddDbContext<DatabaseContext>(options => 
 
-<<<<<<< HEAD
+
 options.UseSqlServer(builder.Configuration.GetConnectionString("WebDatabaseKhoi")));
-=======
-options.UseSqlServer(builder.Configuration.GetConnectionString("WebDatabase")));
->>>>>>> ecfb00628cf75f683ce59aaa6e49f22d63b57aea
+
 builder.Services.AddSession();
 // Identity
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()

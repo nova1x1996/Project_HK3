@@ -36,7 +36,8 @@ namespace Project.Controllers
                 return RedirectToAction(nameof(Login));
             }
         }
-       
+
+        [HttpGet]
         public IActionResult Registration()
         {
             return View();
@@ -45,11 +46,15 @@ namespace Project.Controllers
         [HttpPost]
         public async Task<IActionResult> Registration(RegistrationModel model)
         {
-            if(!ModelState.IsValid) { return View(model); }
+            if (!ModelState.IsValid)
+            {
+                return Content("Sai ");
+            }
             model.Role = "user";
             var result = await this._authService.RegisterAsync(model);
             TempData["msg"] = result.Message;
-            return RedirectToAction(nameof(Registration));
+            return RedirectToAction("Index","Home");
+           // return RedirectToAction(nameof(Registration));
         }
 
         [Authorize]

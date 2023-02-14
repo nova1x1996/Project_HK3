@@ -103,60 +103,11 @@
                     <!-- Tab panes -->
                     <div class="tab-content">
                         <div class="tab-pane active" id="Login">
-                            <form asp-controller="UserAuthenticationController" asp-action="Login" method="post" role="form" class="form-horizontal">
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <input class="form-control"  asp-for="Username" id="email1r" placeholder="Username" type="text">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <input class="form-control" asp-for="Password" id="pass" placeholder="Password" type="password">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-10">
-                                        <button type="submit" class="btn btn-light btn-radius btn-brd grd1">
-                                            Submit
-                                        </button>
-                                        <a class="for-pwd" href="javascript:;">Forgot your password?</a>
-                                    </div>
-                                </div>
-                            </form>
+                                            @Html.Partial("~/Views/UserAuthentication/Login.cshtml")
+                      
                         </div>
                         <div class="tab-pane" id="Registration">
-                            <form role="form" class="form-horizontal">
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <input class="form-control" placeholder="Name" type="text">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <input class="form-control" id="email" placeholder="Email" type="email">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <input class="form-control" id="phone" placeholder="Phone" type="number">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <input class="form-control" id="password" placeholder="Password" type="password">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-10">
-                                        <button type="button" class="btn btn-light btn-radius btn-brd grd1">
-                                            Save &amp; Continue
-                                        </button>
-                                        <button type="button" class="btn btn-light btn-radius btn-brd grd1">
-                                            Cancel
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
+                            @Html.Partial("~/Views/UserAuthentication/Registration.cshtml")
                         </div>
                     </div>
                 </div>
@@ -191,6 +142,7 @@
                         <li class="nav-item"><a class="nav-link" asp-controller="AboutUs" asp-action="Index" >About Us</a></li>
                         <li class="nav-item"><a class="nav-link" asp-controller="AboutUs" asp-action="Index" >Set-up Box</a></li>
                         <li class="nav-item"><a class="nav-link" asp-controller="Package" asp-action="Index" >Package </a></li>
+                      
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="dropdown-a" data-toggle="dropdown">Other </a>
                             <div class="dropdown-menu" aria-labelledby="dropdown-a">
