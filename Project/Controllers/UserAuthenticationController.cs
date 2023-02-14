@@ -3,14 +3,18 @@ using Project.Repositories.Abstract;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Project.Repositories.Implementation;
+using Project.Models;
+
 namespace Project.Controllers
 {
     public class UserAuthenticationController : Controller
     {
         private readonly IUserAuthenticationService _authService;
-        public UserAuthenticationController(IUserAuthenticationService authService)
+        private readonly DatabaseContext db;
+        public UserAuthenticationController(IUserAuthenticationService authService,DatabaseContext _db)
         {
             this._authService = authService;
+            db = _db;
         }
 
         
@@ -24,11 +28,11 @@ namespace Project.Controllers
         public async Task<IActionResult> Login(LoginModel model)
         {
             if (!ModelState.IsValid)
-                return View(model);
+                return Content("sai");
             var result = await _authService.LoginAsync(model);
             if(result.StatusCode==1)
             {
-                return RedirectToAction("Display", "Dashboard");
+                return RedirectToAction("Index", "Home");
             }
             else
             {
@@ -44,24 +48,39 @@ namespace Project.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Registration(RegistrationModel model)
+        public async Task<IActionResult> Registration(RegistrationModel model,string card_number,string phone,string address)
         {
             if (!ModelState.IsValid)
             {
                 return Content("Sai ");
             }
             model.Role = "user";
+            
             var result = await this._authService.RegisterAsync(model);
+
             TempData["msg"] = result.Message;
+
+            //Thêm vào để add Customer
+            if(result.Message.Equals("You have registered successfully"))
+            {
+                var c1 = new Customer();
+                c1.card_number = card_number;
+                c1.phone = phone;
+                c1.address = address;
+                await db.Customers.AddAsync(c1);
+                await db.SaveChangesAsync();
+
+            }
             return RedirectToAction("Index","Home");
            // return RedirectToAction(nameof(Registration));
         }
 
-        [Authorize]
+        //[Authorize]
+        [HttpGet]
         public async Task<IActionResult> Logout()
         {
             await this._authService.LogoutAsync();  
-            return RedirectToAction(nameof(Login));
+            return RedirectToAction("Index","Home");
         }
         [AllowAnonymous]
         public async Task<IActionResult> RegisterAdmin()

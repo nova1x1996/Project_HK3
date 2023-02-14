@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Project.Models.User>
+﻿@model IEnumerable<Project.Models.Customer>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
@@ -47,18 +47,7 @@
                     </tfoot>
 
                     <tbody>
-                        @foreach (var item in Model)
-                        {
-                        <tr>
-                            <td>@item.name</td>
-                            <td>@item.email</td>
-                            <td>@item.phone</td>
-                            <td>@item.address</td>
-                            <td>@item.services_sub_date</td>
-                            <td>@item.date_left</td>
-                            <td>@item.payment_monthly</td>
-                        </tr>
-                        }
+                   
    
                     </tbody>
                 </table>

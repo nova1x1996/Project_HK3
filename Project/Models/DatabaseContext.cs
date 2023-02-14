@@ -15,7 +15,7 @@ namespace Project.Models
 
 
 
-        public DbSet<User> User { get; set; }
+        public DbSet<Customer> Customers { get; set; }
         public DbSet<Package> Packages { set; get; }
         public DbSet<Faq> Faq { set; get; }
 

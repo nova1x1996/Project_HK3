@@ -29,13 +29,14 @@ builder.Services.ConfigureApplicationCookie(options => options.LoginPath = "/Use
 builder.Services.AddScoped<IUserAuthenticationService, UserAuthenticationService>();
 var app = builder.Build();
 
+
 //Tạo dữ liệu tự động trong Database
-//using (var serviceScope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope())
-//{
-//    var context  = serviceScope.ServiceProvider.GetService<DatabaseContext>();
-//    context.Database.Migrate();
-//    TaoDuLieu.SeedData(context);
-//}
+using (var serviceScope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope())
+{
+    var context  = serviceScope.ServiceProvider.GetService<DatabaseContext>();
+    context.Database.Migrate();
+    TaoDuLieu.SeedData(context);
+}
 
 
 

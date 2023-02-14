@@ -18,7 +18,7 @@ namespace Project.Areas.Admin.Controllers
         // GET: CustomerController
         public ActionResult Index()
         {
-            var model = db.User.Include(a=>a.package).ToList();
+            var model = db.Customers.Include(a=>a.package).ToList();
             return View(model);
         }
 

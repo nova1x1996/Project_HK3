@@ -84,36 +84,38 @@
             </div>
         </div>
     </div>
+   
+                
+        <!-- Modal-Login -->
+        <div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header tit-up">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Customer Login</h4>
+                    </div>
+                    <div class="modal-body customer-box">
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs">
+                            <li><a class="active" href="#Login" data-toggle="tab">Login</a></li>
+                            <li><a href="#Registration" data-toggle="tab">Registration</a></li>
+                        </ul>
 
-    <!-- Modal-Login -->
-    <div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header tit-up">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Customer Login</h4>
-                </div>
-                <div class="modal-body customer-box">
-                    <!-- Nav tabs -->
-                    <ul class="nav nav-tabs">
-                        <li><a class="active" href="#Login" data-toggle="tab">Login</a></li>
-                        <li><a href="#Registration" data-toggle="tab">Registration</a></li>
-                    </ul>
-                  
-                    <!-- Tab panes -->
-                    <div class="tab-content">
-                        <div class="tab-pane active" id="Login">
-                                            @Html.Partial("~/Views/UserAuthentication/Login.cshtml")
-                      
-                        </div>
-                        <div class="tab-pane" id="Registration">
-                            @Html.Partial("~/Views/UserAuthentication/Registration.cshtml")
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="Login">
+                                @Html.Partial("~/Views/UserAuthentication/Login.cshtml")
+
+                            </div>
+                            <div class="tab-pane" id="Registration">
+                                @Html.Partial("~/Views/UserAuthentication/Registration.cshtml")
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+   
 
     <!-- LOADER -->
     <div id="preloader">
@@ -160,7 +162,16 @@
                     
                     <ul class="nav navbar-nav navbar-right">
                          <li style="margin-right:10px"><a class="hover-btn-new log" href="#" data-toggle="modal" data-target="#recharge"><span>Recharge</span></a></li>
-                        <li><a class="hover-btn-new log" href="#" data-toggle="modal" data-target="#login"><span>Customer Login</span></a></li>
+                        @if (!string.IsNullOrEmpty(User.Identity.Name))
+                        {
+                            <li><a class="hover-btn-new log" href="/UserAuthentication/ChangePassword"><span>ChangePassword</span></a></li>
+                            <li><a class="hover-btn-new log" asp-controller="UserAuthentication" asp-action="Logout"><span>Logout</span></a></li>
+                        }else{
+                            <li><a class="hover-btn-new log" href="#" data-toggle="modal" data-target="#login"><span>Customer Login</span></a></li>
+
+                        }
+                     
+                      
                     </ul>
                 </div>
             </div>
