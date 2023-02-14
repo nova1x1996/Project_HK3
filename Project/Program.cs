@@ -11,7 +11,7 @@ builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
 builder.Services.AddDbContext<DatabaseContext>(options => 
 
-options.UseSqlServer(builder.Configuration.GetConnectionString("WebDatabaseAn")));
+options.UseSqlServer(builder.Configuration.GetConnectionString("WebDatabaseKhoi")));
 builder.Services.AddSession();
 var app = builder.Build();
 
