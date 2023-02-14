@@ -1,27 +1,39 @@
 ﻿using Microsoft.Extensions.FileProviders;
 using Microsoft.EntityFrameworkCore;
 using Project.Models;
+using Project.Models.DTO;
 using Project.Services;
 using NuGet.Protocol;
 using Microsoft.AspNetCore.Identity;
-
+using Project.Models.Domain;
+using Project.Repositories.Abstract;
+using Project.Repositories.Implementation;
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
 builder.Services.AddDbContext<DatabaseContext>(options => 
 
-options.UseSqlServer(builder.Configuration.GetConnectionString("WebDatabaseAn")));
+options.UseSqlServer(builder.Configuration.GetConnectionString("WebDatabase")));
 builder.Services.AddSession();
+// Identity
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+        .AddEntityFrameworkStores<DatabaseContext>()
+        .AddDefaultTokenProviders();
+
+builder.Services.ConfigureApplicationCookie(options => options.LoginPath = "/UserAuthentication/Login");
+
+//add services to container
+builder.Services.AddScoped<IUserAuthenticationService, UserAuthenticationService>();
 var app = builder.Build();
 
 //Tạo dữ liệu tự động trong Database
-using (var serviceScope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope())
-{
-    var context = serviceScope.ServiceProvider.GetService<DatabaseContext>();
-    context.Database.Migrate();
-    TaoDuLieu.SeedData(context);
-}
+//using (var serviceScope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope())
+//{
+//    var context  = serviceScope.ServiceProvider.GetService<DatabaseContext>();
+//    context.Database.Migrate();
+//    TaoDuLieu.SeedData(context);
+//}
 
 
 
