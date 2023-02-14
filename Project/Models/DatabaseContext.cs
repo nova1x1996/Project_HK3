@@ -1,20 +1,14 @@
 ﻿using System;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-
+using Project.Models.Domain;
 namespace Project.Models
 {
-    public class DatabaseContext : DbContext
+    public class DatabaseContext : IdentityDbContext<ApplicationUser>
     {
-        protected readonly IConfiguration Configuration;
-
-        public DatabaseContext()
+        public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
         {
-        }
 
-       
-        public DatabaseContext(IConfiguration configuration, DbContextOptions options) : base(options)
-        {
-            Configuration = configuration;
         }
 
         public DbSet<User> User { get; set; }
