@@ -20,6 +20,8 @@ namespace Project.Models
         public DbSet<Faq> Faq { set; get; }
 
         public DbSet<SetUpBox> SetUpBoxes { set; get; }
+        public DbSet<Movie> Movies { get; set; }
+        public DbSet<Movie_cate> Movie_Cates { get; set; }
     }
 
 }

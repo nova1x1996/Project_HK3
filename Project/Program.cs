@@ -5,17 +5,24 @@ using Project.Models.DTO;
 using Project.Services;
 using NuGet.Protocol;
 using Microsoft.AspNetCore.Identity;
+
+using AspNetCoreHero.ToastNotification;
+
+
 using Project.Models.Domain;
 using Project.Repositories.Abstract;
 using Project.Repositories.Implementation;
+
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
-
+builder.Services.AddNotyf(config => { config.DurationInSeconds = 10; config.IsDismissable = true; config.Position = NotyfPosition.BottomRight; });
 builder.Services.AddDbContext<DatabaseContext>(options => 
 
+options.UseSqlServer(builder.Configuration.GetConnectionString("WebDatabaseThuong")));
 
-options.UseSqlServer(builder.Configuration.GetConnectionString("WebDatabaseAn")));
+
+
 
 builder.Services.AddSession();
 // Identity

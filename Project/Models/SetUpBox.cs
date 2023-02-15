@@ -19,6 +19,7 @@ namespace Project.Models
         public string? img { get; set; }
 
         [Required]
+        [Range(100, 1000, ErrorMessage ="Price from 100 to 1000 USD")]
         public int price { get; set; }
     
     }
