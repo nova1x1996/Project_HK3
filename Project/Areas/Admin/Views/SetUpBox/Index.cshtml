@@ -1,8 +1,15 @@
-﻿@model IEnumerable<Project.Models.SetUpBox>
+﻿@*@model IEnumerable<Project.Models.SetUpBox>*@
+
+@using PagedList.Core.Mvc
+@model PagedList.Core.IPagedList<Project.Models.SetUpBox>
+
 @{
-    ViewData["Title"] = "Index";
+    int currentPage = ViewBag.currentPage;
+    ViewData["Title"] = "Index" + currentPage;
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+   
 }
+
 <style>
     .card_head{
         display: flex !important;
@@ -25,7 +32,7 @@
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3 card_head">
-            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Set-Up-Box List</h6>
             <a asp-area="Admin" asp-controller="SetUpBox" asp-action="Create"><button class="btn btn-primary">Create new</button></a>
         </div>
        
@@ -49,13 +56,13 @@
                             <tr>
                                 <td>@item.name</td>
                                 <td>@item.details</td>
-                                <td>@item.price</td>
+                                <td>$@item.price</td>
                                 <td>
-                                    <img src="@item.img" width="80px">
+                                    <img src="@item.img" width="80">
                                 </td>
                                 <td>
-                                    <a href=""><button class="btn btn-warning">Edit</button></a>
-                                    <a href=""><button class="btn btn-danger">Delete</button></a>
+                                    <a asp-action="Edit" asp-route-id="@item.id"><button class="btn btn-warning">Edit</button></a>
+                                    <a asp-action="Delete" asp-route-id="@item.id"><button onclick="return confirm('Are you sure want to delete this item?')" class="btn btn-danger">Delete</button></a>
                                 </td>
                             </tr>
                        
@@ -63,6 +70,13 @@
                     </tbody>
                 </table>
             </div>
+       
+           
+            <ul class="pagination">
+                 <pager class="pager-container" list="@Model" asp-area="Admin" asp-controller="SetUpBox" asp-action="Index"></pager>       
+             </ul>
+            
+         
         </div>
     </div>
 

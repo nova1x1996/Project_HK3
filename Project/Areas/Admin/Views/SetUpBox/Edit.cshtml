@@ -1,0 +1,65 @@
+﻿@model Project.Models.SetUpBox
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<style>
+    .set_up_box_edit_form{
+        margin-left: 35% !important;
+    }
+
+    .input_group{
+        min-width: 400px !important;
+    }
+</style>
+
+<h1 class="text-center mt-5 mb-5">Update Set-Up-Box</h1>
+
+<div class="set_up_box_edit_form">
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Edit" enctype="multipart/form-data" method="post" asp-controller="SetUpBox">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="id" />
+                <div class="form-group">
+                    <label asp-for="name" class="control-label"></label>
+                    <input asp-for="name" class="form-control input_group" />
+                    <span asp-validation-for="name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="details" class="control-label"></label>
+                    <input asp-for="details" class="form-control input_group" />
+                    <span asp-validation-for="details" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                   @* <label asp-for="img" class="control-label"></label>
+                    <input asp-for="img" class="form-control input_group" />
+                    <span asp-validation-for="img" class="text-danger"></span>*@
+                   <label>Current Image</label><br />
+                    <img src="@Url.Content(Model.img)" width="80"/>
+                </div>
+                <div class="form-group">
+                    <label asp-for="img" class="control-label">Update Image</label>
+                    <input asp-for="img" type="file" required name="file" onchange="document.getElementById('Image').src = window.URL.createObjectURL(this.files[0])" class="form-control input_group" />
+                    
+                </div>
+                <img src="" id="Image" width="100"/>
+                <div class="form-group">
+                    <label asp-for="price" class="control-label"></label>
+                    <input asp-for="price" class="form-control input_group" />
+                    <span asp-validation-for="price" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Update" class="btn btn-warning" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+</div>
+
+

@@ -4,14 +4,15 @@ using Project.Models;
 using Project.Services;
 using NuGet.Protocol;
 using Microsoft.AspNetCore.Identity;
+using AspNetCoreHero.ToastNotification;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
-
+builder.Services.AddNotyf(config => { config.DurationInSeconds = 10; config.IsDismissable = true; config.Position = NotyfPosition.BottomRight; });
 builder.Services.AddDbContext<DatabaseContext>(options => 
 
-options.UseSqlServer(builder.Configuration.GetConnectionString("WebDatabaseAn")));
+options.UseSqlServer(builder.Configuration.GetConnectionString("WebDatabaseThuong")));
 builder.Services.AddSession();
 var app = builder.Build();
 
