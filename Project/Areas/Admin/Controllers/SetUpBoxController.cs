@@ -20,14 +20,16 @@ namespace Project.Areas.Admin.Controllers
         // GET: SetUpBoxController
       
        
-        public ActionResult Index(int? page)
+        public ActionResult Index()
         {
-            var pageNumber = page == null || page <= 0 ? 1 : page.Value;
-            var pageSize = 3;
-            var model = db.SetUpBoxes.AsNoTracking().OrderByDescending(s=>s.id);
-            PagedList<SetUpBox> sets = new PagedList<SetUpBox>(model, pageNumber, pageSize);
-            ViewBag.currentPage = pageNumber;
-            return View(sets);
+            //var pageNumber = page == null || page <= 0 ? 1 : page.Value;
+            //var pageSize = 3;
+            //var model = db.SetUpBoxes.AsNoTracking().OrderByDescending(s=>s.id);
+            //PagedList<SetUpBox> sets = new PagedList<SetUpBox>(model, pageNumber, pageSize);
+            //ViewBag.currentPage = pageNumber;
+            //return View(sets);
+            var model = db.SetUpBoxes.ToList();
+            return View(model);
           
         }
 
@@ -118,16 +120,7 @@ namespace Project.Areas.Admin.Controllers
                             notyfService.Success("Update successfully");
                             return RedirectToAction("Index");
                         }
-                        else
-                        {
-                            model.name = setUpBox.name;
-                            model.details = setUpBox.details;
-                            model.price = setUpBox.price;
-                           
-                            db.SaveChanges();
-                            notyfService.Success("Update successfully");
-                            return RedirectToAction("Index");
-                        }
+                       
                        
                     }
                     else

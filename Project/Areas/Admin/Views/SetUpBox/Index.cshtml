@@ -1,11 +1,12 @@
-﻿@*@model IEnumerable<Project.Models.SetUpBox>*@
+﻿@model IEnumerable<Project.Models.SetUpBox>
 
-@using PagedList.Core.Mvc
+@*@using PagedList.Core.Mvc
 @model PagedList.Core.IPagedList<Project.Models.SetUpBox>
-
+*@
 @{
-    int currentPage = ViewBag.currentPage;
-    ViewData["Title"] = "Index" + currentPage;
+    //int currentPage = ViewBag.currentPage;
+    //ViewData["Title"] = "Index" + currentPage;
+    ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
    
 }
@@ -72,10 +73,10 @@
             </div>
        
            
-            <ul class="pagination">
+         @*   <ul class="pagination">
                  <pager class="pager-container" list="@Model" asp-area="Admin" asp-controller="SetUpBox" asp-action="Index"></pager>       
              </ul>
-            
+            *@
          
         </div>
     </div>

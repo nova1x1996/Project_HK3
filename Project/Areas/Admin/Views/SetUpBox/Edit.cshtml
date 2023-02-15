@@ -6,11 +6,17 @@
 }
 <style>
     .set_up_box_edit_form{
-        margin-left: 35% !important;
+        margin-left: 15% !important;
+        background-color: white;
+        box-shadow: 1px 2px 10px;
+        width: 880px !important;
+        padding: 50px;
+        border-radius: 10px;
+        margin-bottom: 50px;
     }
 
     .input_group{
-        min-width: 400px !important;
+        min-width: 770px !important;
     }
 </style>
 
@@ -24,18 +30,16 @@
                 <input type="hidden" asp-for="id" />
                 <div class="form-group">
                     <label asp-for="name" class="control-label"></label>
-                    <input asp-for="name" class="form-control input_group" />
-                    <span asp-validation-for="name" class="text-danger"></span>
+                    <input asp-for="name" onkeyup="Name()" id="name" class="form-control input_group" />
+                    <span asp-validation-for="name" id="name_error" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="details" class="control-label"></label>
-                    <input asp-for="details" class="form-control input_group" />
-                    <span asp-validation-for="details" class="text-danger"></span>
+                    <input asp-for="details" onkeyup="Details()" id="details" required class="form-control input_group" />
+                    <span asp-validation-for="details" id="details_error" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                   @* <label asp-for="img" class="control-label"></label>
-                    <input asp-for="img" class="form-control input_group" />
-                    <span asp-validation-for="img" class="text-danger"></span>*@
+                  
                    <label>Current Image</label><br />
                     <img src="@Url.Content(Model.img)" width="80"/>
                 </div>
@@ -47,11 +51,11 @@
                 <img src="" id="Image" width="100"/>
                 <div class="form-group">
                     <label asp-for="price" class="control-label"></label>
-                    <input asp-for="price" class="form-control input_group" />
-                    <span asp-validation-for="price" class="text-danger"></span>
+                    <input asp-for="price" onkeyup="Price()" id="price" class="form-control input_group" />
+                    <span asp-validation-for="price" id="price_error" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <input type="submit" value="Update" class="btn btn-warning" />
+                    <input type="submit" onclick="return Update()" value="Update" class="btn btn-warning" />
                 </div>
             </form>
         </div>
@@ -61,5 +65,6 @@
         <a asp-action="Index">Back to List</a>
     </div>
 </div>
+<script src="~/js/Validate.js"></script>
 
 
