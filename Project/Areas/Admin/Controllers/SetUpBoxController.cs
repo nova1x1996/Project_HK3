@@ -54,6 +54,8 @@ namespace Project.Areas.Admin.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    
+                    
                     if (file.Length > 0)
                     {
                         var filePath = Path.Combine("wwwroot/img", file.FileName);
@@ -70,7 +72,7 @@ namespace Project.Areas.Admin.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Fail");
+                    ModelState.AddModelError(string.Empty,"fail");
                 }
 
             }

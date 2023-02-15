@@ -28,11 +28,16 @@
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Migrations\" />
-    <Folder Include="Repository\" />
+    <Folder Include="Models\Domain\" />
+    <Folder Include="Repositories\" />
+    <Folder Include="Models\DTO\" />
   </ItemGroup>
 
   <ItemGroup>
     <None Remove="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
+    <None Remove="Models\Domain\" />
+    <None Remove="Repositories\" />
+    <None Remove="Models\DTO\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="wwwroot\AssetAdmin\css\sb-admin-2.css" />

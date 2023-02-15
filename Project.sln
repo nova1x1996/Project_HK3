@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project", "Project\Project.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication1", "WebApplication1\WebApplication1.csproj", "{EC80D457-0198-4639-8B2D-6568D64B85C2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dotnet6MvcLogin", "..\test-login\Dotnet6MvcLogin\Dotnet6MvcLogin.csproj", "{193C58D2-BBDA-4D45-86AD-CBAC5B20BE44}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{EC80D457-0198-4639-8B2D-6568D64B85C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC80D457-0198-4639-8B2D-6568D64B85C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EC80D457-0198-4639-8B2D-6568D64B85C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{193C58D2-BBDA-4D45-86AD-CBAC5B20BE44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{193C58D2-BBDA-4D45-86AD-CBAC5B20BE44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{193C58D2-BBDA-4D45-86AD-CBAC5B20BE44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{193C58D2-BBDA-4D45-86AD-CBAC5B20BE44}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -18,17 +18,7 @@ namespace Project.Controllers
             db = _db;
         }
 
-        //Đăng nhập 
-        public IActionResult Login (string email,string pass)
-        {
-            var model = db.User.SingleOrDefault(u => u.email.Equals(email) && u.password.Equals(pass));
-           if(model != null)
-            {
-                
-            }
-            
-            return RedirectToAction("Index");
-        }
+     
         public IActionResult Index()
         {
             return View();

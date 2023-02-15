@@ -54,115 +54,14 @@
                         <li><a class="active" href="#Login" data-toggle="tab">Recharge</a></li>
                         
                     </ul>
-                    <!-- Tab panes -->
-                    <div class="tab-content">
-                        <div class="tab-pane active" id="sss">
-                            <form role="form" class="form-horizontal">
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <input class="form-control" id="email1" placeholder="Name" type="text">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <input class="form-control" id="exampleInputPassword1" placeholder="Password" type="password">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-10">
-                                        <button type="submit" class="btn btn-light btn-radius btn-brd grd1">
-                                            Submit
-                                        </button>
-                                        <a class="for-pwd" href="javascript:;">Forgot your password?</a>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                       
-                    </div>
+                   
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- Modal-Login -->
-    <div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header tit-up">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Customer Login</h4>
-                </div>
-                <div class="modal-body customer-box">
-                    <!-- Nav tabs -->
-                    <ul class="nav nav-tabs">
-                        <li><a class="active" href="#Login" data-toggle="tab">Login</a></li>
-                        <li><a href="#Registration" data-toggle="tab">Registration</a></li>
-                    </ul>
-                  
-                    <!-- Tab panes -->
-                    <div class="tab-content">
-                        <div class="tab-pane active" id="Login">
-                            <form asp-controller="Home" asp-action="Login" method="post" role="form" class="form-horizontal">
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <input class="form-control" id="email1" placeholder="Name" type="text">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <input class="form-control" id="pass" placeholder="Password" type="password">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-10">
-                                        <button type="submit" class="btn btn-light btn-radius btn-brd grd1">
-                                            Submit
-                                        </button>
-                                        <a class="for-pwd" href="javascript:;">Forgot your password?</a>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="tab-pane" id="Registration">
-                            <form role="form" class="form-horizontal">
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <input class="form-control" placeholder="Name" type="text">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <input class="form-control" id="email" placeholder="Email" type="email">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <input class="form-control" id="phone" placeholder="Phone" type="number">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <input class="form-control" id="password" placeholder="Password" type="password">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-10">
-                                        <button type="button" class="btn btn-light btn-radius btn-brd grd1">
-                                            Save &amp; Continue
-                                        </button>
-                                        <button type="button" class="btn btn-light btn-radius btn-brd grd1">
-                                            Cancel
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+   
+             
+   
 
     <!-- LOADER -->
     <div id="preloader">
@@ -191,6 +90,7 @@
                         <li class="nav-item"><a class="nav-link" asp-controller="AboutUs" asp-action="Index" >About Us</a></li>
                         <li class="nav-item"><a class="nav-link" asp-controller="SetUpBox" asp-action="Index" >Set-up Box</a></li>
                         <li class="nav-item"><a class="nav-link" asp-controller="Package" asp-action="Index" >Package </a></li>
+                      
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="dropdown-a" data-toggle="dropdown">Other </a>
                             <div class="dropdown-menu" aria-labelledby="dropdown-a">
@@ -208,7 +108,16 @@
                     
                     <ul class="nav navbar-nav navbar-right">
                          <li style="margin-right:10px"><a class="hover-btn-new log" href="#" data-toggle="modal" data-target="#recharge"><span>Recharge</span></a></li>
-                        <li><a class="hover-btn-new log" href="#" data-toggle="modal" data-target="#login"><span>Customer Login</span></a></li>
+                        @if (!string.IsNullOrEmpty(User.Identity.Name))
+                        {
+                            <li><a class="hover-btn-new log" href="/UserAuthentication/ChangePassword" ><span>ChangePassword</span></a></li>
+                            <li><a class="hover-btn-new log" asp-controller="UserAuthentication" asp-action="Logout"><span>Logout</span></a></li>
+                        }else{
+                            <li><a class="hover-btn-new log" href="/UserAuthentication/Login" ><span>Customer Login</span></a></li>
+
+                        }
+                     
+                      
                     </ul>
                 </div>
             </div>

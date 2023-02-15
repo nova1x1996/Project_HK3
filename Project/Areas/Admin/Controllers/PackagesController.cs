@@ -38,10 +38,11 @@ namespace Project.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Create(Package newPackage)
         {
+      
+
             try
             {
-                var package = db.Packages.SingleOrDefault(p => p.id.Equals(newPackage.id));
-                if (package == null && ModelState.IsValid)
+                if (ModelState.IsValid)
                 {
                     db.Packages.Add(newPackage);
                     db.SaveChanges();
@@ -49,7 +50,7 @@ namespace Project.Areas.Admin.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Fail");
+                    ModelState.AddModelError(string.Empty, ModelState.ErrorCount.ToString());
                 }
             }
             catch (Exception ex)
