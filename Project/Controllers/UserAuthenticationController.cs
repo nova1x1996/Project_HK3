@@ -51,18 +51,16 @@ namespace Project.Controllers
         [HttpPost]
         public async Task<IActionResult> Registration(RegistrationModel model,string card_number,string phone,string address)
         {
-            if (!ModelState.IsValid)
-            {
-                return Content("Sai ");
-            }
+            if (!ModelState.IsValid) { return View(model); }
             model.Role = "user";
             
             var result = await this._authService.RegisterAsync(model);
 
             TempData["msg"] = result.Message;
+            return RedirectToAction(nameof(Registration));
 
             //Thêm vào để add Customer
-            if(result.Message.Equals("You have registered successfully"))
+            if (result.Message.Equals("You have registered successfully"))
             {
                 var u1 = await db.Users.SingleOrDefaultAsync(u => u.UserName.Equals(model.Username));
 

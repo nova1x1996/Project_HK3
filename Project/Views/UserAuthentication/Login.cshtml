@@ -5,29 +5,31 @@
 @{
 }
 
-<form asp-controller="UserAuthentication" asp-action="Login" method="post" role="form" class="form-horizontal">
-    <div class="form-group">
-        <div class="col-sm-12">
-            <input type="text" asp-for="Username" placeholder="Enter Username">
-            <div class="msg">
-                <span class="err" asp-validation-for="Username"></span>
-            </div>
+<form asp-action="Login" method="post">
+
+    <div class="container">
+        <label asp-for="Username"><b>Username</b></label>
+        <input type="text" asp-for="Username" placeholder="Enter Username">
+        <div class="msg">
+            <span class="err" asp-validation-for="Username"></span>
         </div>
-    </div>
-    <div class="form-group">
-        <div class="col-sm-12">
-      <input  type="password" asp-for="Password" placeholder="Enter Password">
-            <div class="msg">
+
+
+
+        <label asp-for="Password"><b>Password</b></label>
+        <input type="password" asp-for="Password" placeholder="Enter Password">
+        <div class="msg">
             <span asp-validation-for="Password" class="err"></span>
-            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-10">
-            <button type="submit" class="btn btn-light btn-radius btn-brd grd1">
-                Submit
-            </button>
-            <a class="for-pwd" href="javascript:;">Forgot your password?</a>
-        </div>
+
+
+        @if (TempData["msg"] != null)
+        {
+            <div class="msg">@TempData["msg"]</div>
+        }
+
+        <button type="submit">Login</button>
+        <a class="text-alert" href="/UserAuthentication/Registration">Not a Account? Signup</a>
     </div>
 </form>
+
