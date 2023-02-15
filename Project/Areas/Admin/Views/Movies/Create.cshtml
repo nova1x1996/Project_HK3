@@ -1,0 +1,63 @@
+﻿@model Project.Models.Movie
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<style>
+    .create_setup_form {
+        margin-left: 35% !important;
+    }
+
+    .input_group {
+        min-width: 400px !important;
+    }
+</style>
+
+<h1 class="text-center mt-4">Create Movies</h1>
+
+<div class="create_setup_form mt-5">
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create" method="post" enctype="multipart/form-data" asp-controller="Movies">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="name" class="control-label"></label>
+                    <input asp-for="name" class="form-control input_group" />
+                    <span asp-validation-for="name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="content" class="control-label"></label>
+                    <input asp-for="content" class="form-control input_group" />
+                    <span asp-validation-for="content" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="img" class="control-label"></label>
+                    <input asp-for="img" type="file" name="file" id="file" class="form-control-file input_group" />
+                    <span asp-validation-for="img" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label> Type</label>
+                    <select asp-for="movie_cate_id" asp-items="@ViewBag.listcate">
+                        <option>Type</option>
+                    </select>
+    
+                </div>
+                <div class="form-group">
+                    <label asp-for="price" class="control-label"></label>
+                    <input asp-for="price" class="form-control input_group" />
+                    <span asp-validation-for="price" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+</div>
+
+

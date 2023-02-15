@@ -1,84 +1,83 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Project.Models;
 
 namespace Project.Areas.Admin.Controllers
 {
     [Area("Admin")]
     public class MoviesCategoryController : Controller
+
     {
+        private DatabaseContext db { get; set; }
+        public MoviesCategoryController(DatabaseContext _db)
+        {
+            db = _db;
+        }
         // GET: MoviesCategoryController
         public ActionResult Index()
         {
-            return View();
+            var model = db.Movie_Cates.ToList();
+            return View(model);
         }
 
-        // GET: MoviesCategoryController/Details/5
-        public ActionResult Details(int id)
+        // GET: MoviesCategoryController/Delete/5
+        [HttpGet()]
+        public ActionResult Delete(int id)
         {
-            return View();
+            var model = db.Movie_Cates.Find(id);
+            db.Remove(model);
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         // GET: MoviesCategoryController/Create
+        [HttpGet()]
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: MoviesCategoryController/Create
-        [HttpPost]
+        [HttpPost()]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(Movie_cate movie)
         {
-            try
+            var model = db.Movie_Cates.Where(m => m.name.Equals(movie.name)).SingleOrDefault();
+            if(model != null)
             {
-                return RedirectToAction(nameof(Index));
+                return Content("Đã tồn tại ");
             }
-            catch
-            {
-                return View();
-            }
+            db.Movie_Cates.Add(movie);
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
+     
 
         // GET: MoviesCategoryController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var model = db.Movie_Cates.Find(id);
+            
+            return View(model);
         }
 
         // POST: MoviesCategoryController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id,string name)
         {
-            try
+            var model = db.Movie_Cates.Where(m => m.name.Equals(name)).SingleOrDefault();
+            if(model != null)
             {
-                return RedirectToAction(nameof(Index));
+                return Content("Đã tồn tại ");
             }
-            catch
-            {
-                return View();
-            }
+            var model_2 = db.Movie_Cates.Find(id);
+            model_2.name = name;
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
-        // GET: MoviesCategoryController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
+    
 
-        // POST: MoviesCategoryController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+       
     }
 }
