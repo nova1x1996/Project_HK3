@@ -42,8 +42,7 @@ namespace Project.Areas.Admin.Controllers
 
             try
             {
-                var package = db.Packages.SingleOrDefault(p => p.id.Equals(newPackage.id));
-                if (package == null && ModelState.IsValid)
+                if (ModelState.IsValid)
                 {
                     db.Packages.Add(newPackage);
                     db.SaveChanges();
