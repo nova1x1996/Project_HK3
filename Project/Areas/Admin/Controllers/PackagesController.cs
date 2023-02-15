@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Project.Models;
+using System.Net.Http;
 using System.Runtime.InteropServices;
+using System.Security.Policy;
 
 namespace Project.Areas.Admin.Controllers
 {
@@ -25,7 +27,8 @@ namespace Project.Areas.Admin.Controllers
         // GET: PackagesController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            var model = db.Packages.SingleOrDefault(m => m.id.Equals(id));
+            return View(model);
         }
 
         // GET: PackagesController/Create
@@ -36,6 +39,7 @@ namespace Project.Areas.Admin.Controllers
 
         // POST: PackagesController/Create
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Create(Package newPackage)
         {
       
@@ -50,7 +54,7 @@ namespace Project.Areas.Admin.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, ModelState.ErrorCount.ToString());
+                    ModelState.AddModelError(string.Empty, "New creation failed.\r\nPlease enter full information.");
                 }
             }
             catch (Exception ex)
@@ -64,43 +68,58 @@ namespace Project.Areas.Admin.Controllers
         // GET: PackagesController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var pac = db.Packages.SingleOrDefault(e => e.id.Equals(id));
+            return View(pac);
         }
 
         // POST: PackagesController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(Package package)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                var pac = db.Packages.SingleOrDefault(e => e.id.Equals(package.id));
+                if (pac != null && ModelState.IsValid)
+                {
+                    pac.name = package.name;
+                    pac.duration = package.duration;
+                    pac.details = package.details;
+                    pac.status = package.status;
+                    pac.price = package.price;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Edit failed.\r\nPlease correct valid information.");
+                }
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                ModelState.AddModelError(string.Empty, ex.Message);
             }
+            return View();
         }
 
         // GET: PackagesController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
-        }
-
-        // POST: PackagesController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
             try
             {
-                return RedirectToAction(nameof(Index));
+                var model = db.Packages.SingleOrDefault(m => m.id.Equals(id));
+                if (model != null)
+                {
+                    db.Packages.Remove(model);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                ModelState.AddModelError(string.Empty, ex.Message);
             }
+            return View();
         }
     }
 }

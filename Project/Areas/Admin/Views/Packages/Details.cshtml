@@ -1,0 +1,64 @@
+﻿@model Project.Models.Package
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+    .create_setup_form {
+        margin-left: 20% !important;
+        margin-right: 20% !important;
+    }
+
+    .input_group {
+        min-width: 400px !important;
+    }
+</style>
+
+<h1 class="text-center mt-4">Details Package</h1>
+<div class="card shadow create_setup_form">
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.name)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.name)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.duration)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.duration)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.details)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.details)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.status)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.status)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.price)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.price)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.customers)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.customers)
+            </dd>
+        </dl>
+        <div>
+            <a asp-action="Index">Back to List</a>
+        </div>
+    </div>
+</div>
