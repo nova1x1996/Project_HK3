@@ -101,13 +101,14 @@ namespace Project.Controllers
             return Ok(result);
         }
 
-        [Authorize]
+        //[Authorize]
+        [HttpGet]
         public IActionResult ChangePassword()
         {
             return View();
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpPost]
         public async Task<IActionResult>ChangePassword(ChangePasswordModel model)
         {
