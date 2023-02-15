@@ -88,7 +88,7 @@
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item active"><a class="nav-link"  asp-controller="Home" asp-action="Index">Home</a></li>
                         <li class="nav-item"><a class="nav-link" asp-controller="AboutUs" asp-action="Index" >About Us</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-controller="AboutUs" asp-action="Index" >Set-up Box</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-controller="SetUpBox" asp-action="Index" >Set-up Box</a></li>
                         <li class="nav-item"><a class="nav-link" asp-controller="Package" asp-action="Index" >Package </a></li>
                       
                         <li class="nav-item dropdown">
@@ -212,6 +212,16 @@
             verticalStartPosition: 'left',
             visibleItems: 4
         });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function (event) {
+            var scrollpos = localStorage.getItem('scrollpos');
+            if (scrollpos) window.scrollTo(0, scrollpos);
+        });
+
+        window.onbeforeunload = function (e) {
+            localStorage.setItem('scrollpos', window.scrollY);
+        };
     </script>
     <!--  @await RenderSectionAsync("Scripts", required: false) -->
 </body>
