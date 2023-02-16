@@ -1,15 +1,28 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Project.Models;
+using Project.Models.DTO;
+using Project.Repositories.Abstract;
+using System.Net;
 
 namespace Project.Areas.Admin.Controllers
 {
     [Area("Admin")]
     public class DealersController : Controller
     {
+        private readonly IUserAuthenticationService _authService;
+        public DatabaseContext db { get; set; }
+        public DealersController(IUserAuthenticationService authService, DatabaseContext _db)
+        {
+            this._authService = authService;
+            db = _db;
+        }
         // GET: DealersController
         public ActionResult Index()
         {
-            return View();
+            var model = db.Dealers.ToList();
+            return View(model);
         }
 
         // GET: DealersController/Details/5
@@ -27,16 +40,30 @@ namespace Project.Areas.Admin.Controllers
         // POST: DealersController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<IActionResult> Create(RegistrationModel model, string phone, string address)
         {
-            try
+            if (!ModelState.IsValid) { return View(model); }
+            model.Role = "dealer";
+
+            var result = await this._authService.RegisterAsync(model);
+
+            TempData["msg"] = result.Message;
+
+
+            if (result.Message.Equals("You have registered successfully"))
             {
-                return RedirectToAction(nameof(Index));
+                var u1 = await db.Users.SingleOrDefaultAsync(u => u.UserName.Equals(model.Username));
+
+                var d1 = new Dealers();
+                d1.phone = phone;
+                d1.address = address;
+                d1.user_id = u1.Id;
+
+                await db.Dealers.AddAsync(d1);
+                await db.SaveChangesAsync();
+
             }
-            catch
-            {
-                return View();
-            }
+            return RedirectToAction("Index");
         }
 
         // GET: DealersController/Edit/5
@@ -61,24 +88,9 @@ namespace Project.Areas.Admin.Controllers
         }
 
         // GET: DealersController/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<IActionResult> Delete(RegistrationModel model, int id)
         {
-            return View();
-        }
-
-        // POST: DealersController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            return View(model);
         }
     }
 }
