@@ -87,22 +87,18 @@
                 <div class="collapse navbar-collapse" id="navbars-host">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item active"><a class="nav-link"  asp-controller="Home" asp-action="Index">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-controller="AboutUs" asp-action="Index" >About Us</a></li>
+                       
                         <li class="nav-item"><a class="nav-link" asp-controller="SetUpBox" asp-action="Index" >Set-up Box</a></li>
                         <li class="nav-item"><a class="nav-link" asp-controller="Package" asp-action="Index" >Package </a></li>
-                      
+                               <li class="nav-item"><a class="nav-link" asp-controller="Movie" asp-action="Index" >Movie Booking</a></li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="dropdown-a" data-toggle="dropdown">Other </a>
                             <div class="dropdown-menu" aria-labelledby="dropdown-a">
-                                <a class="dropdown-item" href="hosting.html">Web Hosting </a>
-                                <a class="dropdown-item" href="hosting.html">WordPress Hosting </a>
-                                <a class="dropdown-item" href="hosting.html">Cloud Server </a>
-                                <a class="dropdown-item" href="hosting.html">Reseller Package </a>
-                                <a class="dropdown-item" href="hosting.html">Dedicated Hosting </a>
+                                <a class="dropdown-item" asp-controller="AboutUs" asp-action="Index">About Us</a>
+                                <a class="dropdown-item" asp-controller="Contact" asp-action="Index">Contact</a>
+                           
                             </div>
                         </li>
-                        
-                        <li class="nav-item"><a class="nav-link"  asp-controller="Contact" asp-action="Index">Contact</a></li>
                         <li class="nav-item"><a class="nav-link"  asp-controller="Faq" asp-action="Index">F.A.Q</a></li>
                     </ul>
                     

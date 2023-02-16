@@ -31,7 +31,9 @@ namespace Project.Models
         [ForeignKey("package_id")]
         public virtual Package package { set; get; }
         public int? package_id { get; set; }
-		
+
+        public virtual List<Customer_order>? GetCustomer_Orders { get; set; }
+
     }
 }
 

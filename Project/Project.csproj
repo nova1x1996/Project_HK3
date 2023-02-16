@@ -31,7 +31,6 @@
     <Folder Include="Models\Domain\" />
     <Folder Include="Repositories\" />
     <Folder Include="Models\DTO\" />
-    <Folder Include="wwwroot\img\movie\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -49,10 +49,10 @@
                                 <td>@item.name</td>
                               
                                 <td>@item.content</td>
-                                <td><img src="@item.img" /></td>
+                                <td><img style="width:100px"src="@item.img" /></td>
                                 <td>@item.price</td>
                                 <td>@item.movie_Cate.name</td>
-                                <td>
+                                <td style="width:150px">
                                     <a asp-action="Edit" asp-controller="Movies" asp-route-id="@item.id"><button class="btn btn-warning">Edit</button></a>
                                     <a asp-action="Delete" asp-controller="Movies" asp-route-id="@item.id"><button class="btn btn-danger">Delete</button></a>
                                 </td>

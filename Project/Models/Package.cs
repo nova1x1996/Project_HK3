@@ -15,5 +15,6 @@ namespace Project.Models
         public string status { get; set; }
         public decimal price { get; set; }
         public virtual List<Customer>? customers { get; set; }
+        public virtual List<Customer_order>? GetCustomer_Orders { get; set; }
     }
 }

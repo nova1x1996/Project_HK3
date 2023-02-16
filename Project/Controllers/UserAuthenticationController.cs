@@ -57,7 +57,7 @@ namespace Project.Controllers
             var result = await this._authService.RegisterAsync(model);
 
             TempData["msg"] = result.Message;
-            return RedirectToAction(nameof(Registration));
+          
 
             //Thêm vào để add Customer
             if (result.Message.Equals("You have registered successfully"))
@@ -74,8 +74,8 @@ namespace Project.Controllers
                 await db.SaveChangesAsync();
 
             }
-            return RedirectToAction("Index","Home");
-           // return RedirectToAction(nameof(Registration));
+            return RedirectToAction(nameof(Registration));
+            // return RedirectToAction(nameof(Registration));
         }
 
         //[Authorize]
