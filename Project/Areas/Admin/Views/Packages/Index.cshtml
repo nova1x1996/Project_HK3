@@ -1,0 +1,77 @@
+﻿@model IEnumerable<Project.Models.Package>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+    .card_head {
+        display: flex !important;
+        justify-content: space-between !important;
+    }
+
+    .setup_title {
+        font-size: 40px !important;
+    }
+</style>
+
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800 text-center mt-5 mb-4 setup_title">Packages</h1>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 card_head">
+            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+            <a asp-area="Admin" asp-action="Create" asp-controller="Packages" class="btn btn-primary">Create new Package</a>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Duration</th>
+                            <th>Details</th>
+                            <th>Status</th>
+                            <th>Price</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Name</th>
+                            <th>Duration</th>
+                            <th>Details</th>
+                            <th>Status</th>
+                            <th>Price</th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.name</td>
+                                <td>@item.duration</td>
+                                <td>@item.details</td>
+                                <td>@item.status</td>
+                                <td>@item.price</td>
+                                <td>
+                                    <a asp-action="Edit" asp-route-id="@item.id">Update</a> | 
+                                    <a asp-action="Details" asp-route-id="@item.id">Details</a> |
+                                    <a asp-action="Delete" asp-route-id="@item.id" onclick="return confirm('Are you sure to delete?')">Delete</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+@section Scripts {
+    <script type="text/javascript" src="/AssetAdmin/js/demo/datatables-demo.js"></script>
+}
