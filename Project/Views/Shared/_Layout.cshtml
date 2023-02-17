@@ -95,7 +95,7 @@
                             <a class="nav-link dropdown-toggle" href="#" id="dropdown-a" data-toggle="dropdown">Other </a>
                             <div class="dropdown-menu" aria-labelledby="dropdown-a">
                                 <a class="dropdown-item" asp-controller="AboutUs" asp-action="Index">About Us</a>
-                                <a class="dropdown-item" asp-controller="Contact" asp-action="Index">Contact</a>
+                                <a class="dropdown-item" asp-controller="Contact" asp-action="ContactUs">Contact</a>
                            
                             </div>
                         </li>
@@ -219,6 +219,7 @@
             localStorage.setItem('scrollpos', window.scrollY);
         };
     </script>
+    @await Component.InvokeAsync("Notyf")
     <!--  @await RenderSectionAsync("Scripts", required: false) -->
 </body>
 </html>
