@@ -1,0 +1,41 @@
+﻿@model Project.Models.Dealers
+
+@{
+
+    ViewData["Title"] = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+    .create_setup_form {
+        margin-left: 20% !important;
+        margin-right: 20% !important;
+    }
+
+    .input_group {
+        min-width: 400px !important;
+    }
+</style>
+
+<h1 class="text-center mt-4">Edit Password Dealers</h1>
+<div class="card shadow create_setup_form">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table-bordered">
+                <form asp-action="Edit" asp-controller="Dealers" method="post">
+                    <input name="dealers_id" value="@Model.id" class="form-control input_group" hidden />
+                    <div class="form-group">
+                        <label class="control-label">New Password</label>
+                        <input type="password" name="newPassword" class="form-control input_group" />
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Update" class="btn btn-primary" />
+                    </div>
+                </form>
+            </table>
+            <div>
+                <a asp-action="Index">Back to List</a>
+            </div>
+        </div>
+    </div>
+</div>
