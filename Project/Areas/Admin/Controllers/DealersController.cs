@@ -1,10 +1,14 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AspNetCoreHero.ToastNotification.Notyf;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Project.Models;
+using Project.Models.Domain;
 using Project.Models.DTO;
 using Project.Repositories.Abstract;
 using System.Net;
+using System.Security.Claims;
 
 namespace Project.Areas.Admin.Controllers
 {
@@ -12,16 +16,20 @@ namespace Project.Areas.Admin.Controllers
     public class DealersController : Controller
     {
         private readonly IUserAuthenticationService _authService;
+        private readonly UserManager<ApplicationUser> _userManager;
         public DatabaseContext db { get; set; }
-        public DealersController(IUserAuthenticationService authService, DatabaseContext _db)
+        public DealersController(IUserAuthenticationService authService, DatabaseContext _db, UserManager<ApplicationUser> userManager)
         {
             this._authService = authService;
             db = _db;
+            _userManager = userManager;
         }
         // GET: DealersController
         public ActionResult Index()
         {
-            var model = db.Dealers.ToList();
+            var model = db.Dealers
+                .Include(d => d.ApplicationUser)
+                .ToList();
             return View(model);
         }
 
@@ -67,30 +75,90 @@ namespace Project.Areas.Admin.Controllers
         }
 
         // GET: DealersController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
-            return View();
+            var deal = db.Dealers.SingleOrDefault(d => d.id.Equals(id));
+            var userManager = HttpContext.RequestServices.GetService<UserManager<ApplicationUser>>();
+            var user = await userManager.FindByIdAsync(deal.user_id);
+            return View(user);
         }
 
         // POST: DealersController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<IActionResult> Edit(Dealers dealers, string newPassword)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                var deal = db.Dealers.SingleOrDefault(d => d.id.Equals(dealers.id));
+                var userManager = HttpContext.RequestServices.GetService<UserManager<ApplicationUser>>();
+                var user = await userManager.FindByIdAsync(deal.user_id);
+                if (user != null && ModelState.IsValid)
+                {
+                    // Tạo mật khẩu mới cho tài khoản ApplicationUser
+                    var token = await userManager.GeneratePasswordResetTokenAsync(user);
+                    var result = await userManager.ResetPasswordAsync(user, token, newPassword);
+
+                    if (result.Succeeded)
+                    {
+                        // Lưu thay đổi vào cơ sở dữ liệu
+                        db.SaveChanges();
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, "Edit failed.\r\nPlease correct valid information.");
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "User not found.");
+                }
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                ModelState.AddModelError(string.Empty, ex.Message);
             }
+            return View();
         }
 
+
+
+
         // GET: DealersController/Delete/5
-        public async Task<IActionResult> Delete(RegistrationModel model, int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            return View(model);
+            try
+            {
+                var dealer = await db.Dealers.FindAsync(id);
+                if (dealer == null)
+                {
+                    return NotFound();
+                }
+
+                db.Dealers.Remove(dealer);
+
+                var user = await _userManager.FindByIdAsync(dealer.user_id);
+
+                if (user != null)
+                {
+                    var result = await _userManager.DeleteAsync(user);
+
+                    if (!result.Succeeded)
+                    {
+                        throw new Exception("Failed to delete user.");
+                    }
+                }
+
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, ex.Message);
+            }
+            return View();
         }
+
     }
 }
