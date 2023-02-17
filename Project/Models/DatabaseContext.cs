@@ -23,6 +23,8 @@ namespace Project.Models
         public DbSet<SetUpBox> SetUpBoxes { set; get; }
         public DbSet<Movie> Movies { get; set; }
         public DbSet<Movie_cate> Movie_Cates { get; set; }
+        public DbSet<Dealers> Dealers { get; set; }
+        public DbSet<DealersOrder> Dealer_Orders { get; set; }
     }
 
 }

@@ -23,7 +23,6 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("WebDatabaseAn"))
 
 
 
-
 builder.Services.AddSession();
 // Identity
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()

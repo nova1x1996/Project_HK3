@@ -67,15 +67,28 @@ namespace Project.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "movie_cate",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_movie_cate", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "package",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     duration = table.Column<int>(type: "int", nullable: false),
-                    details = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    details = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    status = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     price = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
@@ -206,6 +219,49 @@ namespace Project.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "dealers",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    user_id = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    address = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_dealers", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_dealers_AspNetUsers_user_id",
+                        column: x => x.user_id,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "movie",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    img = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    content = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    movie_cate_id = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_movie", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_movie_movie_cate_movie_cate_id",
+                        column: x => x.movie_cate_id,
+                        principalTable: "movie_cate",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "customer",
                 columns: table => new
                 {
@@ -230,6 +286,66 @@ namespace Project.Migrations
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_customer_package_package_id",
+                        column: x => x.package_id,
+                        principalTable: "package",
+                        principalColumn: "id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "dealers_order",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    dealers_id = table.Column<int>(type: "int", nullable: true),
+                    setup_box_id = table.Column<int>(type: "int", nullable: true),
+                    status = table.Column<bool>(type: "bit", nullable: false),
+                    date = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_dealers_order", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_dealers_order_dealers_dealers_id",
+                        column: x => x.dealers_id,
+                        principalTable: "dealers",
+                        principalColumn: "id");
+                    table.ForeignKey(
+                        name: "FK_dealers_order_setup_box_setup_box_id",
+                        column: x => x.setup_box_id,
+                        principalTable: "setup_box",
+                        principalColumn: "id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "customer_order",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    pay_type = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    total_money = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    state = table.Column<bool>(type: "bit", nullable: false),
+                    date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    customer_id = table.Column<int>(type: "int", nullable: true),
+                    package_id = table.Column<int>(type: "int", nullable: true),
+                    movie_id = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_customer_order", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_customer_order_customer_customer_id",
+                        column: x => x.customer_id,
+                        principalTable: "customer",
+                        principalColumn: "id");
+                    table.ForeignKey(
+                        name: "FK_customer_order_movie_movie_id",
+                        column: x => x.movie_id,
+                        principalTable: "movie",
+                        principalColumn: "id");
+                    table.ForeignKey(
+                        name: "FK_customer_order_package_package_id",
                         column: x => x.package_id,
                         principalTable: "package",
                         principalColumn: "id");
@@ -283,6 +399,41 @@ namespace Project.Migrations
                 name: "IX_customer_user_id",
                 table: "customer",
                 column: "user_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_customer_order_customer_id",
+                table: "customer_order",
+                column: "customer_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_customer_order_movie_id",
+                table: "customer_order",
+                column: "movie_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_customer_order_package_id",
+                table: "customer_order",
+                column: "package_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_dealers_user_id",
+                table: "dealers",
+                column: "user_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_dealers_order_dealers_id",
+                table: "dealers_order",
+                column: "dealers_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_dealers_order_setup_box_id",
+                table: "dealers_order",
+                column: "setup_box_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_movie_movie_cate_id",
+                table: "movie",
+                column: "movie_cate_id");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -303,22 +454,37 @@ namespace Project.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "customer");
+                name: "customer_order");
+
+            migrationBuilder.DropTable(
+                name: "dealers_order");
 
             migrationBuilder.DropTable(
                 name: "faq");
 
             migrationBuilder.DropTable(
-                name: "setup_box");
-
-            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "customer");
+
+            migrationBuilder.DropTable(
+                name: "movie");
+
+            migrationBuilder.DropTable(
+                name: "dealers");
+
+            migrationBuilder.DropTable(
+                name: "setup_box");
 
             migrationBuilder.DropTable(
                 name: "package");
+
+            migrationBuilder.DropTable(
+                name: "movie_cate");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
         }
     }
 }
