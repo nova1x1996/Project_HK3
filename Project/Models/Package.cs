@@ -11,7 +11,7 @@ namespace Project.Models
         public int id { set; get; }
 
         [Required]
-        [StringLength(50, MinimumLength = 1, ErrorMessage = "Name from 3 to 50 characters.")]
+        [StringLength(150, MinimumLength = 1, ErrorMessage = "Name from 3 to 50 characters.")]
         public string name { get; set; }
 
         [Required]
@@ -19,7 +19,7 @@ namespace Project.Models
         public int? duration { get; set; }
 
         [Required]
-        [StringLength(50, MinimumLength = 1, ErrorMessage = "Details from 3 to 50 characters.")]
+        [StringLength(150, MinimumLength = 1, ErrorMessage = "Details from 3 to 150 characters.")]
         public string details { get; set; }
 
         [Required]

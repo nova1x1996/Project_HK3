@@ -1,15 +1,31 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Project.Models;
 
 namespace Project.Areas.Admin.Controllers
 {
     [Area("Admin")]
     public class CustomersOrderController : Controller
     {
+
+        private DatabaseContext db;
+        public CustomersOrderController(DatabaseContext _db)
+        {
+            db = _db;
+        }
+
         // GET: CustomersOrderController
         public ActionResult Index()
         {
-            return View();
+            var model = db.Customer_orders
+                .Include(c => c.GetCustomer)
+                    .ThenInclude(c=>c.ApplicationUser)
+                .Include(c=>c.GetMovie)
+                .Include(c => c.GetSetUpBox)
+                .Include(c => c.GetPackage)
+                .ToList();
+            return View(model);
         }
 
         // GET: CustomersOrderController/Details/5
