@@ -35,46 +35,5 @@ namespace Project.Controllers
             return View(model);
         }
 
-        [HttpGet()]
-        public IActionResult MovieOrder(int id)
-        {
-            var model = db.Movies.Find(id);
-
-            return View(model);
-        }
-
-        [HttpPost()]
-        public IActionResult MovieOrder(string pay_type,string total_money,int movies_id)
-        {
-            //Lấy Id của Phiên Đăng nhập hiện tại
-            var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            //Tìm Customer dựa trên ID của Phiên Đăng nhập hiện tại
-            var customer = db.Customers.Where(c => c.user_id.Equals(userId)).SingleOrDefault();
-
-            var Mo = new Customer_order();
-            Mo.total_money = decimal.Parse(total_money);
-            Mo.pay_type = pay_type;
-            Mo.customer_id = customer.id;
-            Mo.movie_id = movies_id;
-            db.Customer_orders.Add(Mo);
-            db.SaveChanges();
-
-
-
-
-            TempData["thongBao"] = "You have successfully placed an order.";
-            return RedirectToAction("Index","Movie");
-
-
-            if (!ModelState.IsValid)
-            {
-                string a = "";
-                foreach (var item in ModelState.Values)
-                {
-                    a = a + item.Errors.ToString();
-                }
-                return Content(a);
-            }
-        }
     }
 }

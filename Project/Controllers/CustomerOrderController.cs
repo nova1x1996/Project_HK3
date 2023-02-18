@@ -26,28 +26,26 @@ namespace Project.Controllers
         
 
 
-                 protected string  Page_Load(Package package,Customer customer)
-        {
-          
+                 protected string  Page_Load(int ItemId,string price ,int customerId,string loaiSanPham)
+                {
+            
+                    var APIContext = HelperPayPal.GetAPIContext();
 
-
-            var APIContext = HelperPayPal.GetAPIContext();
-
-                            // Thiết lập chi tiết đơn hàng
-                            var itemList = new ItemList
-                            {
-                                items = new List<Item>
+            // Thiết lập chi tiết đơn hàng
+            var itemList = new ItemList
+            {
+                items = new List<Item>
                                             {
                                                 new Item
                                                 {
-                                                        
+
                                                     
-                                                    description = customer.id.ToString(),
-                                                    name = package.name,
+                                                    description = customerId.ToString(),
+                                                    name = ItemId.ToString(),
                                                     currency = "USD",
-                                                    price = (package.price).ToString(),
+                                                    price = price,
                                                     quantity = "1",
-                                                    sku = "sku001"
+                                                    sku = loaiSanPham
                                                 }
                                             }
                             };
@@ -56,7 +54,7 @@ namespace Project.Controllers
                                             var total = new Amount
                             {
                                 currency = "USD",
-                                total = (package.price).ToString()
+                                total = price
                                             };
 
                             // Tạo chi tiết thanh toán
@@ -82,7 +80,7 @@ namespace Project.Controllers
                                 redirect_urls = new RedirectUrls
                                 {
                                     return_url = "http://localhost:5296/CustomerOrder/btnPayment",
-                                    cancel_url = "http://localhost:5296/Package/Index"
+                                    cancel_url = "http://localhost:5296/Home/Index"
                                 }
             };
 
@@ -131,30 +129,53 @@ namespace Project.Controllers
                 var total_money = executedPayment.transactions[0].amount.total;
                 var pay_type = executedPayment.payer.payment_method;
                 var customerId = items.description;
-                var package = db.Packages.Where(p => p.name.Equals(items.name)).SingleOrDefault();
-                
+                string aaa = items.sku;
 
-                var Mo = new Customer_order();
-
-                Mo.total_money = decimal.Parse(total_money);
-                Mo.pay_type = pay_type;
-                Mo.customer_id = int.Parse(customerId);
-                Mo.package_id = package.id;
-                Mo.date = DateTime.Now;
-                db.Customer_orders.Add(Mo);
-
-                //Điền thông tin gói cước vào Customer
-
-                var customer = db.Customers.Find(int.Parse(customerId));
-                customer.payment_monthly = package.price;
-                customer.package_id = package.id;
-                customer.services_sub_date = DateTime.Now;
-                customer.date_left = DateTime.Now.AddMonths(package.duration.Value);
-                db.SaveChanges();
+                if (items.sku.Equals("package"))
+                {
+                    
+                    var package = db.Packages.Find(int.Parse(items.name));
 
 
-                // Xử lý khi thanh toán thành công
-                return RedirectToAction("PaymentSuccess");
+                    var Mo = new Customer_order();
+
+                    Mo.total_money = decimal.Parse(total_money);
+                    Mo.pay_type = pay_type;
+                    Mo.customer_id = int.Parse(customerId);
+                    Mo.package_id = package.id;
+                    Mo.date = DateTime.Now;
+                    db.Customer_orders.Add(Mo);
+
+                    //Điền thông tin gói cước vào Customer
+
+                    var customer = db.Customers.Find(int.Parse(customerId));
+                    customer.payment_monthly = package.price;
+                    customer.package_id = package.id;
+                    customer.services_sub_date = DateTime.Now;
+                    customer.date_left = DateTime.Now.AddMonths(package.duration.Value);
+                    db.SaveChanges();
+
+
+                    // Xử lý khi thanh toán thành công
+                    return RedirectToAction("PaymentSuccess");
+                }
+                else if (items.sku.Equals("movie"))
+                {
+                    var movie = db.Movies.Find(int.Parse(items.name));
+
+                    var Mo = new Customer_order();
+                    Mo.total_money = decimal.Parse(total_money);
+                    Mo.pay_type = pay_type;
+                    Mo.customer_id = int.Parse(customerId);
+                    Mo.movie_id = int.Parse(items.name);
+                    Mo.date = DateTime.Now;
+                    db.Customer_orders.Add(Mo);
+                    db.SaveChanges();
+                    return RedirectToAction("PaymentSuccess");
+
+                }
+                return Content("PaymentFailed");
+
             }
         }
 
@@ -179,7 +200,7 @@ namespace Project.Controllers
 
             if (pay_type.Equals("paypal")){
 
-                return Redirect(Page_Load(package, customer));
+                return Redirect(Page_Load(package.id,package.price.ToString(), customer.id,"package"));
 
             }
 
@@ -189,6 +210,7 @@ namespace Project.Controllers
             Mo.pay_type = pay_type;
             Mo.customer_id = customer.id;
             Mo.package_id = package_id;
+            Mo.date = DateTime.Now;
             db.Customer_orders.Add(Mo);
 
             //Customer thanh toán Packed thành công
@@ -203,6 +225,10 @@ namespace Project.Controllers
 
             return RedirectToAction("Index","Package");
         }
+
+
+
+        //PaymentSuccess
 
         public IActionResult PaymentSuccess()
         {
@@ -220,5 +246,52 @@ namespace Project.Controllers
 
 
 
+
+        //Movie
+
+        [HttpGet()]
+        public IActionResult MovieOrder(int id)
+        {
+            var model = db.Movies.Find(id);
+
+            return View(model);
+        }
+
+        [HttpPost()]
+        public IActionResult MovieOrder(string pay_type, string total_money, int movies_id)
+        {
+            //Lấy Id của Phiên Đăng nhập hiện tại
+            var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            //Tìm Customer dựa trên ID của Phiên Đăng nhập hiện tại
+            var customer = db.Customers.Where(c => c.user_id.Equals(userId)).SingleOrDefault();
+            var movie = db.Movies.Find(movies_id);
+
+
+            if (pay_type.Equals("paypal"))
+            {
+
+                return Redirect(Page_Load(movie.id, movie.price.ToString(), customer.id,"movie"));
+
+            }
+
+
+            var Mo = new Customer_order();
+            Mo.total_money = decimal.Parse(total_money);
+            Mo.pay_type = pay_type;
+            Mo.customer_id = customer.id;
+            Mo.movie_id = movies_id;
+            Mo.date = DateTime.Now;
+            db.Customer_orders.Add(Mo);
+            db.SaveChanges();
+
+
+
+
+            TempData["thongBao"] = "You have successfully placed an order.";
+            return RedirectToAction("Index", "Movie");
+
+
+          
+        }
     }
 }

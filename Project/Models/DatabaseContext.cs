@@ -15,6 +15,7 @@ namespace Project.Models
 
 
 
+        public DbSet<Recharge> Recharges { get; set; }
         public DbSet<Customer_order> Customer_orders { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Package> Packages { set; get; }

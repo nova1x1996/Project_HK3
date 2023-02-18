@@ -65,7 +65,7 @@
                         </p>
                         <div class="d-flex justify-content-between">
                             <p><strong>@item.price $</strong></p>
-                            <button type="button" class="btn btn-success mt-2">Booking</button>
+                            <button type="button" class="btn btn-success mt-2"><a asp-action="MovieOrder" asp-controller="CustomerOrder" asp-route-id="@item.id">Booking </a></button>
                         </div>
 
                     </div><!-- end icon-wrapper -->
