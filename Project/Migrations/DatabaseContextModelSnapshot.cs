@@ -3,7 +3,6 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Project.Models;
 
@@ -12,10 +11,9 @@ using Project.Models;
 namespace Project.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20230215033118_Project")]
-    partial class Project
+    partial class DatabaseContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -201,6 +199,107 @@ namespace Project.Migrations
                     b.ToTable("customer");
                 });
 
+            modelBuilder.Entity("Project.Models.Customer_order", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"), 1L, 1);
+
+                    b.Property<int?>("customer_id")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("movie_id")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("package_id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("pay_type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("setUpBox_id")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("state")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal>("total_money")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("customer_id");
+
+                    b.HasIndex("movie_id");
+
+                    b.HasIndex("package_id");
+
+                    b.HasIndex("setUpBox_id");
+
+                    b.ToTable("customer_order");
+                });
+
+            modelBuilder.Entity("Project.Models.Dealers", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"), 1L, 1);
+
+                    b.Property<string>("address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("user_id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("user_id");
+
+                    b.ToTable("dealers");
+                });
+
+            modelBuilder.Entity("Project.Models.DealersOrder", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"), 1L, 1);
+
+                    b.Property<DateTime>("date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("dealers_id")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("setup_box_id")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("status")
+                        .HasColumnType("bit");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("dealers_id");
+
+                    b.HasIndex("setup_box_id");
+
+                    b.ToTable("dealers_order");
+                });
+
             modelBuilder.Entity("Project.Models.Domain.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
@@ -302,6 +401,55 @@ namespace Project.Migrations
                     b.ToTable("faq");
                 });
 
+            modelBuilder.Entity("Project.Models.Movie", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"), 1L, 1);
+
+                    b.Property<string>("content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("img")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("movie_cate_id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("movie_cate_id");
+
+                    b.ToTable("movie");
+                });
+
+            modelBuilder.Entity("Project.Models.Movie_cate", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"), 1L, 1);
+
+                    b.Property<string>("name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("id");
+
+                    b.ToTable("movie_cate");
+                });
+
             modelBuilder.Entity("Project.Models.Package", b =>
                 {
                     b.Property<int>("id")
@@ -312,21 +460,26 @@ namespace Project.Migrations
 
                     b.Property<string>("details")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
-                    b.Property<int>("duration")
+                    b.Property<int?>("duration")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
-                    b.Property<decimal>("price")
+                    b.Property<decimal?>("price")
+                        .IsRequired()
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("status")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("id");
 
@@ -426,9 +579,93 @@ namespace Project.Migrations
                     b.Navigation("package");
                 });
 
+            modelBuilder.Entity("Project.Models.Customer_order", b =>
+                {
+                    b.HasOne("Project.Models.Customer", "GetCustomer")
+                        .WithMany("GetCustomer_Orders")
+                        .HasForeignKey("customer_id");
+
+                    b.HasOne("Project.Models.Movie", "GetMovie")
+                        .WithMany("GetCustomer_Orders")
+                        .HasForeignKey("movie_id");
+
+                    b.HasOne("Project.Models.Package", "GetPackage")
+                        .WithMany("GetCustomer_Orders")
+                        .HasForeignKey("package_id");
+
+                    b.HasOne("Project.Models.SetUpBox", "GetSetUpBox")
+                        .WithMany("GetCustomer_Orders")
+                        .HasForeignKey("setUpBox_id");
+
+                    b.Navigation("GetCustomer");
+
+                    b.Navigation("GetMovie");
+
+                    b.Navigation("GetPackage");
+
+                    b.Navigation("GetSetUpBox");
+                });
+
+            modelBuilder.Entity("Project.Models.Dealers", b =>
+                {
+                    b.HasOne("Project.Models.Domain.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("user_id");
+
+                    b.Navigation("ApplicationUser");
+                });
+
+            modelBuilder.Entity("Project.Models.DealersOrder", b =>
+                {
+                    b.HasOne("Project.Models.Dealers", "GetDealer")
+                        .WithMany()
+                        .HasForeignKey("dealers_id");
+
+                    b.HasOne("Project.Models.SetUpBox", "GetSetUpBox")
+                        .WithMany()
+                        .HasForeignKey("setup_box_id");
+
+                    b.Navigation("GetDealer");
+
+                    b.Navigation("GetSetUpBox");
+                });
+
+            modelBuilder.Entity("Project.Models.Movie", b =>
+                {
+                    b.HasOne("Project.Models.Movie_cate", "movie_Cate")
+                        .WithMany("movies")
+                        .HasForeignKey("movie_cate_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("movie_Cate");
+                });
+
+            modelBuilder.Entity("Project.Models.Customer", b =>
+                {
+                    b.Navigation("GetCustomer_Orders");
+                });
+
+            modelBuilder.Entity("Project.Models.Movie", b =>
+                {
+                    b.Navigation("GetCustomer_Orders");
+                });
+
+            modelBuilder.Entity("Project.Models.Movie_cate", b =>
+                {
+                    b.Navigation("movies");
+                });
+
             modelBuilder.Entity("Project.Models.Package", b =>
                 {
+                    b.Navigation("GetCustomer_Orders");
+
                     b.Navigation("customers");
+                });
+
+            modelBuilder.Entity("Project.Models.SetUpBox", b =>
+                {
+                    b.Navigation("GetCustomer_Orders");
                 });
 #pragma warning restore 612, 618
         }

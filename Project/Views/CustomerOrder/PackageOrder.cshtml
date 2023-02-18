@@ -1,0 +1,84 @@
+﻿@model Project.Models.Package
+@{
+    
+}
+
+<style>
+
+    .row .icon-wrapper {
+        margin-bottom: 20px;
+    }
+    .section .container{
+        margin-bottom:70px;
+    }
+    .icon-wrapper p {
+        padding-left: 0px;
+    }
+</style>
+<div class="all-title-box">
+    <div class="container text-center">
+        <h1>Order</span></h1>
+    </div>
+</div>
+
+<div id="overviews" class="section lb">
+    <div class="container">
+       
+
+        <form method="post" asp-action="PackageOrder" asp-controller="CustomerOrder">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="tab-content">
+                        <div class="tab-pane active fade show" id="tab1">
+                            <div class="row text-center">
+                                <div class="col-md-6 col-sm-6 col-xs-6">
+                                    <div class="pricing-table pricing-table-highlighted">
+                                        <div class="pricing-table-header grd1">
+                                            <h2>@Model.name</h2>
+                                            <h3>@Model.price$/@Model.duration month</h3>
+                                        </div>
+
+                                        <div class="pricing-table-space"></div>
+                                        <div class="pricing-table-features">
+
+                                            <p> <strong>@Model.details</strong></p>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-6">
+
+                                    <div>
+
+                                        <h3>Pay Type</h3>
+                                        <div>
+                                            <input type="radio" name="pay_type" value="paypal"
+                                                   checked>
+                                            <label for="huey">Paypal Banking</label>
+                                        </div>
+
+                                        <div>
+                                            <input type="radio" name="pay_type" value="COD">
+                                            <label for="dewey">COD</label>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <h3>Total Payment</h3>
+                                        <input name="total_money" type="text" readonly value="@Model.price" />$
+                                    </div>
+
+                                    <input name="package_id" type="text" hidden value="@Model.id" />
+
+                                    <button type="submit" class="btn btn-success mt-3">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- end row -->
+                </div><!-- end pane -->
+
+
+        </form>
+    </div><!-- end container -->
+</div><!-- end section -->
+
+          

@@ -111,20 +111,38 @@ namespace Project.Services
                 context.Packages.Add(new Package
                 {
 
-                    name = "Sliver",
-                    duration = 3,
-                    details = "LÀ gói ok",
-                    status = "Đang hoạt động",
-                    price = 2000
+                    name = "Bronze Pack",
+                    duration = 1,
+                    details = "80 channels (including R-DTH Cab) + VOD library",
+                    status = "On",
+                    price = 100
                 });
                 context.Packages.Add(new Package
                 {
 
-                    name = "Sliver",
-                    duration = 3,
-                    details = "LÀ gói ok",
-                    status = "Đang hoạt động",
-                    price = 3000
+                    name = "Sliver Pack",
+                    duration = 1,
+                    details = "100 channels (including R-DTH Cab) + VOD library",
+                    status = "On",
+                    price = 130
+                });
+                context.Packages.Add(new Package
+                {
+
+                    name = "Gold Pack",
+                    duration = 1,
+                    details = "144 channels (including R-DTH Cab) + VOD library",
+                    status = "On",
+                    price = 150
+                });
+                context.Packages.Add(new Package
+                {
+
+                    name = "Diamond Pack",
+                    duration = 1,
+                    details = "160 channels (including R-DTH Cab) + VOD library + Premium Galaxy",
+                    status = "On",
+                    price = 200
                 });
                 context.SaveChanges();
               

@@ -44,7 +44,7 @@ namespace Project.Controllers
         }
 
         [HttpPost()]
-        public IActionResult MovieOrder(string pay_type,string total_money,string movies_id)
+        public IActionResult MovieOrder(string pay_type,string total_money,int movies_id)
         {
             //Lấy Id của Phiên Đăng nhập hiện tại
             var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -55,7 +55,7 @@ namespace Project.Controllers
             Mo.total_money = decimal.Parse(total_money);
             Mo.pay_type = pay_type;
             Mo.customer_id = customer.id;
-
+            Mo.movie_id = movies_id;
             db.Customer_orders.Add(Mo);
             db.SaveChanges();
 
@@ -64,6 +64,17 @@ namespace Project.Controllers
 
             TempData["thongBao"] = "You have successfully placed an order.";
             return RedirectToAction("Index","Movie");
+
+
+            if (!ModelState.IsValid)
+            {
+                string a = "";
+                foreach (var item in ModelState.Values)
+                {
+                    a = a + item.Errors.ToString();
+                }
+                return Content(a);
+            }
         }
     }
 }

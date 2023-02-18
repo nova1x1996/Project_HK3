@@ -27,5 +27,9 @@ namespace Project.Models
         public Movie GetMovie { get; set; }
         public int? movie_id { get; set; }
 
+        [ForeignKey("setUpBox_id")]
+        public SetUpBox GetSetUpBox { get; set; }
+        public int? setUpBox_id { get; set; }
+
     }
 }

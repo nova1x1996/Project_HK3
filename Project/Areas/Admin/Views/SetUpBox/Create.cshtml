@@ -41,7 +41,7 @@
                 <div class="form-group">
                     <label asp-for="img" class="control-label"></label>
 
-                    <input asp-for="img" type="file" name="file" required id="file" onchange="document.getElementById('Image').src = window.URL.createObjectURL(this.files[0])" class="form-control input_group" />
+                    <input asp-for="img" type="file" name="file" required id="file" onchange="document.getElementById('Image').src = window.URL.createObjectURL(this.files[0])" class="form-control-file input_group" />
 
                     <span asp-validation-for="img" class="text-danger"></span>
                 </div>

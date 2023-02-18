@@ -14,7 +14,7 @@ namespace Project.Models
         public string? img { get; set; }
         public string content { get; set; }
 
-        
+       
         public decimal price { get; set; }
 
 
