@@ -1,4 +1,5 @@
 ﻿document.getElementById("send-loading").style.display = "none";
+
 var replyError = document.getElementById("reply_error");
 
 function Reply() {
@@ -15,8 +16,10 @@ function Loading() {
         return false;
     } else {
         document.getElementById("send-loading").style.display = "block";
+       
         setTimeout(() => {
             document.getElementById("send-loading").style.display = "none";
+          
         }, 5000)
     }
    
