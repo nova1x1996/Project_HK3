@@ -45,7 +45,7 @@ namespace Project.Areas.Admin.Controllers
 
                         var bodyBuilder = new BodyBuilder
                         {
-                            HtmlBody = $"<p>Hi, {first_name}</p><p>We have received your question</p><p>Our answer is {content}</p><p>Thanks & Best Regards</p>",
+                            HtmlBody = $"<p>Hi, {first_name}</p><p>We have received your question</p><p>Our answer is {content}</p><p>Thank you for using our service</p>",
                            
                         };
 
