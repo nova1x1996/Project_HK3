@@ -12,7 +12,7 @@ using Project.Models;
 namespace Project.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20230216114303_Project")]
+    [Migration("20230217152520_Project")]
     partial class Project
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -225,6 +225,9 @@ namespace Project.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("setUpBox_id")
+                        .HasColumnType("int");
+
                     b.Property<bool>("state")
                         .HasColumnType("bit");
 
@@ -238,6 +241,8 @@ namespace Project.Migrations
                     b.HasIndex("movie_id");
 
                     b.HasIndex("package_id");
+
+                    b.HasIndex("setUpBox_id");
 
                     b.ToTable("customer_order");
                 });
@@ -457,8 +462,8 @@ namespace Project.Migrations
 
                     b.Property<string>("details")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.Property<int?>("duration")
                         .IsRequired()
@@ -466,8 +471,8 @@ namespace Project.Migrations
 
                     b.Property<string>("name")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.Property<decimal?>("price")
                         .IsRequired()
@@ -590,11 +595,17 @@ namespace Project.Migrations
                         .WithMany("GetCustomer_Orders")
                         .HasForeignKey("package_id");
 
+                    b.HasOne("Project.Models.SetUpBox", "GetSetUpBox")
+                        .WithMany("GetCustomer_Orders")
+                        .HasForeignKey("setUpBox_id");
+
                     b.Navigation("GetCustomer");
 
                     b.Navigation("GetMovie");
 
                     b.Navigation("GetPackage");
+
+                    b.Navigation("GetSetUpBox");
                 });
 
             modelBuilder.Entity("Project.Models.Dealers", b =>
@@ -652,6 +663,11 @@ namespace Project.Migrations
                     b.Navigation("GetCustomer_Orders");
 
                     b.Navigation("customers");
+                });
+
+            modelBuilder.Entity("Project.Models.SetUpBox", b =>
+                {
+                    b.Navigation("GetCustomer_Orders");
                 });
 #pragma warning restore 612, 618
         }

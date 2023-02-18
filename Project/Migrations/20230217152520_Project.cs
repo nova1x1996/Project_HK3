@@ -85,9 +85,9 @@ namespace Project.Migrations
                 {
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    name = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
                     duration = table.Column<int>(type: "int", nullable: false),
-                    details = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    details = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
                     status = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     price = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
@@ -329,7 +329,8 @@ namespace Project.Migrations
                     date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     customer_id = table.Column<int>(type: "int", nullable: true),
                     package_id = table.Column<int>(type: "int", nullable: true),
-                    movie_id = table.Column<int>(type: "int", nullable: true)
+                    movie_id = table.Column<int>(type: "int", nullable: true),
+                    setUpBox_id = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -348,6 +349,11 @@ namespace Project.Migrations
                         name: "FK_customer_order_package_package_id",
                         column: x => x.package_id,
                         principalTable: "package",
+                        principalColumn: "id");
+                    table.ForeignKey(
+                        name: "FK_customer_order_setup_box_setUpBox_id",
+                        column: x => x.setUpBox_id,
+                        principalTable: "setup_box",
                         principalColumn: "id");
                 });
 
@@ -414,6 +420,11 @@ namespace Project.Migrations
                 name: "IX_customer_order_package_id",
                 table: "customer_order",
                 column: "package_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_customer_order_setUpBox_id",
+                table: "customer_order",
+                column: "setUpBox_id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_dealers_user_id",

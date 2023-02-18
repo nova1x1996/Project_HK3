@@ -16,7 +16,7 @@ namespace Project.Areas.Admin.Controllers
     public class DealersController : Controller
     {
         private readonly IUserAuthenticationService _authService;
-        private readonly UserManager<ApplicationUser> _userManager;
+        private UserManager<ApplicationUser> _userManager;
         public DatabaseContext db { get; set; }
         public DealersController(IUserAuthenticationService authService, DatabaseContext _db, UserManager<ApplicationUser> userManager)
         {
@@ -78,41 +78,29 @@ namespace Project.Areas.Admin.Controllers
         public async Task<IActionResult> Edit(int id)
         {
             var deal = db.Dealers.SingleOrDefault(d => d.id.Equals(id));
-            var userManager = HttpContext.RequestServices.GetService<UserManager<ApplicationUser>>();
-            var user = await userManager.FindByIdAsync(deal.user_id);
-            return View(user);
+            return View(deal);
         }
 
         // POST: DealersController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Dealers dealers, string newPassword)
+        public async Task<IActionResult> Edit(string dealers_id, string newPassword)
         {
+            var deal = db.Dealers.Find(int.Parse(dealers_id));
+            var user = await _userManager.FindByIdAsync(deal.user_id);
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var result = await _userManager.ResetPasswordAsync(user, token, newPassword);
             try
             {
-                var deal = db.Dealers.SingleOrDefault(d => d.id.Equals(dealers.id));
-                var userManager = HttpContext.RequestServices.GetService<UserManager<ApplicationUser>>();
-                var user = await userManager.FindByIdAsync(deal.user_id);
-                if (user != null && ModelState.IsValid)
+                if (result.Succeeded)
                 {
-                    // Tạo mật khẩu mới cho tài khoản ApplicationUser
-                    var token = await userManager.GeneratePasswordResetTokenAsync(user);
-                    var result = await userManager.ResetPasswordAsync(user, token, newPassword);
-
-                    if (result.Succeeded)
-                    {
-                        // Lưu thay đổi vào cơ sở dữ liệu
-                        db.SaveChanges();
-                        return RedirectToAction("Index");
-                    }
-                    else
-                    {
-                        ModelState.AddModelError(string.Empty, "Edit failed.\r\nPlease correct valid information.");
-                    }
+                    // Lưu thay đổi vào cơ sở dữ liệu
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "User not found.");
+                    ModelState.AddModelError(string.Empty, "Edit failed.\r\nPlease correct valid information.");
                 }
             }
             catch (Exception ex)
