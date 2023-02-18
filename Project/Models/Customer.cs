@@ -33,6 +33,7 @@ namespace Project.Models
         public int? package_id { get; set; }
 
         public virtual List<Customer_order>? GetCustomer_Orders { get; set; }
+        public virtual List<Recharge>? GetRecharges { get; set; }
 
     }
 }

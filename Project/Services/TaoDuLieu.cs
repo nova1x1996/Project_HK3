@@ -16,11 +16,20 @@ namespace Project.Services
 
                 //Tạo role
                 context.Roles.AddRange(new IdentityRole {
-                    Name = "dealer"
+                    Id = "1",
+                    Name = "dealer",
+                    NormalizedName = "DEALER"
+                    
                 },new IdentityRole {
-                    Name = "customer" 
+                    Id = "2",
+                    Name = "customer",
+                    NormalizedName ="CUSTOMER"
+                    
                 },new IdentityRole {
-                    Name = "admin"
+                    Id = "3",
+                    Name = "admin",
+                    NormalizedName = "ADMIN"
+                    
                 }
                     );
                 //Tạo User
