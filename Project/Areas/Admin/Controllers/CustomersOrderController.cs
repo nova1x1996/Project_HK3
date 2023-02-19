@@ -29,9 +29,25 @@ namespace Project.Areas.Admin.Controllers
         }
 
         // GET: CustomersOrderController/Details/5
-        public ActionResult Details(int id)
+        [HttpGet()]
+        public ActionResult ConfirmPayment(int id)
+            
         {
-            return View();
+            var model = db.Customer_orders.Find(id);
+            model.state = true;
+            if(model.package_id != null)
+            {
+                var customer = db.Customers.Find(model.customer_id);
+                var package = db.Packages.Find(model.package_id);
+
+                customer.payment_monthly = package.price;
+                customer.package_id = package.id;
+                customer.services_sub_date = DateTime.Now;
+                customer.date_left = DateTime.Now.AddMonths(package.duration.Value);
+             
+            }
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         // GET: CustomersOrderController/Create

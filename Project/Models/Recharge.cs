@@ -17,6 +17,7 @@ namespace Project.Models
         public bool state { get; set; }
         public DateTime date { get; set; }
         public string card_number { set; get; }
+        public int  month { get; set; }
 
 
         [ForeignKey("customer_id")]

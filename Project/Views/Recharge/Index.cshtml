@@ -28,7 +28,7 @@
 	<div class="container mb-1">
 
         <hr class="invis">
-<form asp-action="RechargeOrder" asp-controller="RechargeController" method="post">
+
          <div class="card shadow ">
             <div class="card-body">
                 <div class="table-responsive">
@@ -39,9 +39,10 @@
                         <label>Customer ID</label>
                         @if(Model != null)
                         {
-                        <input type="text" class="form-control input_group" data-val="true" data-val-required="The LastName field is required." name="customerId" value="@Model.id">
-                        }
-                        else{
+                            
+                        <input type="text" class="form-control input_group" data-val="true" readonly data-val-required="The LastName field is required." name="customerId" value="@Model.id">
+                              
+                        }else{
 
                             <form asp-action="Index" asp-controller="Recharge" method="post">
                         <div style="display:flex;">
@@ -55,8 +56,11 @@
                             </form>
                         }
                     
-                       
                     </div>
+
+
+
+                      <form asp-action="RechargeOrder" asp-controller="Recharge" method="post">
                       @if(Model != null){
                     <div class="form-group">
                         <label>Card Number</label>
@@ -65,17 +69,26 @@
                 
                     </div>
                     <div class="form-group">
-                        <label>Package</label>
-                        <input type="text" readonly class="form-control input_group" data-val="true" data-val-required="The FirstName field is required." name="packageName" value="@Model.package.name">
-                        <input hidden name="packageId" value="@Model.package.id">
-                    </div>
+                        @if(Model.package == null){
+                                    <label>Package</label>
+                                    <div class="alert alert-warning">
+                                        You have not yet subscribed to a <strong>package</strong> or your <strong>package</strong> has expired !
+                                    </div>
+                                    <div class="alert a"></div>
+                        }else {
+                                    <label>Package</label>
+                                    <input type="text" readonly class="form-control input_group" data-val="true" data-val-required="The FirstName field is required." name="packageName" value="@Model.package.name">
+                                    <input hidden name="packageId" value="@Model.package.id">
+                        }
+                               
+                            </div>
                         }
 
                     <div class="form-group">
                           <label>Number Of Month</label>
                         <div class="form-check d-flex">
                             <div class="RadioMonth">
-                                <input class="form-check-input" type="radio" name="month" value="1" id="flexRadioDefault1">
+                                <input class="form-check-input" checked type="radio" name="month" value="1" id="flexRadioDefault1">
                                 <label class="form-check-label" for="flexRadioDefault1">
                                     1 Month
                                 </label>
@@ -101,7 +114,7 @@
                         <label>Payment</label>
                         <div class="form-check d-flex">
                             <div class="RadioMonth">
-                                <input class="form-check-input" type="radio" name="pay_type" value="paypal" id="flexRadioDefault1">
+                                <input class="form-check-input" type="radio" checked name="pay_type" value="paypal" id="flexRadioDefault1">
 
                                 <img src="/img/logo/paypal-ge18babb59_1280.png" style="width:80px;transform: translateY(-5px);" />
                                 
@@ -118,22 +131,28 @@
 
                         </div>
                     </div>
-                  
-                   
+               
+
                     <div>
-                    @if(Model != null){
+                    @if(Model != null && Model.package != null){
+                         
+                   
+                    
+                            <input hidden name="CustomerIdOrder" value="@Model.id">
                         <button type="submit" class="btn btn-light btn-radius btn-brd grd1">
-                        Submit
+                        Submit                          
                     </button>
+                     
                         }
                         
                     </div>
+                    </form>
                 </div>
             </div>
            
 
         </div><!-- end row -->
-        </form>
+       
     </div><!-- end container -->
 </div><!-- end section -->
 

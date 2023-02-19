@@ -168,11 +168,28 @@ namespace Project.Controllers
                     Mo.pay_type = pay_type;
                     Mo.customer_id = int.Parse(customerId);
                     Mo.movie_id = int.Parse(items.name);
+                    Mo.state = true;
                     Mo.date = DateTime.Now;
                     db.Customer_orders.Add(Mo);
                     db.SaveChanges();
                     return RedirectToAction("PaymentSuccess");
 
+                }
+                else if(items.sku.Equals("setupbox"))
+                {
+                    var setupbox = db.SetUpBoxes.Find(int.Parse(items.name));
+
+
+                    var Mo = new Customer_order();
+                    Mo.total_money = decimal.Parse(total_money);
+                    Mo.pay_type = pay_type;
+                    Mo.customer_id = int.Parse(customerId);
+                    Mo.setUpBox_id = int.Parse(items.name);
+                    Mo.state = true;
+                    Mo.date = DateTime.Now;
+                    db.Customer_orders.Add(Mo);
+                    db.SaveChanges();
+                    return RedirectToAction("PaymentSuccess");
                 }
                 return Content("PaymentFailed");
 
@@ -214,10 +231,7 @@ namespace Project.Controllers
             db.Customer_orders.Add(Mo);
 
             //Customer thanh toán Packed thành công
-            customer.payment_monthly = package.price;
-            customer.package_id = package_id;
-            customer.services_sub_date = DateTime.Now;
-            customer.date_left = DateTime.Now.AddMonths(package.duration.Value);
+           
             db.SaveChanges();
 
 
@@ -280,6 +294,7 @@ namespace Project.Controllers
             Mo.pay_type = pay_type;
             Mo.customer_id = customer.id;
             Mo.movie_id = movies_id;
+            Mo.state = false;
             Mo.date = DateTime.Now;
             db.Customer_orders.Add(Mo);
             db.SaveChanges();
@@ -292,6 +307,50 @@ namespace Project.Controllers
 
 
           
+        }
+
+        [HttpGet()]
+        public IActionResult SetUpBoxOrder(int id)
+        {
+            var model = db.SetUpBoxes.Find(id);
+
+            return View(model);
+        }
+
+        [HttpPost()]
+        public IActionResult SetUpBoxOrder(string pay_type, string total_money, int package_id)
+        {
+            //Lấy Id của Phiên Đăng nhập hiện tại
+            var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            //Tìm Customer dựa trên ID của Phiên Đăng nhập hiện tại
+            var customer = db.Customers.Where(c => c.user_id.Equals(userId)).SingleOrDefault();
+            var setUpBox = db.SetUpBoxes.Find(package_id);
+
+
+            if (pay_type.Equals("paypal"))
+            {
+
+                return Redirect(Page_Load(setUpBox.id, setUpBox.price.ToString(), customer.id, "setupbox"));
+
+            }
+            else
+            {
+                var Mo = new Customer_order();
+                Mo.state = false;
+                Mo.total_money = decimal.Parse(total_money);
+                Mo.pay_type = pay_type;
+                Mo.customer_id = customer.id;
+                Mo.setUpBox_id = setUpBox.id;
+                Mo.date = DateTime.Now;
+                db.Customer_orders.Add(Mo);
+                db.SaveChanges();
+
+
+
+
+                TempData["thongBao"] = "You have successfully placed an order.";
+                return RedirectToAction("Index", "SetUpBox");
+            }
         }
     }
 }

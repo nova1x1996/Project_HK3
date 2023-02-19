@@ -81,15 +81,63 @@
                                 }else{
                                     <td class="text-dark">@item.GetSetUpBox.name</td>
                                 }
-                                <td>@item.pay_type</td>
-                                <td>@item.state</td>
+
+
+
+                                <td style="font-weight:bold;">@item.pay_type.ToUpper() </td>
+                                @if(item.state == true){
+                                    <td><button type="button" class="btn btn-success">Paid</button></td>
+                                }else{
+                                    <td><button type="button" class="btn btn-warning">Unpaid</button></td>
+                                }
+
+                               
                                 <td>@item.total_money$</td>
                                 <td style="width:100px;">@item.date</td>
-                                <td>
-                                    <a asp-action="Edit" asp-route-id="@item.id">Update</a> |
-                                    <a asp-action="Details" asp-route-id="@item.id">Details</a> |
-                            
-                                </td>
+                                @if (item.state == false)
+                                {
+                                    <td>
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#@item.GetCustomer.ApplicationUser.UserName@item.id">Confirm Payment</button>
+
+
+                                    </td>
+                                   
+
+                                    <!-- Modal -->
+
+
+
+                                    <div class="modal fade" id="@item.GetCustomer.ApplicationUser.UserName@item.id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                     
+                                        <div class="modal-dialog" role="document">
+                                                                     
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Confirm PayMent</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body" style="font-size:20px;font-weight:bold;">
+                                                    <input name="id" hidden value="@item.id">
+                                                        Could you confirm if this order has been paid?
+                                                </div>
+                                                <div class="modal-footer">
+
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    <a asp-action="ConfirmPayment" asp-controller="CustomersOrder" asp-route-id="@item.id"><button type="button" class="btn btn-primary">Confirm</button></a>
+                                                </div>
+                                            </div>
+                                           
+                                        </div>
+                                      
+                                    </div>
+                                 
+                                }
+                                else
+                                {
+                                    <td></td>
+                                }
                             </tr>
                         }
                     </tbody>
