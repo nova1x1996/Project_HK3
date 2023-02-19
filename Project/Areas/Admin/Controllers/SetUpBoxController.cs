@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PagedList.Core;
 using Project.Models;
+using System.Xml.Linq;
 
 namespace Project.Areas.Admin.Controllers
 {
@@ -39,6 +40,8 @@ namespace Project.Areas.Admin.Controllers
             return View();
         }
 
+       
+
         // GET: SetUpBoxController/Create
        
         [HttpGet]
@@ -50,26 +53,35 @@ namespace Project.Areas.Admin.Controllers
         // POST: SetUpBoxController/Create
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public ActionResult Create(SetUpBox setUpBox, IFormFile file)
+        public ActionResult Create(SetUpBox setUpBox, IFormFile file, string name)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    
-                    
-                    if (file.Length > 0)
+                    var item = db.SetUpBoxes.Where(s=>s.name.Equals(name)).FirstOrDefault();
+                    if (item != null)
                     {
-                        var filePath = Path.Combine("wwwroot/img", file.FileName);
-                        var stream = new FileStream(filePath, FileMode.Create);
-                        file.CopyToAsync(stream);
-                        setUpBox.img = "/img/" + file.FileName;
-                        db.SetUpBoxes.Add(setUpBox);
-                        db.SaveChanges();
-                        notyfService.Success("Create new successfully");
-                        return RedirectToAction("Index");
-
+                       
+                        ViewBag.msg = "The name has been created";
                     }
+                    else
+                    {
+                        if (file.Length > 0)
+                        {
+                            var filePath = Path.Combine("wwwroot/img", file.FileName);
+                            var stream = new FileStream(filePath, FileMode.Create);
+                            file.CopyToAsync(stream);
+                            setUpBox.img = "/img/" + file.FileName;
+                            db.SetUpBoxes.Add(setUpBox);
+                            db.SaveChanges();
+                            notyfService.Success("Create new successfully");
+                            return RedirectToAction("Index");
+
+                        }
+                    }
+                    
+                   
                   
                 }
                 else
@@ -105,21 +117,24 @@ namespace Project.Areas.Admin.Controllers
                     var model = db.SetUpBoxes.SingleOrDefault(s => s.id.Equals(setUpBox.id));
                     if (model != null)
                     {
-                        if (file != null || file.Length > 0)
-                        {
-                            string path = Path.Combine("wwwroot/img", file.FileName);
-                            var stream = new FileStream(path, FileMode.Create);
-                            file.CopyToAsync(stream);
+                      
+                            if (file != null || file.Length > 0)
+                            {
+                                string path = Path.Combine("wwwroot/img", file.FileName);
+                                var stream = new FileStream(path, FileMode.Create);
+                                file.CopyToAsync(stream);
 
-                            setUpBox.img = file != null ? "/img/" + file.FileName : model.img;
-                            model.name = setUpBox.name;
-                            model.details = setUpBox.details;
-                            model.price = setUpBox.price;
-                            model.img = setUpBox.img;
-                            db.SaveChanges();
-                            notyfService.Success("Update successfully");
-                            return RedirectToAction("Index");
-                        }
+                                setUpBox.img = file != null ? "/img/" + file.FileName : model.img;
+                                model.name = setUpBox.name;
+                                model.details = setUpBox.details;
+                                model.price = setUpBox.price;
+                                model.img = setUpBox.img;
+                                db.SaveChanges();
+                                notyfService.Success("Update successfully");
+                                return RedirectToAction("Index");
+                            }
+                        
+                      
                        
                        
                     }

@@ -11,6 +11,7 @@ namespace Project.Models
         public int id { get; set; }
 
         [Required]
+        
         public string name { get; set; }
 
         [Required]
