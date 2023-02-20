@@ -7,9 +7,11 @@ using Project.Helper;
 using AspNetCoreHero.ToastNotification.Notyf.Models;
 using System.Security.Policy;
 using System.Diagnostics.Eventing.Reader;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Project.Controllers
 {
+  
     public class CustomerOrderController : Controller
     {
         private readonly DatabaseContext db;

@@ -52,7 +52,7 @@ namespace Project.Controllers
         public async Task<IActionResult> Registration(RegistrationModel model,string card_number,string phone,string address)
         {
             if (!ModelState.IsValid) { return View(model); }
-            model.Role = "user";
+            model.Role = "customer";
             
             var result = await this._authService.RegisterAsync(model);
 
