@@ -29,7 +29,7 @@ namespace Project.Controllers
         public async Task<IActionResult> Login(LoginModel model)
         {
             if (!ModelState.IsValid)
-                return Content("sai");
+                return View(model);
             var result = await _authService.LoginAsync(model);
             if(result.StatusCode==1)
             {
@@ -119,5 +119,13 @@ namespace Project.Controllers
             return RedirectToAction(nameof(ChangePassword));
         }
 
+
+        public ActionResult Index()
+        {
+            var model = db.Customers.Include(r => r.ApplicationUser)
+                .ToList();
+
+            return View(model);
+        }
     }
 }
