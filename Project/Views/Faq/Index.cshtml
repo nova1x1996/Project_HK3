@@ -1,8 +1,5 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model IEnumerable<Project.Models.Faq>
+
 <style>
     .accordion_one .panel-group {
     
@@ -123,79 +120,41 @@ h4 {
 
 <div class="decanhhaiben">
     <div class="col-sm-12 accordion_one">
-                            <div class="panel-group" id="accordionFourLeft">
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h4 class="panel-title">
-                              <a data-toggle="collapse" data-parent="#accordion_oneLeft" href="#collapseFiveLeftone" aria-expanded="false" class="collapsed">
-                                Why Font Awesome used
-                              </a>
-                            </h4>
-                                    </div>
-                                    <div id="collapseFiveLeftone" class="panel-collapse collapse" aria-expanded="false" role="tablist" style="height: 0px;">
-                                        <div class="panel-body">
-                                            <div class="img-accordion">
-                                                <img src="https://img.icons8.com/color/81/000000/person-female.png" alt="">
-                                            </div>
-                                            <div class="text-accordion">
-                                                <p>
-                                                    Why Font Awesome usedWhy Font Awesome usedWhy Font Awesome usedWhy Font Awesome usedWhy Font Awesome usedWhy Font Awesome usedWhy Font Awesome usedWhy Font Awesome usedWhy Font Awesome usedWhy Font Awesome usedWhy Font Awesome usedWhy Font Awesome usedWhy Font Awesome used
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <!-- end of panel-body -->
-                                    </div>
-                                </div>
-                                <!-- /.panel-default -->
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h4 class="panel-title">
-                              <a class="collapsed" data-toggle="collapse" data-parent="#accordion_oneLeft" href="#collapseFiveLeftTwo" aria-expanded="false">
-                                Why Font Awesome used and  its benefits
-                              </a>
-                            </h4>
-                                    </div>
-                                    <div id="collapseFiveLeftTwo" class="panel-collapse collapse" aria-expanded="false" role="tablist" style="height: 0px;">
-                                        <div class="panel-body">
-                                            <div class="img-accordion">
-                                                <img src="https://img.icons8.com/color/81/000000/person-female.png" alt="">
-                                            </div>
-                                            <div class="text-accordion">
-                                                <p>
-                                                    Why Font Awesome usedWhy Font Awesome usedWhy Font Awesome usedWhy Font Awesome usedWhy Font Awesome usedWhy Font Awesome usedWhy Font Awesome usedWhy Font Awesome usedWhy Font Awesome used
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <!-- end of panel-body -->
-                                    </div>
-                                </div>
-                                <!-- /.panel-default -->
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h4 class="panel-title">
-                              <a class="collapsed" data-toggle="collapse" data-parent="#accordion_oneLeft" href="#collapseFiveLeftThree" aria-expanded="false">
-                                Why Font Awesome used for its own 
-                              </a>
-                            </h4>
-                                    </div>
-                                    <div id="collapseFiveLeftThree" class="panel-collapse collapse" aria-expanded="false" role="tablist">
-                                        <div class="panel-body">
-                                            <div class="img-accordion">
-                                                <img src="https://img.icons8.com/color/81/000000/person-female.png" alt="">
-                                            </div>
-                                            <div class="text-accordion">
-                                                <p>
-                                                     Why Font Awesome used for its own Why Font Awesome used for its own Why Font Awesome used for its own Why Font Awesome used for its own Why Font Awesome used for its own Why Font Awesome used for its own Why Font Awesome used for its own
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <!-- end of panel-body -->
-                                    </div>
-                                </div>
-                                <!-- /.panel-default -->
+
+
+        <div class="panel-group" id="accordionFourLeft">
+            @foreach (var item in Model)
+            {
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion_oneLeft" href="#@item.id" aria-expanded="false" class="collapsed">
+                                @item.question
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="@item.id" class="panel-collapse collapse" aria-expanded="false" role="tablist" style="height: 0px;">
+                        <div class="panel-body">
+                            <div class="img-accordion">
+                                <img src="https://img.icons8.com/color/81/000000/person-female.png" alt="">
                             </div>
-                            <!--end of /.panel-group-->
+                            <div class="text-accordion">
+                                <p>
+                                    @item.answer
+                                </p>
+                            </div>
                         </div>
+                        <!-- end of panel-body -->
+                    </div>
+                </div>
+            }
+        </div>
+        
+
+        
+                            
+                            <!--end of /.panel-group-->
+    </div>
 
 
 </div>
