@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Org.BouncyCastle.Asn1.Ess;
@@ -10,9 +11,11 @@ namespace Project.Areas.Admin.Controllers
     public class RechargeController : Controller
     {
         private DatabaseContext db;
-        public RechargeController(DatabaseContext _db)
+        public INotyfService notyfService { get; }
+        public RechargeController(DatabaseContext _db, INotyfService _notyfService)
         {
             db = _db;
+            notyfService = _notyfService;
         }
         // GET: RechargeController
         public ActionResult Index()
