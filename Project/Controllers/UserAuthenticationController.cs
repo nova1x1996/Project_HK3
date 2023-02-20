@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Project.Repositories.Implementation;
 using Project.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace Project.Controllers
 {
@@ -120,10 +121,12 @@ namespace Project.Controllers
         }
 
 
-        public ActionResult Index()
+        public ActionResult DetailCustomer()
         {
+            var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             var model = db.Customers.Include(r => r.ApplicationUser)
-                .ToList();
+                .SingleOrDefault(c => c.user_id.Equals(userId));
 
             return View(model);
         }
