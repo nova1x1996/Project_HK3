@@ -52,6 +52,23 @@ namespace Project.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "contact_us",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    firstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    lastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    comments = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_contact_us", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "faq",
                 columns: table => new
                 {
@@ -357,6 +374,35 @@ namespace Project.Migrations
                         principalColumn: "id");
                 });
 
+            migrationBuilder.CreateTable(
+                name: "recharge",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    pay_type = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    state = table.Column<bool>(type: "bit", nullable: false),
+                    date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    card_number = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    month = table.Column<int>(type: "int", nullable: false),
+                    customer_id = table.Column<int>(type: "int", nullable: true),
+                    package_id = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_recharge", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_recharge_customer_customer_id",
+                        column: x => x.customer_id,
+                        principalTable: "customer",
+                        principalColumn: "id");
+                    table.ForeignKey(
+                        name: "FK_recharge_package_package_id",
+                        column: x => x.package_id,
+                        principalTable: "package",
+                        principalColumn: "id");
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -445,6 +491,16 @@ namespace Project.Migrations
                 name: "IX_movie_movie_cate_id",
                 table: "movie",
                 column: "movie_cate_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_recharge_customer_id",
+                table: "recharge",
+                column: "customer_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_recharge_package_id",
+                table: "recharge",
+                column: "package_id");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -465,6 +521,9 @@ namespace Project.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "contact_us");
+
+            migrationBuilder.DropTable(
                 name: "customer_order");
 
             migrationBuilder.DropTable(
@@ -474,10 +533,10 @@ namespace Project.Migrations
                 name: "faq");
 
             migrationBuilder.DropTable(
-                name: "AspNetRoles");
+                name: "recharge");
 
             migrationBuilder.DropTable(
-                name: "customer");
+                name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "movie");
@@ -489,13 +548,16 @@ namespace Project.Migrations
                 name: "setup_box");
 
             migrationBuilder.DropTable(
-                name: "package");
+                name: "customer");
 
             migrationBuilder.DropTable(
                 name: "movie_cate");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "package");
         }
     }
 }

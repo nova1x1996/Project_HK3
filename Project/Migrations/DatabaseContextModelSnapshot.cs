@@ -155,6 +155,39 @@ namespace Project.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Project.Models.ContactUs", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"), 1L, 1);
+
+                    b.Property<string>("comments")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("firstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("lastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("id");
+
+                    b.ToTable("contact_us");
+                });
+
             modelBuilder.Entity("Project.Models.Customer", b =>
                 {
                     b.Property<int>("id")
@@ -486,6 +519,46 @@ namespace Project.Migrations
                     b.ToTable("package");
                 });
 
+            modelBuilder.Entity("Project.Models.Recharge", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"), 1L, 1);
+
+                    b.Property<string>("card_number")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("customer_id")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("month")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("package_id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("pay_type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("state")
+                        .HasColumnType("bit");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("customer_id");
+
+                    b.HasIndex("package_id");
+
+                    b.ToTable("recharge");
+                });
+
             modelBuilder.Entity("Project.Models.SetUpBox", b =>
                 {
                     b.Property<int>("id")
@@ -641,9 +714,26 @@ namespace Project.Migrations
                     b.Navigation("movie_Cate");
                 });
 
+            modelBuilder.Entity("Project.Models.Recharge", b =>
+                {
+                    b.HasOne("Project.Models.Customer", "GetCustomer")
+                        .WithMany("GetRecharges")
+                        .HasForeignKey("customer_id");
+
+                    b.HasOne("Project.Models.Package", "GetPackage")
+                        .WithMany("GetRecharges")
+                        .HasForeignKey("package_id");
+
+                    b.Navigation("GetCustomer");
+
+                    b.Navigation("GetPackage");
+                });
+
             modelBuilder.Entity("Project.Models.Customer", b =>
                 {
                     b.Navigation("GetCustomer_Orders");
+
+                    b.Navigation("GetRecharges");
                 });
 
             modelBuilder.Entity("Project.Models.Movie", b =>
@@ -659,6 +749,8 @@ namespace Project.Migrations
             modelBuilder.Entity("Project.Models.Package", b =>
                 {
                     b.Navigation("GetCustomer_Orders");
+
+                    b.Navigation("GetRecharges");
 
                     b.Navigation("customers");
                 });

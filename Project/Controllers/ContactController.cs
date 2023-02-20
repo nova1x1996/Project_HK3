@@ -13,18 +13,14 @@ namespace Project.Controllers
             db = _db;
             notyfService = _notyfService;
         }
-        public IActionResult Index()
-        {
-            return View();
-        }
 
         [HttpGet]
-        public ActionResult ContactUs()
+        public ActionResult Index()
         {
             return View();
         }
         [HttpPost]
-        public ActionResult ContactUs(ContactUs contactUs)
+        public ActionResult Index(ContactUs contactUs)
         {
             try
             {
@@ -33,7 +29,7 @@ namespace Project.Controllers
                     db.ContactUss.Add(contactUs);
                     db.SaveChanges();
                     notyfService.Success("Submit successfully");
-                    return RedirectToAction("ContactUs");
+                    return RedirectToAction("Index");
                 }
                 else
                 {
@@ -47,6 +43,7 @@ namespace Project.Controllers
             }
             return View();
         }
+
 
       
     }
