@@ -11,26 +11,23 @@
 </style>
 <div class="all-title-box">
     <div class="container text-center">
-        <h1>About Us<span class="m_1">"Discover our story, join our journey"</span></h1>
+        <h1>Set Up Box<span class="m_1">"Unleash your TV's potential with Set-Top Box"</span></h1>
     </div>
 </div>
 
 <div id="hosting" class="section wb" style="background: rgb(248, 248, 248)">
     <div class="container">
-        <div class="section-title text-center">
-            <h3>Hosting Packages</h3>
-            <p class="lead">All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, true generator<br> on the Internet. It uses a dictionary of over..</p>
-        </div><!-- end title -->
-        
+       
         <div class="row dev-list text-center">
              @foreach (var item in Model) {
                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 wow fadeIn" data-wow-duration="1s" data-wow-delay="0.2s" style="visibility: visible; animation-duration: 1s; animation-delay: 0.2s; animation-name: fadeIn;">
                     <div class="widget server clearfix">
-                        <img src="@item.img" alt="" class="img-fluid">
+                        <img style="width:300px;height:300px;" src="@item.img" alt="" class="img-fluid">
                         <div class="inner-dit">
                             <div class="widget-title">
                                 <h3>@item.name</h3>
-                                <small>Starting from $@item.price/month</small>
+                                <br>
+                                <strong>$@item.price</strong>
                             </div>
                             <!-- end title -->
                             <p>@item.details</p>
@@ -38,16 +35,10 @@
 
                         <hr>
 
-                        <div class="footer-social">
-                            <a href="#" class="btn global-radius" data-toggle="tooltip" data-placement="top" title="Free Page Builder"><i class="flaticon-coding"></i></a>
-                            <a href="#" class="btn global-radius" data-toggle="tooltip" data-placement="top" title="WordPress Support"><i class="flaticon-wordpress-logo"></i></a>
-                            <a href="#" class="btn global-radius" data-toggle="tooltip" data-placement="top" title="1 Domain Free"><i class="flaticon-world-wide-web"></i></a>
-                            <a href="#" class="btn global-radius" data-toggle="tooltip" data-placement="top" title="50MB Bandwdith"><i class="flaticon-cloud-computing-1"></i></a>
-                        </div>
+                     
 
-                        <hr>
 
-                        <a href="#" class="hover-btn-new"><span>Order Now</span></a>
+                        <a asp-controller="CustomerOrder" asp-action="SetUpBoxOrder" asp-route-id="@item.id" class="hover-btn-new"><span>Order Now</span></a>
 
                     </div><!--widget -->
                 </div><!-- end col -->
@@ -66,22 +57,22 @@
     <div class="container">
         <div class="row logos">
             <div class="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
-                <a href="#"><img src="./public/./public/images/logo_01.png" alt="" class="img-repsonsive"></a>
+                <a href="#"><img src="/public/images/logo_01.png" alt="" class="img-repsonsive"></a>
             </div>
             <div class="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
-                <a href="#"><img src="./public/./public/images/logo_02.png" alt="" class="img-repsonsive"></a>
+                <a href="#"><img src="/public/images/logo_02.png" alt="" class="img-repsonsive"></a>
             </div>
             <div class="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
-                <a href="#"><img src="./public/./public/images/logo_03.png" alt="" class="img-repsonsive"></a>
+                <a href="#"><img src="/public/images/logo_03.png" alt="" class="img-repsonsive"></a>
             </div>
             <div class="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
-                <a href="#"><img src="./public/./public/images/logo_04.png" alt="" class="img-repsonsive"></a>
+                <a href="#"><img src="/public/images/logo_04.png" alt="" class="img-repsonsive"></a>
             </div>
             <div class="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
-                <a href="#"><img src="./public/./public/images/logo_05.png" alt="" class="img-repsonsive"></a>
+                <a href="#"><img src="/public/images/logo_05.png" alt="" class="img-repsonsive"></a>
             </div>
             <div class="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
-                <a href="#"><img src="./public/./public/images/logo_06.png" alt="" class="img-repsonsive"></a>
+                <a href="#"><img src="/public/images/logo_06.png" alt="" class="img-repsonsive"></a>
             </div>
         </div><!-- end row -->
     </div><!-- end container -->

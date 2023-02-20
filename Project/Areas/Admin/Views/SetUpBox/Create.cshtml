@@ -8,7 +8,7 @@
     .create_setup_form{
         margin-left: 15% !important;
         background-color: white;
-        box-shadow: 1px 2px 10px;
+        box-shadow: 0 .15rem 1.75rem 0 rgba(58,59,69,.15) !important;
         width: 880px !important;
         padding: 50px;
         border-radius: 10px;
@@ -17,6 +17,13 @@
     }
 
     .input_group{
+        min-width: 770px !important;
+    }
+    .error_msg{
+        white-space: nowrap !important;
+    }
+
+    .custom-file {
         min-width: 770px !important;
     }
 </style>
@@ -29,8 +36,11 @@
             <form asp-action="Create" method="post" enctype="multipart/form-data" asp-controller="SetUpBox">
                 @*<div asp-validation-summary="ModelOnly" class="text-danger"></div>*@
                 <div class="form-group">
+                    <span class="text-danger">@ViewBag.msg</span>
+                </div>
+                <div class="form-group">
                     <label asp-for="name" class="control-label"></label>
-                    <input asp-for="name" class="form-control input_group" placeholder="Enter name..."/>
+                    <input asp-for="name" name="name" class="form-control input_group" placeholder="Enter name..."/>
                     <span asp-validation-for="name" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -38,22 +48,24 @@
                     <input asp-for="details" class="form-control input_group" placeholder="Enter details..."/>
                     <span asp-validation-for="details" class="text-danger"></span>
                 </div>
-                <div class="form-group">
-                    <label asp-for="img" class="control-label"></label>
 
-                    <input asp-for="img" type="file" name="file" required id="file" onchange="document.getElementById('Image').src = window.URL.createObjectURL(this.files[0])" class="form-control input_group" />
-
-                    <span asp-validation-for="img" class="text-danger"></span>
+                <label asp-for="img" class="control-label"></label>
+                <div class="form-group custom-file">
+                    <label asp-for="img" class="custom-file-label">Choose file...</label>
+                    <input asp-for="img" type="file" name="file" id="file" onchange="document.getElementById('Image').src = window.URL.createObjectURL(this.files[0])" class="form-control input_group custom-file-input" />
+                    <span asp-validation-for="img" class="text-danger error_msg" id="file_error"></span>
                 </div>
                 <img src="" id="Image" width="100px" />
+
                 <div class="form-group">
                     <label asp-for="price" class="control-label"></label>
                     <input asp-for="price" class="form-control input_group" placeholder="Enter price..."/>
                     <span asp-validation-for="price" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <input type="submit" value="Create" class="btn btn-primary" />
+                    <input type="submit" value="Create" onclick="return ValidateFile()" class="btn btn-primary" />
                 </div>
+               
             </form>
         </div>
     </div>
@@ -62,5 +74,11 @@
         <a asp-action="Index">Back to List</a>
     </div>
 </div>
-
-
+<script src="~/js/ValidateFile.js"></script>
+<script>
+    // Add the following code if you want the name of the file appear on select
+    $(".custom-file-input").on("change", function () {
+        var fileName = $(this).val().split("\\").pop();
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    });
+</script>

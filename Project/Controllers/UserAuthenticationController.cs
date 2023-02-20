@@ -29,7 +29,7 @@ namespace Project.Controllers
         public async Task<IActionResult> Login(LoginModel model)
         {
             if (!ModelState.IsValid)
-                return Content("sai");
+                return View(model);
             var result = await _authService.LoginAsync(model);
             if(result.StatusCode==1)
             {
@@ -57,7 +57,7 @@ namespace Project.Controllers
             var result = await this._authService.RegisterAsync(model);
 
             TempData["msg"] = result.Message;
-            return RedirectToAction(nameof(Registration));
+          
 
             //Thêm vào để add Customer
             if (result.Message.Equals("You have registered successfully"))
@@ -74,8 +74,8 @@ namespace Project.Controllers
                 await db.SaveChangesAsync();
 
             }
-            return RedirectToAction("Index","Home");
-           // return RedirectToAction(nameof(Registration));
+            return RedirectToAction(nameof(Registration));
+            // return RedirectToAction(nameof(Registration));
         }
 
         //[Authorize]
@@ -119,5 +119,13 @@ namespace Project.Controllers
             return RedirectToAction(nameof(ChangePassword));
         }
 
+
+        public ActionResult Index()
+        {
+            var model = db.Customers.Include(r => r.ApplicationUser)
+                .ToList();
+
+            return View(model);
+        }
     }
 }

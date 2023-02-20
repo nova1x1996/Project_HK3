@@ -11,6 +11,7 @@ namespace Project.Models
         public int id { get; set; }
 
         [Required]
+        
         public string name { get; set; }
 
         [Required]
@@ -21,6 +22,8 @@ namespace Project.Models
         [Required]
         [Range(100, 1000, ErrorMessage ="Price from 100 to 1000 USD")]
         public int price { get; set; }
-    
+
+        public virtual List<Customer_order>? GetCustomer_Orders { get; set; }
+
     }
 }

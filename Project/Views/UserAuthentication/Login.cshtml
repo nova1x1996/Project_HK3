@@ -5,31 +5,113 @@
 @{
 }
 
-<form asp-action="Login" method="post">
-
-    <div class="container">
-        <label asp-for="Username"><b>Username</b></label>
-        <input type="text" asp-for="Username" placeholder="Enter Username">
-        <div class="msg">
-            <span class="err" asp-validation-for="Username"></span>
-        </div>
 
 
+<style>
+    .err {
+        color: red;
+    }
 
-        <label asp-for="Password"><b>Password</b></label>
-        <input type="password" asp-for="Password" placeholder="Enter Password">
-        <div class="msg">
-            <span asp-validation-for="Password" class="err"></span>
-        </div>
+    .msg {
+        padding: 0px;
+    }
+.container {
+    max-width: 500px;
+}
 
+input[type=text], input[type=password] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+    .form-check .RadioMonth {
+        margin-right: 50px;
+    }
 
-        @if (TempData["msg"] != null)
-        {
-            <div class="msg">@TempData["msg"]</div>
-        }
+    .form-group label {
+        font-weight: bold;
+    }
 
-        <button type="submit">Login</button>
-        <a class="text-alert" href="/UserAuthentication/Registration">Not a Account? Signup</a>
+    .form-group .form-check label {
+        font-weight: 500;
+    }
+
+    .shadow {
+        box-shadow: 0 .15rem 1.75rem 0 rgba(58,59,69,.15) !important;
+    }
+
+    button {
+        
+       
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+    }
+</style>
+<div id="pricing" class="section lb ">
+
+    <div class="section-title text-center mb-2">
+        <h3>Login</h3>
+
     </div>
-</form>
+    <div class="container mb-1">
 
+        <hr class="invis">
+
+        <div class="card shadow ">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <div class="form-group">
+
+
+
+                        <form asp-action="Login" method="post">
+
+                            <div class="container">
+                                <label asp-for="Username"><b>Username</b></label>
+                                <input class="form-control input_group" type="text" asp-for="Username" placeholder="Enter Username">
+                                <div class="msg">
+                                    <span class="err" asp-validation-for="Username"></span>
+                                </div>
+
+
+
+                                <label asp-for="Password"><b>Password</b></label>
+                                <input class="form-control input_group" type="password" asp-for="Password" placeholder="Enter Password">
+                                <div class="msg">
+                                    <span asp-validation-for="Password" class="err"></span>
+                                </div>
+
+
+                                @if (TempData["msg"] != null)
+                                {
+                                    <div class="msg">@TempData["msg"]</div>
+                                }
+
+                                <div class="form-group">
+                                    <a class="rigth text-alert" href="/UserAuthentication/Registration">Not a Account? Signup</a>
+                                   
+                                   
+                                </div>
+                                <button class="btn btn-light btn-radius btn-brd grd1" type="submit">Login</button>
+                            </div>
+                        </form>
+
+                    </div>
+
+
+
+                  
+                </div>
+            </div>
+
+
+        </div><!-- end row -->
+
+    </div><!-- end container -->
+</div><!-- end section -->

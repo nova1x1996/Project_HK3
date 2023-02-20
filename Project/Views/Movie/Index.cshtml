@@ -1,0 +1,125 @@
+﻿@model IEnumerable<Project.Models.Movie>
+@{
+    var cate = ViewBag.cate_movies as List<Movie_cate>;
+    string thongBao = TempData["thongBao"] as String;
+}
+
+    <style>
+     .section {
+     padding: 10px 0 70px 0;
+     }
+    .row .icon-wrapper{
+        margin-bottom:20px;
+    }
+    .section-title {
+            margin-bottom: 0px;
+    }
+    .icon-wrapper p{
+        padding-left:0px;
+    }
+    .alert-success{
+        font-weight:bold;
+    }
+    </style>
+<div class="all-title-box">
+    <div class="container text-center">
+        <h1>Movie<span class="m_1">"Unwrap convenience, experience simplicity"</span></h1>
+    </div>
+</div>
+
+<div id="overviews" class="section lb">
+    <div class="container">
+  @if(thongBao != null){
+
+            <div class="alert alert-success" role="alert">
+                @thongBao
+            </div>
+
+  }
+     
+  
+
+        <div class="dropdown">
+            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                Choose Genre Movies
+            </a>
+
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <li><a class="dropdown-item" asp-action="Index" >All</a></li>
+                @foreach (var item in cate)
+                {
+                    <li><a class="dropdown-item" asp-action="Index2"  asp-route-id="@item.id">@item.name</a></li>
+                   
+                }
+           
+            </ul>
+        </div>
+        <div class="section-title row text-center">
+            <div class="col-md-8 offset-md-2">
+                <div class="dropdown">
+                   
+                </div>
+            </div>
+        </div><!-- end title -->
+
+        <hr class="invis">
+
+        <div class="row">
+            @foreach(var item in Model){
+
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="icon-wrapper wow fadeIn" data-wow-duration="1s" data-wow-delay="0.2s" style="visibility: visible; animation-duration: 1s; animation-delay: 0.2s; animation-name: fadeIn;">
+                        <img style="width:190px;height:190px;border:solid 1px black;margin:0 0 5px 20px" src="@item.img"></img>
+                        <h3>@item.name</h3>
+                        <p> 
+                            @if(item.content.Length > 20){
+                                item.content = item.content.Substring(0, 70) + "...";
+                                
+                            }
+                           @item.content
+
+                        </p>
+                        <div class="d-flex justify-content-between">
+                            <p><strong>@item.price $</strong></p>
+                            <button type="button" class="btn btn-success mt-2"><a asp-action="MovieOrder" asp-controller="CustomerOrder" asp-route-id="@item.id">Booking </a></button>
+
+                            </div>
+                    
+                    </div><!-- end icon-wrapper -->
+                </div>
+
+                <!-- end col -->
+            
+            }
+
+
+        </div><!-- end row -->
+
+       
+    </div><!-- end container -->
+</div>
+
+<div class="parallax section dbcolor">
+    <div class="container">
+        <div class="row logos">
+            <div class="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
+                <a href="#"><img src="./public/images/logo_01.png" alt="" class="img-repsonsive"></a>
+            </div>
+            <div class="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
+                <a href="#"><img src="./public/images/logo_02.png" alt="" class="img-repsonsive"></a>
+            </div>
+            <div class="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
+                <a href="#"><img src="./public/images/logo_03.png" alt="" class="img-repsonsive"></a>
+            </div>
+            <div class="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
+                <a href="#"><img src="./public/images/logo_04.png" alt="" class="img-repsonsive"></a>
+            </div>
+            <div class="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
+                <a href="#"><img src="./public/images/logo_05.png" alt="" class="img-repsonsive"></a>
+            </div>
+            <div class="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
+                <a href="#"><img src="./public/images/logo_06.png" alt="" class="img-repsonsive"></a>
+            </div>
+        </div><!-- end row -->
+    </div><!-- end container -->
+</div><!-- end section -->

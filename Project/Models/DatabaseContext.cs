@@ -15,6 +15,8 @@ namespace Project.Models
 
 
 
+        public DbSet<Recharge> Recharges { get; set; }
+        public DbSet<Customer_order> Customer_orders { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Package> Packages { set; get; }
         public DbSet<Faq> Faq { set; get; }
@@ -22,6 +24,13 @@ namespace Project.Models
         public DbSet<SetUpBox> SetUpBoxes { set; get; }
         public DbSet<Movie> Movies { get; set; }
         public DbSet<Movie_cate> Movie_Cates { get; set; }
+
+
+        public DbSet<ContactUs> ContactUss { set; get; }
+
+        public DbSet<Dealers> Dealers { get; set; }
+        public DbSet<DealersOrder> Dealer_Orders { get; set; }
+
     }
 
 }

@@ -1,15 +1,30 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol.Core.Types;
+using Project.Models;
+using System.Security.Claims;
 
 namespace Project.Areas.Admin.Controllers
 {
     [Area("Admin")]
     public class DealersOrderController : Controller
     {
+        public DatabaseContext db { get; set; }
+        public DealersOrderController(DatabaseContext _db)
+        {
+            db = _db;
+        }
         // GET: DealersOrderController
         public ActionResult Index()
         {
-            return View();
+            var model = db.Dealer_Orders
+                .Include(d => d.GetDealer)
+                    .ThenInclude(d => d.ApplicationUser)
+                .Include(d => d.GetSetUpBox)
+                .ToList();
+            return View(model);
         }
 
         // GET: DealersOrderController/Details/5
@@ -21,22 +36,40 @@ namespace Project.Areas.Admin.Controllers
         // GET: DealersOrderController/Create
         public ActionResult Create()
         {
+            ViewBag.data = new SelectList(db.SetUpBoxes.ToList(), "id", "name");
             return View();
         }
-
         // POST: DealersOrderController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(DealersOrder newDealersOrder)
         {
+            var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            //Tìm Dealers dựa trên ID của Phiên Đăng nhập hiện tại
+            var dealers = db.Dealers.Where(d => d.user_id.Equals(userId)).SingleOrDefault();
+            newDealersOrder.dealers_id = dealers.id;
+            ViewBag.data = new SelectList(db.SetUpBoxes.ToList(), "id", "name");
             try
             {
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    
+                    db.Dealer_Orders.Add(newDealersOrder);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "New creation failed.\r\nPlease enter full information.");
+                }
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+
+                ModelState.AddModelError(string.Empty, ex.Message);
             }
+            return View();
         }
 
         // GET: DealersOrderController/Edit/5

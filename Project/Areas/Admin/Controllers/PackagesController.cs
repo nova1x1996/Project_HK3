@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Project.Models;
@@ -12,9 +13,11 @@ namespace Project.Areas.Admin.Controllers
     public class PackagesController : Controller
     {
         public DatabaseContext db { get; set; }
-        public PackagesController(DatabaseContext _db)
+        public INotyfService notyfService { get; }
+        public PackagesController(DatabaseContext _db, INotyfService _notyfService)
         {
             db = _db;
+            notyfService = _notyfService;
         }
 
         // GET: PackagesController
@@ -50,6 +53,7 @@ namespace Project.Areas.Admin.Controllers
                 {
                     db.Packages.Add(newPackage);
                     db.SaveChanges();
+                    notyfService.Success("Create new successfully");
                     return RedirectToAction("Index");
                 }
                 else
@@ -88,6 +92,7 @@ namespace Project.Areas.Admin.Controllers
                     pac.status = package.status;
                     pac.price = package.price;
                     db.SaveChanges();
+                    notyfService.Success("Edit successfully");
                     return RedirectToAction("Index");
                 }
                 else

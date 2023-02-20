@@ -1,0 +1,72 @@
+﻿@model Project.Models.ContactUs
+@{
+    ViewData["Title"] = "SendEmail";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+    .set_up_box_edit_form {
+        margin-left: 15% !important;
+        background-color: white;
+        box-shadow: 0 .15rem 1.75rem 0 rgba(58,59,69,.15)!important;
+        width: 880px !important;
+        padding: 50px;
+        border-radius: 10px;
+        margin-bottom: 50px;
+    }
+
+    .input_group {
+        min-width: 770px !important;
+    }
+
+    .send_loading{
+        margin-top: 4px !important;
+        margin-right: 5px !important;
+    }
+    .send_btn{
+        display: flex !important;
+        justify-content: space-between !important;
+    }
+</style>
+
+<h1 class="text-center mt-5 mb-5">Send Email</h1>
+
+<div class="set_up_box_edit_form">
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="SendEmail" method="post" asp-controller="ContactUs">
+             
+                <div class="form-group">
+                    <label  class="control-label">First Name</label>
+                    <input name="first_name" type="text" readonly value="@Model.firstName" class="form-control input_group" />
+                   
+                </div>
+              
+              
+                <div class="form-group">
+                    <label class="control-label">Email</label>
+                    <input name="email" readonly type="text" value="@Model.email" class="form-control input_group" />
+                   
+                </div>
+              
+               <div class="form-group">
+                    <label class="control-label">Reply To Customer</label>
+                    <textarea type="text" rows="5" id="reply_input" onkeyup="Reply()" name="content" placeholder="Your answer..." class="form-control input_group"></textarea>
+                    <span class="text-danger" id="reply_error"></span>
+               </div>
+               
+                <div class="form-group">
+                  
+                    <button type="submit" onclick="return Loading()" class="btn btn-primary send_btn"><span id="send-loading" class="spinner-border spinner-border-sm send_loading"></span><span class="send_text">Send Email</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+</div>
+
+
+<script src="~/js/Spinner.js"></script>

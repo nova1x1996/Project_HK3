@@ -1,0 +1,182 @@
+﻿@model Project.Models.Customer
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<style>
+    .form-check .RadioMonth{
+        margin-right: 50px;
+    }
+    .form-group label{
+        font-weight:bold;
+    }
+     .form-group .form-check label{
+        font-weight:500;
+    }
+    .shadow {
+        box-shadow:0 .15rem 1.75rem 0 rgba(58,59,69,.15)!important;
+    }
+   
+</style>
+<div id="pricing" class="section lb ">
+
+    <div class="section-title text-center mb-2">
+        <h3>Recharge</h3>
+      
+    </div>
+	<div class="container mb-1">
+
+        <hr class="invis">
+
+         <div class="card shadow ">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <div class="form-group">
+                        
+
+            
+                        <label>Customer ID</label>
+                        @if(Model != null)
+                        {
+                            
+                        <input type="text" class="form-control input_group" data-val="true" readonly data-val-required="The LastName field is required." name="customerId" value="@Model.id">
+                              
+                        }else{
+
+                            <form asp-action="Index" asp-controller="Recharge" method="post">
+                        <div style="display:flex;">
+                           
+                                <input type="text" class="form-control input_group" data-val="true" data-val-required="The LastName field is required."  name="customerId">
+                            <button type="submit" class="btn btn-light btn-radius btn-brd grd1">
+                                Confirm ID
+                            </button>
+
+                        </div>
+                            </form>
+                        }
+                    
+                    </div>
+
+
+
+                      <form asp-action="RechargeOrder" asp-controller="Recharge" method="post">
+                      @if(Model != null){
+                    <div class="form-group">
+                        <label>Card Number</label>
+                      
+                             <input type="text" readonly class="form-control input_group" data-val="true" data-val-required="The FirstName field is required." asp-for="card_number" value="@Model.card_number">
+                
+                    </div>
+                    <div class="form-group">
+                        @if(Model.package == null){
+                                    <label>Package</label>
+                                    <div class="alert alert-warning">
+                                        You have not yet subscribed to a <strong>package</strong> or your <strong>package</strong> has expired !
+                                    </div>
+                                    <div class="alert a"></div>
+                        }else {
+                                    <label>Package</label>
+                                    <input type="text" readonly class="form-control input_group" data-val="true" data-val-required="The FirstName field is required." name="packageName" value="@Model.package.name">
+                                    <input hidden name="packageId" value="@Model.package.id">
+                        }
+                               
+                            </div>
+                        }
+
+                    <div class="form-group">
+                          <label>Number Of Month</label>
+                        <div class="form-check d-flex">
+                            <div class="RadioMonth">
+                                <input class="form-check-input" checked type="radio" name="month" value="1" id="flexRadioDefault1">
+                                <label class="form-check-label" for="flexRadioDefault1">
+                                    1 Month
+                                </label>
+                            </div>
+                            <div class="RadioMonth">
+
+                                <input class="form-check-input" type="radio" name="month" value="2" id="flexRadioDefault1">
+                                <label class="form-check-label" for="flexRadioDefault1">
+                                    2 Month
+                                </label>
+                            </div>
+                            <div class="RadioMonth">
+
+                                <input class="form-check-input" type="radio" name="month" value="3" id="flexRadioDefault1">
+                                <label class="form-check-label" for="flexRadioDefault1">
+                                    3 Month
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Payment</label>
+                        <div class="form-check d-flex">
+                            <div class="RadioMonth">
+                                <input class="form-check-input" type="radio" checked name="pay_type" value="paypal" id="flexRadioDefault1">
+
+                                <img src="/img/logo/paypal-ge18babb59_1280.png" style="width:80px;transform: translateY(-5px);" />
+                                
+                            
+                            </div>
+                            <div class="RadioMonth">
+
+                                <input class="form-check-input" type="radio" name="pay_type" value="cod" id="flexRadioDefault1">
+                                <label class="form-check-label" for="flexRadioDefault1">
+                                   COD
+                                </label>
+                            </div>
+                          
+
+                        </div>
+                    </div>
+               
+
+                    <div>
+                    @if(Model != null && Model.package != null){
+                         
+                   
+                    
+                            <input hidden name="CustomerIdOrder" value="@Model.id">
+                        <button type="submit" class="btn btn-light btn-radius btn-brd grd1">
+                        Submit                          
+                    </button>
+                     
+                        }
+                        
+                    </div>
+                    </form>
+                </div>
+            </div>
+           
+
+        </div><!-- end row -->
+       
+    </div><!-- end container -->
+</div><!-- end section -->
+
+<div class="parallax section dbcolor">
+    <div class="container">
+        <div class="row logos">
+            <div class="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
+                <a href="#"><img src="./public/images/logo_01.png" alt="" class="img-repsonsive"></a>
+            </div>
+            <div class="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
+                <a href="#"><img src="./public/images/logo_02.png" alt="" class="img-repsonsive"></a>
+            </div>
+            <div class="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
+                <a href="#"><img src="./public/images/logo_03.png" alt="" class="img-repsonsive"></a>
+            </div>
+            <div class="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
+                <a href="#"><img src="./public/images/logo_04.png" alt="" class="img-repsonsive"></a>
+            </div>
+            <div class="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
+                <a href="#"><img src="./public/images/logo_05.png" alt="" class="img-repsonsive"></a>
+            </div>
+            <div class="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
+                <a href="#"><img src="./public/images/logo_06.png" alt="" class="img-repsonsive"></a>
+            </div>
+        </div><!-- end row -->
+    </div><!-- end container -->
+</div><!-- end section -->

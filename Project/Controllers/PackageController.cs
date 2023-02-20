@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PayPal.Api;
 using Project.Models;
+using System.Security.Claims;
 
 namespace Project.Controllers
 {
@@ -15,5 +17,9 @@ namespace Project.Controllers
             var model = db.Packages.ToList();
             return View(model);
         }
+
+       
+
+   
     }
 }
