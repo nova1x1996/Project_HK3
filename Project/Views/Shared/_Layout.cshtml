@@ -33,6 +33,7 @@
 
 <!-- Modernizer for Portfolio -->
 <script src="/public/js/modernizer.js"></script>
+    <script src="/public/js/jquery.js</script>
 
 <!--[if lt IE 9]>
   <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -102,12 +103,8 @@ padding-bottom:0px;
                             <a class="nav-link dropdown-toggle" href="#" id="dropdown-a" data-toggle="dropdown">Other </a>
                             <div class="dropdown-menu" aria-labelledby="dropdown-a">
                                 <a class="dropdown-item" asp-controller="AboutUs" asp-action="Index">About Us</a>
-<<<<<<< HEAD
-                                <a class="dropdown-item" asp-controller="Contact" asp-action="ContactUs">Contact</a>
                                 <a class="dropdown-item" asp-controller="CustomerCare" asp-action="CustomerCare">Customer Care</a>
-=======
                                 <a class="dropdown-item" asp-controller="Contact" asp-action="Index">Contact</a>
->>>>>>> 0f99af923311a22f8d45bccf546a01d65aaa29a9
                            
                             </div>
                         </li>
@@ -136,7 +133,8 @@ padding-bottom:0px;
 
                         @if (!string.IsNullOrEmpty(User.Identity.Name))
                         {
-                            <li><a class="hover-btn-new log" href="/UserAuthentication/ChangePassword" ><span>ChangePassword</span></a></li>
+                            @*<li><a class="hover-btn-new log" href="/UserAuthentication/ChangePassword" ><span>ChangePassword</span></a></li>*@
+                            <li><a class="hover-btn-new log" href="/UserAuthentication/DetailCustomer" ><span>User</span></a></li>
                             <li><a class="hover-btn-new log" asp-controller="UserAuthentication" asp-action="Logout"><span>Logout</span></a></li>
                         }else{
                             <li><a class="hover-btn-new log" href="/UserAuthentication/Login" ><span>Customer Login</span></a></li>
