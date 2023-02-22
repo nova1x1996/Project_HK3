@@ -12,7 +12,7 @@ using Project.Models;
 namespace Project.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20230220090437_Project")]
+    [Migration("20230222071942_Project")]
     partial class Project
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -280,6 +280,30 @@ namespace Project.Migrations
                     b.ToTable("customer_order");
                 });
 
+            modelBuilder.Entity("Project.Models.CustomerCare", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("location_id")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("location_id")
+                        .IsUnique()
+                        .HasFilter("[location_id] IS NOT NULL");
+
+                    b.ToTable("customercare");
+                });
+
             modelBuilder.Entity("Project.Models.Dealers", b =>
                 {
                     b.Property<int>("id")
@@ -434,6 +458,23 @@ namespace Project.Migrations
                     b.HasKey("id");
 
                     b.ToTable("faq");
+                });
+
+            modelBuilder.Entity("Project.Models.Location", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("location");
                 });
 
             modelBuilder.Entity("Project.Models.Movie", b =>
@@ -681,6 +722,15 @@ namespace Project.Migrations
                     b.Navigation("GetSetUpBox");
                 });
 
+            modelBuilder.Entity("Project.Models.CustomerCare", b =>
+                {
+                    b.HasOne("Project.Models.Location", "GetLocation")
+                        .WithOne("GetCustomerCare")
+                        .HasForeignKey("Project.Models.CustomerCare", "location_id");
+
+                    b.Navigation("GetLocation");
+                });
+
             modelBuilder.Entity("Project.Models.Dealers", b =>
                 {
                     b.HasOne("Project.Models.Domain.ApplicationUser", "ApplicationUser")
@@ -736,6 +786,12 @@ namespace Project.Migrations
                     b.Navigation("GetCustomer_Orders");
 
                     b.Navigation("GetRecharges");
+                });
+
+            modelBuilder.Entity("Project.Models.Location", b =>
+                {
+                    b.Navigation("GetCustomerCare")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Project.Models.Movie", b =>

@@ -784,7 +784,6 @@ namespace Project.Migrations
                     b.Navigation("GetCustomer_Orders");
 
                     b.Navigation("GetRecharges");
-
                 });
 
             modelBuilder.Entity("Project.Models.Location", b =>

@@ -84,6 +84,19 @@ namespace Project.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "location",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_location", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "movie_cate",
                 columns: table => new
                 {
@@ -252,6 +265,25 @@ namespace Project.Migrations
                         name: "FK_dealers_AspNetUsers_user_id",
                         column: x => x.user_id,
                         principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "customercare",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    location_id = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_customercare", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_customercare_location_location_id",
+                        column: x => x.location_id,
+                        principalTable: "location",
                         principalColumn: "Id");
                 });
 
@@ -473,6 +505,13 @@ namespace Project.Migrations
                 column: "setUpBox_id");
 
             migrationBuilder.CreateIndex(
+                name: "IX_customercare_location_id",
+                table: "customercare",
+                column: "location_id",
+                unique: true,
+                filter: "[location_id] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_dealers_user_id",
                 table: "dealers",
                 column: "user_id");
@@ -527,6 +566,9 @@ namespace Project.Migrations
                 name: "customer_order");
 
             migrationBuilder.DropTable(
+                name: "customercare");
+
+            migrationBuilder.DropTable(
                 name: "dealers_order");
 
             migrationBuilder.DropTable(
@@ -540,6 +582,9 @@ namespace Project.Migrations
 
             migrationBuilder.DropTable(
                 name: "movie");
+
+            migrationBuilder.DropTable(
+                name: "location");
 
             migrationBuilder.DropTable(
                 name: "dealers");
