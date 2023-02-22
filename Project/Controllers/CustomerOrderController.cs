@@ -8,20 +8,23 @@ using AspNetCoreHero.ToastNotification.Notyf.Models;
 using System.Security.Policy;
 using System.Diagnostics.Eventing.Reader;
 using Microsoft.AspNetCore.Authorization;
+using AspNetCoreHero.ToastNotification.Abstractions;
 
 namespace Project.Controllers
 {
-  
+
+
     public class CustomerOrderController : Controller
     {
+        private readonly INotyfService _notyf;
         private readonly DatabaseContext db;
        
         private static string Mode = "sb-pjm9425080818@business.example.com";
         
-        public CustomerOrderController(DatabaseContext _db, IConfiguration config)
+        public CustomerOrderController(DatabaseContext _db, IConfiguration config,INotyfService notyf)
         {
             db = _db;
-            
+            _notyf = notyf;
        
         }
  
@@ -145,6 +148,7 @@ namespace Project.Controllers
                     Mo.pay_type = pay_type;
                     Mo.customer_id = int.Parse(customerId);
                     Mo.package_id = package.id;
+                    Mo.state = true;
                     Mo.date = DateTime.Now;
                     db.Customer_orders.Add(Mo);
 
@@ -154,7 +158,8 @@ namespace Project.Controllers
                     customer.payment_monthly = package.price;
                     customer.package_id = package.id;
                     customer.services_sub_date = DateTime.Now;
-                    customer.date_left = DateTime.Now.AddMonths(package.duration.Value);
+                    //customer.date_left = DateTime.Now.AddMonths(package.duration.Value);
+                    customer.date_left = DateTime.Now.AddSeconds(30);
                     db.SaveChanges();
 
 
@@ -237,7 +242,7 @@ namespace Project.Controllers
             db.SaveChanges();
 
 
-            TempData["thongBaoPackage"] = "You have successfully placed an order.";
+            _notyf.Success("You have successfully placed an order, my staff will contact you soon.");
 
             return RedirectToAction("Index","Package");
         }
@@ -304,7 +309,7 @@ namespace Project.Controllers
 
 
 
-            TempData["thongBao"] = "You have successfully placed an order.";
+            _notyf.Success("You have successfully placed an order, my staff will contact you soon.");
             return RedirectToAction("Index", "Movie");
 
 
@@ -350,7 +355,7 @@ namespace Project.Controllers
 
 
 
-                TempData["thongBao"] = "You have successfully placed an order.";
+                _notyf.Success("You have successfully placed an order, my staff will contact you soon.");
                 return RedirectToAction("Index", "SetUpBox");
             }
         }
