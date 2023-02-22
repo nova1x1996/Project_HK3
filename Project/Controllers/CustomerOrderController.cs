@@ -7,8 +7,10 @@ using Project.Helper;
 using AspNetCoreHero.ToastNotification.Notyf.Models;
 using System.Security.Policy;
 using System.Diagnostics.Eventing.Reader;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Authorization;
 using AspNetCoreHero.ToastNotification.Abstractions;
+
 
 namespace Project.Controllers
 {
@@ -18,6 +20,8 @@ namespace Project.Controllers
     {
         private readonly INotyfService _notyf;
         private readonly DatabaseContext db;
+
+      
        
         private static string Mode = "sb-pjm9425080818@business.example.com";
         
@@ -273,9 +277,12 @@ namespace Project.Controllers
         [HttpGet()]
         public IActionResult MovieOrder(int id)
         {
-            var model = db.Movies.Find(id);
+           
+             var model = db.Movies.Find(id);
 
-            return View(model);
+             return View(model);
+         
+          
         }
 
         [HttpPost()]
