@@ -32,12 +32,19 @@
     <link rel="stylesheet" href="/public/css/custom.css">
 
 <!-- Modernizer for Portfolio -->
-<script src="/public/js/modernizer.js"></script>
+    <script src="/public/js/modernizer.js"></script>
 
-<!--[if lt IE 9]>
+
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+    <!-- Add the slick-theme.css if you want default styling -->
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+   
+   @* <!--[if lt IE 9]>
   <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
   <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-<![endif]-->
+<![endif]-->*@
 </head>
 
 <style>
@@ -209,6 +216,8 @@ padding-bottom:0px;
     <!-- ALL PLUGINS -->
     <script src="/public/js/custom.js"></script>
     <script src="/public/js/timeline.min.js"></script>
+
+ 
     <script>
         timeline(document.querySelectorAll('.timeline'), {
             forceVerticalMode: 700,
@@ -227,7 +236,9 @@ padding-bottom:0px;
             localStorage.setItem('scrollpos', window.scrollY);
         };
     </script>
+    
     @await Component.InvokeAsync("Notyf")
-    <!--  @await RenderSectionAsync("Scripts", required: false) -->
+    @await RenderSectionAsync("Scripts", required: false) 
+  
 </body>
 </html>

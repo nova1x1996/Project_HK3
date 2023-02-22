@@ -7,19 +7,22 @@ using Project.Helper;
 using AspNetCoreHero.ToastNotification.Notyf.Models;
 using System.Security.Policy;
 using System.Diagnostics.Eventing.Reader;
+using Microsoft.AspNet.Identity;
 
 namespace Project.Controllers
 {
     public class CustomerOrderController : Controller
     {
         private readonly DatabaseContext db;
+
+      
        
         private static string Mode = "sb-pjm9425080818@business.example.com";
         
         public CustomerOrderController(DatabaseContext _db, IConfiguration config)
         {
             db = _db;
-            
+           
        
         }
  
@@ -266,9 +269,12 @@ namespace Project.Controllers
         [HttpGet()]
         public IActionResult MovieOrder(int id)
         {
-            var model = db.Movies.Find(id);
+           
+             var model = db.Movies.Find(id);
 
-            return View(model);
+             return View(model);
+         
+          
         }
 
         [HttpPost()]
