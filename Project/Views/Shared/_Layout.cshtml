@@ -31,21 +31,32 @@
 <!-- Custom CSS -->
     <link rel="stylesheet" href="/public/css/custom.css">
 
-<!-- Modernizer for Portfolio -->
-<script src="/public/js/modernizer.js"></script>
-    <script src="/public/js/jquery.js</script>
 
-<!--[if lt IE 9]>
+    <script src="/public/js/modernizer.js"></script>
+
+
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+    <!-- Add the slick-theme.css if you want default styling -->
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+   
+   @* <!--[if lt IE 9]>
   <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
   <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-<![endif]-->
+<![endif]-->*@
 </head>
 
 <style>
 .top-navbar .bg-light{
 padding-top:0px;
 padding-bottom:0px;
-}</style>
+}
+#footer-body{
+    margin-right: -170px !important;
+    margin-left: -170px !important;
+}
+</style>
 <body class="host_version">
 
      <!-- Modal-Recharge -->
@@ -156,7 +167,7 @@ padding-bottom:0px;
     
     <footer class="footer">
         <div class="container">
-            <div class="row" style="justify-content:center">
+            <div class="row" id="footer-body" style="justify-content:center">
                 <div class="col-lg-4 col-md-4 col-xs-12">
                     <div class="widget clearfix">
                         <div class="widget-title">
@@ -212,6 +223,8 @@ padding-bottom:0px;
     <!-- ALL PLUGINS -->
     <script src="/public/js/custom.js"></script>
     <script src="/public/js/timeline.min.js"></script>
+
+ 
     <script>
         timeline(document.querySelectorAll('.timeline'), {
             forceVerticalMode: 700,
@@ -230,7 +243,9 @@ padding-bottom:0px;
             localStorage.setItem('scrollpos', window.scrollY);
         };
     </script>
+    
     @await Component.InvokeAsync("Notyf")
-    <!--  @await RenderSectionAsync("Scripts", required: false) -->
+    @await RenderSectionAsync("Scripts", required: false) 
+  
 </body>
 </html>
