@@ -19,7 +19,9 @@ builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 builder.Services.AddNotyf(config => { config.DurationInSeconds = 10; config.IsDismissable = true; config.Position = NotyfPosition.BottomRight; });
 builder.Services.AddDbContext<DatabaseContext>(options => 
 
+
 options.UseSqlServer(builder.Configuration.GetConnectionString("WebDatabaseThuong")));
+
 
 
 
@@ -29,7 +31,24 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
         .AddEntityFrameworkStores<DatabaseContext>()
         .AddDefaultTokenProviders();
 
-builder.Services.ConfigureApplicationCookie(options => options.LoginPath = "/UserAuthentication/Login");
+
+
+
+
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    // Điều hướng cho tài khoản chưa xác thực
+    options.LoginPath = "/UserAuthentication/Login";
+
+    // Điều hướng cho tài khoản đã xác thực nhưng không có quyền truy cập
+    options.AccessDeniedPath = "/Account/Index";
+
+    // Đặt thời gian cho Cookie
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+    options.SlidingExpiration = true;
+});
+
 
 //add services to container
 builder.Services.AddScoped<IUserAuthenticationService, UserAuthenticationService>();
@@ -56,9 +75,10 @@ app.UseSession();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 //Tự thêm
-app.UseAuthentication();
+
 
 
 app.MapControllerRoute(
