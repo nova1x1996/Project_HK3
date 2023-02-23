@@ -31,7 +31,7 @@
 <!-- Custom CSS -->
     <link rel="stylesheet" href="/public/css/custom.css">
 
-<!-- Modernizer for Portfolio -->
+
     <script src="/public/js/modernizer.js"></script>
 
 
@@ -144,7 +144,8 @@ padding-bottom:0px;
 
                         @if (!string.IsNullOrEmpty(User.Identity.Name))
                         {
-                            <li><a class="hover-btn-new log" href="/UserAuthentication/ChangePassword" ><span>ChangePassword</span></a></li>
+                            @*<li><a class="hover-btn-new log" href="/UserAuthentication/ChangePassword" ><span>ChangePassword</span></a></li>*@
+                            <li><a class="hover-btn-new log" href="/UserAuthentication/DetailCustomer" ><span>User</span></a></li>
                             <li><a class="hover-btn-new log" asp-controller="UserAuthentication" asp-action="Logout"><span>Logout</span></a></li>
                         }else{
                             <li><a class="hover-btn-new log" href="/UserAuthentication/Login" ><span>Customer Login</span></a></li>
