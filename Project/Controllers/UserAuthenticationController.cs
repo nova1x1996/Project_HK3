@@ -130,5 +130,22 @@ namespace Project.Controllers
 
             return View(model);
         }
+
+        public ActionResult HistoryCustomerOrder()
+        {
+            var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var customerID = db.Customers
+               .SingleOrDefault(c => c.user_id.Equals(userId));
+
+            var model = db.Customer_orders
+                .Include(c => c.GetCustomer)
+                    .ThenInclude(c => c.ApplicationUser)
+                .Include(c => c.GetMovie)
+                .Include(c => c.GetSetUpBox)
+                .Include(c => c.GetPackage)
+                .Where(c => c.customer_id.Equals(customerID.id))
+                .ToList();
+            return View(model);
+        }
     }
 }
