@@ -31,7 +31,7 @@
 <!-- Custom CSS -->
     <link rel="stylesheet" href="/public/css/custom.css">
 
-<!-- Modernizer for Portfolio -->
+
     <script src="/public/js/modernizer.js"></script>
 
 
@@ -51,7 +51,12 @@
 .top-navbar .bg-light{
 padding-top:0px;
 padding-bottom:0px;
-}</style>
+}
+#footer-body{
+    margin-right: -170px !important;
+    margin-left: -170px !important;
+}
+</style>
 <body class="host_version">
 
      <!-- Modal-Recharge -->
@@ -109,10 +114,8 @@ padding-bottom:0px;
                             <a class="nav-link dropdown-toggle" href="#" id="dropdown-a" data-toggle="dropdown">Other </a>
                             <div class="dropdown-menu" aria-labelledby="dropdown-a">
                                 <a class="dropdown-item" asp-controller="AboutUs" asp-action="Index">About Us</a>
-
-                               @* <a class="dropdown-item" asp-controller="Contact" asp-action="ContactUs">Contact</a>*@
+                       
                                 <a class="dropdown-item" asp-controller="CustomerCare" asp-action="CustomerCare">Customer Care</a>
-
                                 <a class="dropdown-item" asp-controller="Contact" asp-action="Index">Contact</a>
 
                            
@@ -143,7 +146,8 @@ padding-bottom:0px;
 
                         @if (!string.IsNullOrEmpty(User.Identity.Name))
                         {
-                            <li><a class="hover-btn-new log" href="/UserAuthentication/ChangePassword" ><span>ChangePassword</span></a></li>
+                            @*<li><a class="hover-btn-new log" href="/UserAuthentication/ChangePassword" ><span>ChangePassword</span></a></li>*@
+                            <li><a class="hover-btn-new log" href="/UserAuthentication/DetailCustomer" ><span>User</span></a></li>
                             <li><a class="hover-btn-new log" asp-controller="UserAuthentication" asp-action="Logout"><span>Logout</span></a></li>
                         }else{
                             <li><a class="hover-btn-new log" href="/UserAuthentication/Login" ><span>Customer Login</span></a></li>
@@ -165,7 +169,7 @@ padding-bottom:0px;
     
     <footer class="footer">
         <div class="container">
-            <div class="row" style="justify-content:center">
+            <div class="row" id="footer-body" style="justify-content:center">
                 <div class="col-lg-4 col-md-4 col-xs-12">
                     <div class="widget clearfix">
                         <div class="widget-title">
