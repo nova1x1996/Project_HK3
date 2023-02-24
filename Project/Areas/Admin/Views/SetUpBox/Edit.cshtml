@@ -45,13 +45,14 @@
                 <div class="form-group">
 
                     <label>Current Image</label><br />
-                    <img src="@Url.Content(Model.img)" width="80" />
+                   @* <img src="@Url.Content(Model.img)" width="80" />*@
+                    <img src="/img/setupbox/@Model.img" width="80" />
                  
                 </div>
-                <label asp-for="img" class="control-label">Update Image</label>
+                <label asp-for="imgFile" class="control-label"></label>
                 <div class="form-group custom-file">
-                    <label asp-for="img" class="custom-file-label">Choose file...</label>
-                    <input asp-for="img" type="file" id="file" name="file" onchange="document.getElementById('Image').src = window.URL.createObjectURL(this.files[0])" class="form-control input_group custom-file-input" />
+                    <label asp-for="imgFile" class="custom-file-label">Choose file...</label>
+                    <input asp-for="imgFile" type="file" id="file" onchange="document.getElementById('Image').src = window.URL.createObjectURL(this.files[0])" class="form-control input_group custom-file-input" />
                     <span class="text-danger" id="file_error"></span>
                 </div>
 
