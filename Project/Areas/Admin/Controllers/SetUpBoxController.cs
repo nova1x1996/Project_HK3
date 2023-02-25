@@ -1,10 +1,12 @@
 ﻿using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using PagedList.Core;
 using Project.Models;
 using System.Xml.Linq;
+using System.IO;
 
 namespace Project.Areas.Admin.Controllers
 {
@@ -12,11 +14,17 @@ namespace Project.Areas.Admin.Controllers
     public class SetUpBoxController : Controller
     {
         private DatabaseContext db;
+
+        private readonly IWebHostEnvironment webHostEnvironment;
+
+      
+
         public INotyfService notyfService { get;}
-        public SetUpBoxController(DatabaseContext _db, INotyfService _notyfService)
+        public SetUpBoxController(DatabaseContext _db, INotyfService _notyfService, IWebHostEnvironment _webHostEnvironment)
         {
             db = _db;
             notyfService= _notyfService;
+            webHostEnvironment= _webHostEnvironment;
         }
         // GET: SetUpBoxController
       
@@ -53,32 +61,44 @@ namespace Project.Areas.Admin.Controllers
         // POST: SetUpBoxController/Create
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public ActionResult Create(SetUpBox setUpBox, IFormFile file, string name)
+        public ActionResult Create(SetUpBox setUpBox, string name)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
                     var item = db.SetUpBoxes.Where(s=>s.name.Equals(name)).FirstOrDefault();
+                    
                     if (item != null)
                     {
                        
-                        ViewBag.msg = "The name has been created";
+                        ViewBag.msg = "This name has been created";
                     }
+                    
                     else
                     {
-                        if (file.Length > 0)
+                        string uniqueFileName = UploadFile(setUpBox);
+                        var data = new SetUpBox()
                         {
-                            var filePath = Path.Combine("wwwroot/img", file.FileName);
-                            var stream = new FileStream(filePath, FileMode.Create);
-                            file.CopyToAsync(stream);
-                            setUpBox.img = "/img/" + file.FileName;
-                            db.SetUpBoxes.Add(setUpBox);
+                            name = setUpBox.name,
+                            details = setUpBox.details,
+                            price = setUpBox.price,
+                            img = uniqueFileName,
+                        };
+
+                        //if (setUpBox.imgFile.Length > 0)
+                        //{
+                     
+                            //var filePath = Path.Combine("wwwroot/img/setupbox", setUpBox.imgFile.FileName);
+                            //var stream = new FileStream(filePath, FileMode.Create);
+                            //setUpBox.imgFile.CopyToAsync(stream);
+                            //setUpBox.img = "/img/setupbox/" + setUpBox.imgFile.FileName;
+                            db.SetUpBoxes.Add(data);
                             db.SaveChanges();
                             notyfService.Success("Create new successfully");
                             return RedirectToAction("Index");
 
-                        }
+                        //}
                     }
                     
                    
@@ -97,6 +117,23 @@ namespace Project.Areas.Admin.Controllers
             return View();
         }
 
+        private string UploadFile(SetUpBox setUpBox)
+        {
+            string uniqueFile = string.Empty;
+            if (setUpBox.imgFile != null || setUpBox.imgFile.Length > 0)
+            {
+                string uploadFolder = Path.Combine("wwwroot" + "/img/setupbox/");
+                //uniqueFile = Guid.NewGuid().ToString() + "_" + setUpBox.imgFile.FileName;
+                uniqueFile = setUpBox.imgFile.FileName;
+                string filePath = Path.Combine(uploadFolder, uniqueFile);
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    setUpBox.imgFile.CopyToAsync(stream);
+                }
+            }
+            return uniqueFile;
+        }
+
         // GET: SetUpBoxController/Edit/5
         [HttpGet]
         public ActionResult Edit(int id)
@@ -108,7 +145,7 @@ namespace Project.Areas.Admin.Controllers
         // POST: SetUpBoxController/Edit/5
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public ActionResult Edit(SetUpBox setUpBox, IFormFile file)
+        public ActionResult Edit(SetUpBox setUpBox)
         {
             try
             {
@@ -117,18 +154,32 @@ namespace Project.Areas.Admin.Controllers
                     var model = db.SetUpBoxes.SingleOrDefault(s => s.id.Equals(setUpBox.id));
                     if (model != null)
                     {
-                      
-                            if (file != null || file.Length > 0)
+                            var uniqueFile = string.Empty;
+                            if (setUpBox.imgFile != null || setUpBox.imgFile.Length > 0)
                             {
-                                string path = Path.Combine("wwwroot/img", file.FileName);
-                                var stream = new FileStream(path, FileMode.Create);
-                                file.CopyToAsync(stream);
+                            //string path = Path.Combine("wwwroot/img/setupbox", setUpBox.imgFile.FileName);
+                            //var stream = new FileStream(path, FileMode.Create);
+                            //setUpBox.imgFile.CopyToAsync(stream);
 
-                                setUpBox.img = file != null ? "/img/" + file.FileName : model.img;
+                            //setUpBox.img = setUpBox.imgFile != null ? "/img/setupbox/" + setUpBox.imgFile.FileName : model.img;
+                                if (model.img != null)
+                                {
+                                    string filepath = Path.Combine("wwwroot" + "/img/setupbox/", model.img);
+                                    if (System.IO.File.Exists(filepath))
+                                    {
+                                        System.IO.File.Delete(filepath);
+                                    }
+                                }
+                                uniqueFile = UploadFile(setUpBox);
+
                                 model.name = setUpBox.name;
                                 model.details = setUpBox.details;
                                 model.price = setUpBox.price;
-                                model.img = setUpBox.img;
+                                if (setUpBox.imgFile != null)
+                                {
+                                    model.img = uniqueFile;
+                                }
+                                
                                 db.SaveChanges();
                                 notyfService.Success("Update successfully");
                                 return RedirectToAction("Index");
@@ -160,8 +211,20 @@ namespace Project.Areas.Admin.Controllers
         public ActionResult Delete(int id)
         {
             var setUpBox = db.SetUpBoxes.SingleOrDefault(b => b.id.Equals(id));
+            //var setUpBox = db.SetUpBoxes.Find(id);
             if (setUpBox != null)
             {
+                //delete from wwwroot/img             
+                string deleteFile = Path.Combine("wwwroot" + "/img/setupbox/");
+                string currentFile = Path.Combine(Directory.GetCurrentDirectory(), deleteFile, setUpBox.img);
+                if (currentFile != null)
+                {
+                    if (System.IO.File.Exists(currentFile))
+                    {
+                        System.IO.File.Delete(currentFile);
+                    }
+                }
+
                 db.SetUpBoxes.Remove(setUpBox);
                 db.SaveChanges();
                 notyfService.Success("Delete successfully");

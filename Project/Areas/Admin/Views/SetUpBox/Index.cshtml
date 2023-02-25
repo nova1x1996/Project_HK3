@@ -20,6 +20,9 @@
     .setup_title{
         font-size: 40px !important;
     }
+    .action_group{
+        min-width: 140px !important;
+    }
 </style>
 <div class="container-fluid">
 
@@ -53,17 +56,18 @@
 
                     <tbody>
                         @foreach (var item in Model) {
-                        
+                            var imagePath = "/img/setupbox/" + item.img;
                             <tr>
                                 <td>@item.name</td>
                                 <td>@item.details</td>
                                 <td>$@item.price</td>
                                 <td>
-                                    <img src="@item.img" width="80">
+                                    <img src="@imagePath" width="80">
                                 </td>
-                                <td>
+                                <td class="action_group">
                                     <a asp-action="Edit" asp-route-id="@item.id"><button class="btn btn-warning">Edit</button></a>
                                     <a asp-action="Delete" asp-route-id="@item.id"><button onclick="return confirm('Are you sure want to delete this item?')" class="btn btn-danger">Delete</button></a>
+                                   
                                 </td>
                             </tr>
                        
