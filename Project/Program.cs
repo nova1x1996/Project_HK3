@@ -20,10 +20,6 @@ builder.Services.AddNotyf(config => { config.DurationInSeconds = 10; config.IsDi
 builder.Services.AddDbContext<DatabaseContext>(options => 
 
 options.UseSqlServer(builder.Configuration.GetConnectionString("WebDatabaseAn")));
-<<<<<<< HEAD
-=======
-
->>>>>>> d26b11ba9744795837227918151e159c3f1d3e31
 
 
 
