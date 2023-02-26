@@ -162,8 +162,8 @@ namespace Project.Controllers
                     customer.payment_monthly = package.price;
                     customer.package_id = package.id;
                     customer.services_sub_date = DateTime.Now;
-                    //customer.date_left = DateTime.Now.AddMonths(package.duration.Value);
-                    customer.date_left = DateTime.Now.AddSeconds(30);
+                    customer.date_left = DateTime.Now.AddMonths(package.duration.Value);
+                    //customer.date_left = DateTime.Now.AddSeconds(30);
                     db.SaveChanges();
 
 
@@ -202,7 +202,7 @@ namespace Project.Controllers
                     db.SaveChanges();
                     return RedirectToAction("PaymentSuccess");
                 }
-                return Content("PaymentFailed");
+                return RedirectToAction("PaymentFailed");
 
             }
         }
@@ -223,6 +223,21 @@ namespace Project.Controllers
             var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
             //Tìm Customer dựa trên ID của Phiên Đăng nhập hiện tại
             var customer = db.Customers.Where(c => c.user_id.Equals(userId)).SingleOrDefault();
+            if(customer.package_id != null)
+            {
+
+                _notyf.Warning("Your current package is still valid, so you cannot order a new package. You can recharge or switch to a different package.");
+                return RedirectToAction("Index","Package");
+            }
+
+            var CusOrder = db.Customer_orders.Where(c => c.state == false && c.customer_id == customer.id && c.package_id != null).SingleOrDefault();
+            if(CusOrder != null)
+            {
+                _notyf.Warning("You have an order to purchase a package that has not been paid yet. Please cancel it to order a different package.");
+                return RedirectToAction("HistoryCustomerOrder", "UserAuthentication");
+            }
+
+
             var package = db.Packages.Find(package_id);
 
 

@@ -6,6 +6,7 @@ using Project.Repositories.Implementation;
 using Project.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using AspNetCoreHero.ToastNotification.Abstractions;
 
 namespace Project.Controllers
 {
@@ -13,10 +14,12 @@ namespace Project.Controllers
     {
         private readonly IUserAuthenticationService _authService;
         private readonly DatabaseContext db;
-        public UserAuthenticationController(IUserAuthenticationService authService,DatabaseContext _db)
+        private readonly INotyfService _notyf;
+        public UserAuthenticationController(IUserAuthenticationService authService,DatabaseContext _db, INotyfService notyf)
         {
             this._authService = authService;
             db = _db;
+            _notyf = notyf;
         }
 
         
@@ -131,6 +134,20 @@ namespace Project.Controllers
             return View(model);
         }
 
+
+        public ActionResult Delete(int id)
+        {
+            var model = db.Customer_orders.Find(id);
+            if(model != null && model.state == false)
+            {
+                db.Customer_orders.Remove(model);
+                db.SaveChanges();
+                _notyf.Success("You cancel successfully !");
+                return RedirectToAction("HistoryCustomerOrder");
+            }
+          
+            return View(HistoryCustomerOrder);
+        }
         public ActionResult HistoryCustomerOrder()
         {
             var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);

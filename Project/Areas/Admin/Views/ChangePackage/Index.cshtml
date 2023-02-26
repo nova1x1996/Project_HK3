@@ -1,0 +1,138 @@
+﻿@model IEnumerable<Project.Models.ChangePackage>
+@{
+    ViewData["Title"] = "Index Update Package List";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+
+    var listPackage = ViewBag.package as List<Package>;
+}
+
+<style>
+    .card_head {
+        display: flex !important;
+        justify-content: space-between !important;
+    }
+
+    .setup_title {
+        font-size: 40px !important;
+    }
+</style>
+
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800 text-center mt-5 mb-4 setup_title">Update Package List</h1>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 card_head">
+           
+
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Customer</th>
+                            <th>Package Old</th>
+                            <th>Package New</th>
+                  
+                            <th>State</th>
+                            <th>Payment</th>
+                            <th>Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                             <th>Customer</th>
+                            <th>Package Old</th>
+                            <th>Package New</th>
+                            <th>State</th>
+                            <th>Payment</th>
+                            <th>Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                  
+                            <tr>
+                                <td>@item.GetCustomer.ApplicationUser.UserName</td>
+                                @{
+                                    var PackageOld = listPackage.SingleOrDefault(l => l.id == item.packageOld);
+                                }
+                                <td>@PackageOld.name</td>
+
+                                @{
+                                    var PackageNew = listPackage.SingleOrDefault(l => l.id == item.packageNew);
+                                }
+                                
+                                <td>@PackageNew.name</td>
+                                @if (item.state == true)
+                                {
+                                    <td><button type="button" class="btn btn-success">Paid</button></td>
+                                }
+                                else
+                                {
+                                    <td><button type="button" class="btn btn-warning">Unpaid</button></td>
+                                }
+                                <td>@item.price</td>
+                                <td>@item.date</td>
+                                @if (item.state == false)
+                                {
+                                    <td>
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#@item.GetCustomer.ApplicationUser.UserName@item.price@item.id">Confirm Payment</button>
+
+
+                                    </td>
+
+
+                                    <!-- Modal -->
+
+
+
+                                    <div class="modal fade" id="@item.GetCustomer.ApplicationUser.UserName@item.price@item.id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+                                        <div class="modal-dialog" role="document">
+
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Confirm PayMent</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body" style="font-size:20px;font-weight:bold;">
+                                                
+                                                    Could you confirm if this order has been paid?
+                                                </div>
+                                                <div class="modal-footer">
+
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    <a asp-action="ConfirmPayment" asp-controller="ChangePackage" asp-route-id="@item.id" ><button type="button" class="btn btn-primary">Confirm</button></a>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                }
+                                else
+                                {
+                                    <td></td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+@section Scripts {
+    <script type="text/javascript" src="/AssetAdmin/js/demo/datatables-demo.js"></script>
+}

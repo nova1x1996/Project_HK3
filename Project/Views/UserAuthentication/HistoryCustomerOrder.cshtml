@@ -52,6 +52,7 @@
                             <th>State</th>
                             <th>Total</th>
                             <th>Date</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     
@@ -87,7 +88,13 @@
 
                                 <td>@item.total_money$</td>
                                 <td style="width:100px;">@item.date</td>
-                                
+
+                                @if(item.state == false){
+    <td><a class="btn btn-danger" asp-action="Delete" asp-controller="UserAuthentication" asp-route-id="@item.id" onclick="return confirm('Are you sure ?')">Cancel</a></td>
+                                }else{
+                                    <td></td>
+                                }
+                            
                             </tr>
                         }
                     </tbody>
