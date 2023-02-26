@@ -21,6 +21,7 @@ namespace Project.Models
         public string? img { get; set; }
 
         [NotMapped]
+        
         [Display(Name ="Upload Image")]
         public IFormFile imgFile { get; set; }
 
