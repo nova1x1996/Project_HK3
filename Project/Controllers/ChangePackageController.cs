@@ -186,9 +186,16 @@ namespace Project.Controllers
         public IActionResult PaymentUpdatePackage(int package_id, int customer_id, string tongtien, string pay_type)
         {
             var RechargeFalse = db.Recharges.Where(r => r.customer_id == customer_id && r.state == false).FirstOrDefault();
-            if(RechargeFalse != null)
+            var changePack = db.ChangePackages.Where(cp => cp.customer_id == customer_id && cp.state == false).FirstOrDefault();
+
+
+            if (RechargeFalse != null)
             {
                 _notyf.Error("You still have an unpaid Recharge order.");
+                return RedirectToAction("Index");
+            }else if (changePack != null)
+            {
+                _notyf.Error("You still have an unpaid Update Package order.");
                 return RedirectToAction("Index");
             }
 
@@ -214,6 +221,31 @@ namespace Project.Controllers
             db.SaveChanges();
             _notyf.Success("You have successfully placed an order. We will contact you soon.");
             return RedirectToAction("Index","Home");
+        }
+
+        [HttpGet]
+        public IActionResult History()
+        {
+        
+
+            var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var customer = db.Customers.Where(c=>c.user_id.Equals(userId)).FirstOrDefault();
+
+            var CPList = db.ChangePackages.Where(cp => cp.customer_id == customer.id).ToList();
+            var package = db.Packages.ToList();
+            ViewBag.package = package;
+
+            return View(CPList);
+        }
+
+        public IActionResult Delete(int id)
+        {
+            var model = db.ChangePackages.Find(id);
+            db.ChangePackages.Remove(model);
+            db.SaveChanges();
+            _notyf.Success("Your Order Update Package has been delete !");
+            return RedirectToAction("History","ChangePackage");
+
         }
     }
 }

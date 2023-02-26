@@ -160,20 +160,20 @@ namespace Project.Services
                 context.SetUpBoxes.AddRange(new SetUpBox{
                 name = "R-DTH Digital TV SD",
                 details = "R-DTH Digital TV SD is a type of digital television service that provides standard definition (SD) channels to viewers. ",
-                img = "/img/setupbox/SUBSD.jpg",
+                img = "SUBSD.jpg",
                 price = 500,
                 
                
                 },new SetUpBox {
                     name = "R-DTH Digital TV HD",
                     details = "R - DTH Digital TV HD is a type of digital television service that provides high definition(HD) channels to viewers. ",
-                    img = "/img/setupbox/SUBHD.jpg",
+                    img = "SUBHD.jpg",
                     price = 700,
 
                 },new SetUpBox { 
                     name= "R-DTH Digital TV 4K",
                     details = "R-DTH Digital TV 4K is a type of digital television service that provides ultra-high definition (UHD) 4K channels to viewers.",
-                    img = "/img/setupbox/SUB4K.jpg",
+                    img = "SUB4K.jpg",
                     price = 1000,
                 });
 
