@@ -23,8 +23,6 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("WebDatabaseThuon
 
 
 
-
-
 builder.Services.AddSession();
 // Identity
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
