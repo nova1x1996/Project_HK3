@@ -19,12 +19,7 @@ builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 builder.Services.AddNotyf(config => { config.DurationInSeconds = 10; config.IsDismissable = true; config.Position = NotyfPosition.BottomRight; });
 builder.Services.AddDbContext<DatabaseContext>(options => 
 
-options.UseSqlServer(builder.Configuration.GetConnectionString("WebDatabaseAn")));
-<<<<<<< HEAD
-=======
-
->>>>>>> d26b11ba9744795837227918151e159c3f1d3e31
-
+options.UseSqlServer(builder.Configuration.GetConnectionString("WebDatabaseThuong")));
 
 
 

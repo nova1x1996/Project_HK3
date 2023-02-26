@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 namespace Project.Models
 {
@@ -18,6 +19,11 @@ namespace Project.Models
         public string details { get; set; }
 
         public string? img { get; set; }
+
+        [NotMapped]
+        
+        [Display(Name ="Upload Image")]
+        public IFormFile imgFile { get; set; }
 
         [Required]
         [Range(100, 1000, ErrorMessage ="Price from 100 to 1000 USD")]
