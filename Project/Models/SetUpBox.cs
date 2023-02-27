@@ -20,10 +20,7 @@ namespace Project.Models
 
         public string? img { get; set; }
 
-        [NotMapped]
         
-        [Display(Name ="Upload Image")]
-        public IFormFile imgFile { get; set; }
 
         [Required]
         [Range(100, 1000, ErrorMessage ="Price from 100 to 1000 USD")]
