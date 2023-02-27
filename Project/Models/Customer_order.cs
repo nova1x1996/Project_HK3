@@ -13,6 +13,7 @@ namespace Project.Models
         public string pay_type { get; set; }
         public decimal total_money { get; set; }
         public bool state { get; set; }
+        public int? monthPackage { get; set; }
         public DateTime date { get; set; }
 
         [ForeignKey("customer_id")]
