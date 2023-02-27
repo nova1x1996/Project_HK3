@@ -61,11 +61,11 @@
                         <div class="row">
                             <div class="col-md-12 col-sm-12 text-right">
                                 <div class="big-tagline">
-                                    <h2><strong>Shared Hosting</strong> Company</h2>
-                                    <p class="lead">With Landigoo responsive landing page template, you can promote your all hosting, domain and email services. </p>
-                                    <a href="#" class="hover-btn-new"><span>Contact Us</span></a>
+                                    <h2><strong>R-DTH</strong> Company</h2>
+                                    <p class="lead">Connecting you to the world, with R-DTH. </p>
+                                    <a asp-controller="Contact" asp-action="Index" class="hover-btn-new"><span>Contact Us</span></a>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <a href="#" class="hover-btn-new"><span>Read More</span></a>
+                                 
                                 </div>
                             </div>
                         </div><!-- end row -->
@@ -80,11 +80,11 @@
                         <div class="row">
                             <div class="col-md-12 col-sm-12 text-left">
                                 <div class="big-tagline">
-                                    <h2 data-animation="animated zoomInRight">Find the right <strong>Hosting</strong></h2>
-                                    <p class="lead" data-animation="animated fadeInLeft">With Landigoo responsive landing page template, you can promote your all hosting, domain and email services. </p>
-                                    <a href="#" class="hover-btn-new"><span>Contact Us</span></a>
+                                    <h2 data-animation="animated zoomInRight"> Best Set-Up Box Collection <strong>Here</strong></h2>
+                                    <p class="lead" data-animation="animated fadeInLeft">Transform your TV experience with our set-up box.</p>
+                                    <a asp-action="index" asp-controller="SetUpBox" class="hover-btn-new"><span>Set Up Box</span></a>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <a href="#" class="hover-btn-new"><span>Read More</span></a>
+                               
                                 </div>
                             </div>
                         </div><!-- end row -->
@@ -99,15 +99,13 @@
                         <div class="row">
                             <div class="col-md-12 col-sm-12 text-center">
                                 <div class="big-tagline">
-                                    <h2 data-animation="animated zoomInRight"><strong>VPS Servers</strong> Company</h2>
+                                    <h2 data-animation="animated zoomInRight"><strong>Movie</strong> Library</h2>
                                     <p class="lead" data-animation="animated fadeInLeft">
-                                        1 IP included with each server
-                                        Your Choice of any OS (CentOS, Windows, Debian, Fedora)
-                                        FREE Reboots
+                                      Unleash a world of new movies at your fingertips.
                                     </p>
-                                    <a href="#" class="hover-btn-new"><span>Contact Us</span></a>
+                                    <a asp-action="Index" asp-controller="Movie" class="hover-btn-new"><span>Booking Movie</span></a>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <a href="#" class="hover-btn-new"><span>Read More</span></a>
+                                  
                                 </div>
                             </div>
                         </div><!-- end row -->
@@ -284,7 +282,7 @@
                         </p>
                         <div class="d-flex justify-content-between">
                             <p><strong>@item.price $</strong></p>
-                            <button type="button" class="btn btn-success mt-2"><a asp-action="MovieOrder" asp-controller="CustomerOrder" asp-route-id="@item.id">Booking </a></button>
+                           <a class="btn btn-success mt-2" asp-action="MovieOrder" asp-controller="CustomerOrder" asp-route-id="@item.id">Booking </a>
 
                         </div>
 

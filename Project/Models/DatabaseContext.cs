@@ -28,7 +28,7 @@ namespace Project.Models
         public DbSet<CustomerCare> CustomerCare { set; get; }
         public DbSet<Location> Location { set; get; }
         public DbSet<ContactUs> ContactUss { set; get; }
-
+        public DbSet<ChangePackage> ChangePackages { set; get; }
         public DbSet<Dealers> Dealers { get; set; }
         public DbSet<DealersOrder> Dealer_Orders { get; set; }
 

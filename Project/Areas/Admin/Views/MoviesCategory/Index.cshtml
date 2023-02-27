@@ -3,17 +3,23 @@
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
-
+<style>
+    .setup_title {
+        font-size: 50px;
+    }
+</style>
 
 <div class="container-fluid">
 
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Movie Category</h1>
-    <p>
-        <a asp-action="Create">Create Movie Category</a>
-    </p>
+    <h1 class="h3 mb-2 text-gray-800 text-center">Movie Category</h1>
+  
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
+        <div class="card-header py-3 card_head">
+
+            <a asp-action="Create" class="btn btn-primary">Create Movie Category</a>
+        </div>
         <div class="card-body">
             <div class="table-responsive">
 
@@ -44,7 +50,8 @@
                                 <td>@item.name</td>
                                 <td>
                                     <a asp-action="Edit" asp-controller="MoviesCategory" asp-route-id="@item.id"><button class="btn btn-warning">Edit</button></a>
-                                    <a asp-action="Delete" asp-controller="MoviesCategory" asp-route-id="@item.id"><button class="btn btn-danger">Delete</button></a>
+
+                                    <a asp-action="Delete" asp-controller="MoviesCategory" asp-route-id="@item.id"><button class="btn btn-danger" onclick="return confirm(' Are you sure you want to delete?');">Delete</button></a>
                                 </td>
                             </tr>
                         }

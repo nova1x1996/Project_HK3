@@ -1,18 +1,23 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PayPal.Api;
 using Project.Helper;
 using Project.Models;
 using System.Diagnostics.Eventing.Reader;
+using System.Linq;
+using System.Security.Claims;
 
 namespace Project.Controllers
 {
     public class RechargeController : Controller
     {
         private DatabaseContext db;
-        public RechargeController(DatabaseContext _db)
+        private INotyfService notyf;
+        public RechargeController(DatabaseContext _db, INotyfService _notyf)
         {
             db = _db;
+            notyf = _notyf;
         }
         
         public IActionResult Index(string? id)
@@ -178,10 +183,25 @@ namespace Project.Controllers
         [HttpPost]
         public IActionResult RechargeOrder(string pay_type,int month, int packageId , int CustomerIdOrder,string card_number)
         {
+
             var customer = db.Customers.Find(CustomerIdOrder);
 
 
-
+            var changePack = db.ChangePackages.Where(cp => cp.customer_id == customer.id && cp.state == false).FirstOrDefault();
+            var reCharge2 = db.Recharges.Where(r => r.customer_id == customer.id && r.state == false).FirstOrDefault();
+            if(reCharge2 != null)
+            {
+                notyf.Error("You still have an unpaid Recharge order.");
+                return RedirectToAction("Index", "Home");
+            }else if (changePack != null) {
+                notyf.Error("You still have an unpaid Update Package order.");
+                return RedirectToAction("Index", "Home");
+            }
+        
+        
+            
+      
+        
 
             if (pay_type.Equals("cod"))
             {
@@ -198,6 +218,7 @@ namespace Project.Controllers
 
                 db.Add(reCharge);
                 db.SaveChanges();
+                notyf.Success("You have successfully created a recharge request. We will contact you soon.");
                 return RedirectToAction("Index", "Home");
             }
             else if(pay_type.Equals("paypal"))
@@ -207,6 +228,32 @@ namespace Project.Controllers
 
             return View();
         }
-       
+
+
+
+        [HttpGet]
+        public IActionResult History()
+        {
+
+
+            var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var customer = db.Customers.Where(c => c.user_id.Equals(userId)).FirstOrDefault();
+
+            var reChargeList = db.Recharges.Where(cp => cp.customer_id == customer.id).Include(cp=>cp.GetPackage).ToList();
+          
+
+            return View(reChargeList);
+        }
+
+        public IActionResult Delete(int id)
+        {
+            var model = db.Recharges.Find(id);
+            db.Recharges.Remove(model);
+            db.SaveChanges();
+            notyf.Success("Your Order Recharge has been delete !");
+            return RedirectToAction("History", "Recharge");
+
+        }
+
     }
 }

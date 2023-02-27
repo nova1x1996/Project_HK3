@@ -1,14 +1,52 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Project.Models;
 
 namespace Project.Areas.Admin.Controllers
 {
     [Area("Admin")]
     public class MainAdminController : Controller
     {
+        private DatabaseContext db;
+        public MainAdminController(DatabaseContext _db)
+        {
+            db = _db;
+        }
         // GET: MainAdminController
         public ActionResult Index()
         {
+
+
+            //Chart Tổng Tiền
+            decimal? TongTien = 0;
+            var OrderCustomer = db.Customer_orders.Where(c => c.state == true).ToList();
+            foreach(var item in OrderCustomer)
+            {
+                TongTien = TongTien + item.total_money;
+            }
+            var RechargeOrder = db.Recharges.Where(r => r.state == true).Include(r=>r.GetPackage).ToList();
+            foreach (var item in RechargeOrder)
+            {
+                TongTien = TongTien + (item.GetPackage.price * item.month);
+            }
+
+            var CPOrder = db.ChangePackages.Where(r => r.state == true).ToList();
+            foreach (var item in CPOrder)
+            {
+                TongTien = TongTien + item.price;
+            }
+
+          
+            ViewBag.TongTien = TongTien;
+
+            //Chart Tổng Tiền
+
+
+            int TongDonHang = OrderCustomer.Count() + RechargeOrder.Count() + CPOrder.Count();
+            ViewBag.TongDonHang = TongDonHang;
+          var Customer = db.Customers.ToList();
+            ViewBag.TongNguoi = Customer;
             return View();
         }
 

@@ -65,26 +65,43 @@ namespace Project.Areas.Admin.Controllers
         {
             try
             {
+               
                 if (ModelState.IsValid)
                 {
                     var item = db.SetUpBoxes.Where(s=>s.name.Equals(name)).FirstOrDefault();
-                    
+                
                     if (item != null)
                     {
                        
                         ViewBag.msg = "This name has been created";
-                    }
-                    
+                    }                                     
                     else
                     {
                         string uniqueFileName = UploadFile(setUpBox);
-                        var data = new SetUpBox()
+                        var currentImage = db.SetUpBoxes.Where(i => i.img.Equals(uniqueFileName)).FirstOrDefault();
+                        if (currentImage != null)
                         {
-                            name = setUpBox.name,
-                            details = setUpBox.details,
-                            price = setUpBox.price,
-                            img = uniqueFileName,
-                        };
+                            ViewBag.msg = "This image has been uploaded";
+                        }
+                        else
+                        {
+                            var data = new SetUpBox()
+                            {
+                                name = setUpBox.name,
+                                details = setUpBox.details,
+                                price = setUpBox.price,
+                                img = uniqueFileName,
+                            };
+
+                            db.SetUpBoxes.Add(data);
+                            db.SaveChanges();
+                            notyfService.Success("Create new successfully");
+                            return RedirectToAction("Index");
+                        }
+                           
+                      
+                                                                                               
+                       
 
                         //if (setUpBox.imgFile.Length > 0)
                         //{
@@ -93,10 +110,7 @@ namespace Project.Areas.Admin.Controllers
                             //var stream = new FileStream(filePath, FileMode.Create);
                             //setUpBox.imgFile.CopyToAsync(stream);
                             //setUpBox.img = "/img/setupbox/" + setUpBox.imgFile.FileName;
-                            db.SetUpBoxes.Add(data);
-                            db.SaveChanges();
-                            notyfService.Success("Create new successfully");
-                            return RedirectToAction("Index");
+                          
 
                         //}
                     }
@@ -126,10 +140,16 @@ namespace Project.Areas.Admin.Controllers
                 //uniqueFile = Guid.NewGuid().ToString() + "_" + setUpBox.imgFile.FileName;
                 uniqueFile = setUpBox.imgFile.FileName;
                 string filePath = Path.Combine(uploadFolder, uniqueFile);
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    setUpBox.imgFile.CopyToAsync(stream);
-                }
+             
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        setUpBox.imgFile.CopyToAsync(stream);
+                    }
+                
+               
+             
+               
+              
             }
             return uniqueFile;
         }

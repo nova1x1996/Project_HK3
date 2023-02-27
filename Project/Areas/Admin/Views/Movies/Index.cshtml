@@ -4,20 +4,27 @@
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-
+<style>
+    .setup_title{
+        font-size:50px;
+    }
+</style>
 <div class="container-fluid">
 
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Movie </h1>
-    <p>
-        <a asp-action="Create">Create Movie </a>
-    </p>
+    <h1 class="h3 mb-2 text-gray-800 text-center mt-5 mb-4 setup_title">Movie </h1>
+ 
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
+        <div class="card-header py-3 card_head">
+        
+            <a asp-action="Create" class="btn btn-primary">Create Movie </a>
+        </div>
         <div class="card-body">
             <div class="table-responsive">
 
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+
                     <thead>
                         <tr>
                    

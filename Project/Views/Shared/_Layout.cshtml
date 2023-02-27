@@ -117,7 +117,6 @@ padding-bottom:0px;
                        
                                 <a class="dropdown-item" asp-controller="CustomerCare" asp-action="CustomerCare">Customer Care</a>
                                 <a class="dropdown-item" asp-controller="Contact" asp-action="Index">Contact</a>
-
                            
                             </div>
                         </li>
@@ -126,30 +125,24 @@ padding-bottom:0px;
                     
                     <ul class="nav navbar-nav navbar-right">
                          
-                           
-                            @if(!string.IsNullOrEmpty(User.Identity.Name)){
-
-                                string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-                                string role = User.FindFirst(ClaimTypes.Role)?.Value;
-                                @if(role.Equals("user")){
-                                <li style="margin-right:10px"><a class="hover-btn-new log" asp-action="Index" asp-controller="Recharge" asp-route-id="@userId"><span>Recharge</span></a></li>
-
-                                }
-                          
-                            }else{
-                            <li style="margin-right:10px"><a class="hover-btn-new log" asp-action="Index" asp-controller="Recharge" ><span>Recharge</span></a></li>
-                            }
-                    
+                  
                        
 
 
 
                         @if (!string.IsNullOrEmpty(User.Identity.Name))
                         {
-                            @*<li><a class="hover-btn-new log" href="/UserAuthentication/ChangePassword" ><span>ChangePassword</span></a></li>*@
+                            string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                            string role = User.FindFirst(ClaimTypes.Role)?.Value;
+                            @if (role.Equals("customer"))
+                            {
+                                <li style="margin-right:10px"><a class="hover-btn-new log" asp-action="Index" asp-controller="Recharge" asp-route-id="@userId"><span>Recharge</span></a></li>
+
+                            }
                             <li><a class="hover-btn-new log" href="/UserAuthentication/DetailCustomer" ><span>User</span></a></li>
                             <li><a class="hover-btn-new log" asp-controller="UserAuthentication" asp-action="Logout"><span>Logout</span></a></li>
                         }else{
+                              <li style="margin-right:10px"><a class="hover-btn-new log" asp-action="Index" asp-controller="Recharge" ><span>Recharge</span></a></li>
                             <li><a class="hover-btn-new log" href="/UserAuthentication/Login" ><span>Customer Login</span></a></li>
 
                         }

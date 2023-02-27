@@ -87,7 +87,7 @@ namespace Project.Repositories.Implementation
             if (signInResult.Succeeded)
             {
                 var userRoles = await userManager.GetRolesAsync(user);
-                var authClaims = new List<Claim>
+               var authClaims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, user.UserName),
                 };
