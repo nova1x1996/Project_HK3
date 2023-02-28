@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Project.Models.CustomerCare>
+@{
+    var cate = ViewBag.data as List<Location>;
+}
+<style>
+    .section {
+        padding: 10px 0 70px 0;
+    }
+
+    .row .icon-wrapper {
+        margin-bottom: 20px;
+    }
+
+    .section-title {
+        margin-bottom: 0px;
+    }
+
+    .icon-wrapper p {
+        padding-left: 0px;
+    }
+
+    .alert-success {
+        font-weight: bold;
+    }
+</style>
+<div class="all-title-box">
+    <div class="container text-center">
+        <h1>Customer Care<span class="m_1">"R-DTH provides tailored, professional service to each client"</span></h1>
+    </div>
+</div>
+<div>
+    <div class="dropdown">
+            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                Choose Genre Movies
+            </a>
+
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <li><a class="dropdown-item" asp-action="Index" >All</a></li>
+                @foreach (var item in cate)
+                {
+                    <li><a class="dropdown-item" asp-action="Index2"  asp-route-id="@item.Id">@item.Name</a></li>
+                   
+                }
+           
+            </ul>
+        </div>
+        <div class="section-title row text-center">
+            <div class="col-md-8 offset-md-2">
+                <div class="dropdown">
+                   
+                </div>
+            </div>
+        </div><!-- end title -->
+</div>

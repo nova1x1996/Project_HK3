@@ -9,6 +9,6 @@ namespace Project.Models
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }    
-        public CustomerCare GetCustomerCare { get; set; }
+        public CustomerCare? GetCustomerCare { get; set; }
     }
 }
