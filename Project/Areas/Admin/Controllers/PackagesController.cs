@@ -45,8 +45,6 @@ namespace Project.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Package newPackage)
         {
-      
-
             try
             {
                 if (ModelState.IsValid)

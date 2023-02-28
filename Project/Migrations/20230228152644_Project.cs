@@ -102,7 +102,7 @@ namespace Project.Migrations
                 {
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -118,7 +118,7 @@ namespace Project.Migrations
                     name = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
                     duration = table.Column<int>(type: "int", nullable: false),
                     details = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    status = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    status = table.Column<bool>(type: "bit", nullable: false),
                     price = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
@@ -293,9 +293,9 @@ namespace Project.Migrations
                 {
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    name = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
                     img = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    content = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    content = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     movie_cate_id = table.Column<int>(type: "int", nullable: false)
                 },
@@ -367,6 +367,29 @@ namespace Project.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ChangePackages",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    customer_id = table.Column<int>(type: "int", nullable: true),
+                    packageOld = table.Column<int>(type: "int", nullable: false),
+                    packageNew = table.Column<int>(type: "int", nullable: false),
+                    price = table.Column<int>(type: "int", nullable: false),
+                    state = table.Column<bool>(type: "bit", nullable: false),
+                    date = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ChangePackages", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_ChangePackages_customer_customer_id",
+                        column: x => x.customer_id,
+                        principalTable: "customer",
+                        principalColumn: "id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "customer_order",
                 columns: table => new
                 {
@@ -375,6 +398,7 @@ namespace Project.Migrations
                     pay_type = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     total_money = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     state = table.Column<bool>(type: "bit", nullable: false),
+                    monthPackage = table.Column<int>(type: "int", nullable: true),
                     date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     customer_id = table.Column<int>(type: "int", nullable: true),
                     package_id = table.Column<int>(type: "int", nullable: true),
@@ -475,6 +499,11 @@ namespace Project.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ChangePackages_customer_id",
+                table: "ChangePackages",
+                column: "customer_id");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_customer_package_id",
                 table: "customer",
                 column: "package_id");
@@ -558,6 +587,9 @@ namespace Project.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "ChangePackages");
 
             migrationBuilder.DropTable(
                 name: "contact_us");

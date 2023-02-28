@@ -29,7 +29,7 @@ namespace Project.Areas.Admin.Controllers
         {
             var CP = db.ChangePackages.Find(id);
             var cus = db.Customers.Find(CP.customer_id);
-            var package = db.Packages.Find(cus.package_id);
+            var package = db.Packages.Find(CP.packageNew);
 
             if (cus.package_id != null)
             {

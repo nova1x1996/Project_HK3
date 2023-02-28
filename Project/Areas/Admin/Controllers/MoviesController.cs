@@ -13,8 +13,8 @@ namespace Project.Areas.Admin.Controllers
         public INotyfService _notify { get; set; }
         private DatabaseContext db { get; set; }
         private IWebHostEnvironment env { get; set; }
-        
-        public MoviesController(DatabaseContext _db,IWebHostEnvironment _env, INotyfService notify)
+
+        public MoviesController(DatabaseContext _db, IWebHostEnvironment _env, INotyfService notify)
         {
             db = _db;
             env = _env;
@@ -33,7 +33,7 @@ namespace Project.Areas.Admin.Controllers
         public ActionResult Create()
         {
             var movies_cate = db.Movie_Cates.ToList();
-            var movies_cate_list = new SelectList(movies_cate,"id","name");
+            var movies_cate_list = new SelectList(movies_cate, "id", "name");
             ViewBag.listcate = movies_cate_list;
             return View();
         }
@@ -46,48 +46,48 @@ namespace Project.Areas.Admin.Controllers
             var movies_cate = db.Movie_Cates.ToList();
             var movies_cate_list = new SelectList(movies_cate, "id", "name");
             ViewBag.listcate = movies_cate_list;
-            if(file == null)
+            if (file == null)
             {
                 ModelState.AddModelError("img", "You haven't selected an image");
             }
 
             if (ModelState.IsValid)
+            {
+
+
+                var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
+                var extension = Path.GetExtension(file.FileName).ToLower();
+                if (allowedExtensions.Contains(extension) && file.Length > 0)
                 {
-                  
 
-                    var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
-                    var extension = Path.GetExtension(file.FileName).ToLower();
-                    if (allowedExtensions.Contains(extension) && file.Length > 0 )
+                    var filePath = Path.Combine("wwwroot/img/movie", file.FileName);
+                    if (System.IO.File.Exists(filePath))
                     {
-    
-                        var filePath = Path.Combine("wwwroot/img/movie", file.FileName);
-                          if (System.IO.File.Exists(filePath))
-                            {
-                            ModelState.AddModelError("img", "The image already exists, please choose another image !");
+                        ModelState.AddModelError("img", "The image already exists, please choose another image !");
                         return View();
-                             }
-                              var stream = new FileStream(filePath, FileMode.Create);
-                        
-                        file.CopyToAsync(stream);
-                
-                        movie.img = "/img/movie/" + file.FileName;
-                        db.Movies.Add(movie);
-                        db.SaveChanges();
-                    stream.Close();                    _notify.Success("You have successfully created");
-                        return RedirectToAction("Index");
-
                     }
-                    else
-                    {
-                        ModelState.AddModelError(string.Empty, "File uploaded is not an image Or you don't select file!");
-                    }
+                    var stream = new FileStream(filePath, FileMode.Create);
 
+                    file.CopyToAsync(stream);
 
+                    movie.img = "/img/movie/" + file.FileName;
+                    db.Movies.Add(movie);
+                    db.SaveChanges();
+                    stream.Close(); _notify.Success("You have successfully created");
+                    return RedirectToAction("Index");
 
                 }
-       
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "File uploaded is not an image Or you don't select file!");
+                }
+
+
+
+            }
+
             return View();
-       
+
 
         }
 
@@ -97,7 +97,7 @@ namespace Project.Areas.Admin.Controllers
             return View();
         }
 
-      
+
 
         // GET: MoviesController/Edit/5
         public ActionResult Edit(int id)
@@ -119,49 +119,63 @@ namespace Project.Areas.Admin.Controllers
             ViewBag.listcate = movies_cate_list;
             if (file == null)
             {
-                ModelState.AddModelError("img", "You haven't selected an image");
+                ModelState.Remove("file");
+                ModelState.Remove("img");
             }
 
             if (ModelState.IsValid)
             {
+                if (file != null)
+                {
+                    var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
+                    var extension = Path.GetExtension(file.FileName).ToLower();
+                    if (allowedExtensions.Contains(extension) && file.Length > 0)
+                    {
+                        var movieMoi = db.Movies.Find(movie.id);
+                        // Kiểm tra nếu tệp tin đã tồn tại thì xóa tệp tin đó trước khi tải lên tệp tin mới
+                        //.TrimStart(/):Để xóa ký tự '/' đầu tiên vì Path.Combine yêu cầu các tham số ko bắt đầu bằng "/
+                        var filePathCu = Path.Combine("wwwroot", movieMoi.img.TrimStart('/'));
+                        if (System.IO.File.Exists(filePathCu))
+                        {
+                            System.IO.File.Delete(filePathCu);
+                        }
+                        var filePath = Path.Combine("wwwroot/img/movie", file.FileName);
+                        var stream = new FileStream(filePath, FileMode.Create);
+                        file.CopyToAsync(stream);
+                        movieMoi.name = movie.name;
+                        movieMoi.movie_cate_id = movie.movie_cate_id;
+                        movieMoi.price = movie.price;
+                        movieMoi.content = movie.content;
+                        movieMoi.img = "/img/movie/" + file.FileName;
 
 
-                var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
-                var extension = Path.GetExtension(file.FileName).ToLower();
-                if (allowedExtensions.Contains(extension) && file.Length > 0)
+                        db.SaveChanges();
+                        stream.Close();
+                        _notify.Success("You have successfully Edit");
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, "File uploaded is not an image !");
+                    }
+                }
+                else
                 {
                     var movieMoi = db.Movies.Find(movie.id);
-                    // Kiểm tra nếu tệp tin đã tồn tại thì xóa tệp tin đó trước khi tải lên tệp tin mới
-                    //.TrimStart(/):Để xóa ký tự '/' đầu tiên vì Path.Combine yêu cầu các tham số ko bắt đầu bằng "/
-                    var filePathCu = Path.Combine("wwwroot", movieMoi.img.TrimStart('/'));
-                    if (System.IO.File.Exists(filePathCu))
-                    {
-                        System.IO.File.Delete(filePathCu);
-                    }
-                    var filePath = Path.Combine("wwwroot/img/movie", file.FileName);
-                    var stream = new FileStream(filePath, FileMode.Create);
-                    file.CopyToAsync(stream);
                     movieMoi.name = movie.name;
                     movieMoi.movie_cate_id = movie.movie_cate_id;
                     movieMoi.price = movie.price;
                     movieMoi.content = movie.content;
-                    movieMoi.img = "/img/movie/" + file.FileName;
-                 
-                    
                     db.SaveChanges();
-                    stream.Close();
                     _notify.Success("You have successfully Edit");
                     return RedirectToAction("Index");
-
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "File uploaded is not an image Or you don't select file!");
                 }
 
 
 
             }
+          
+
             return View();
         }
 
@@ -169,9 +183,9 @@ namespace Project.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult Delete(int id)
         {
-           
+
             var model = db.Movies.Find(id);
-            if(model != null)
+            if (model != null)
             {
                 var filePath = Path.Combine("wwwroot", model.img.TrimStart('/'));
                 if (System.IO.File.Exists(filePath))

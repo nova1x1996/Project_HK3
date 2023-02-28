@@ -21,10 +21,7 @@ namespace Project.Models
         [Required]
         [StringLength(150, MinimumLength = 1, ErrorMessage = "Details from 3 to 150 characters.")]
         public string details { get; set; }
-
-        [Required]
-        [StringLength(50, MinimumLength = 1, ErrorMessage = "Status from 3 to 50 characters.")]
-        public string status { get; set; }
+        public bool status { get; set; }
 
         [Required]
         [Range(1, 10000, ErrorMessage = "Price from 1$ to 10000$.")]
