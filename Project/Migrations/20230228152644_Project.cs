@@ -118,7 +118,7 @@ namespace Project.Migrations
                     name = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
                     duration = table.Column<int>(type: "int", nullable: false),
                     details = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    status = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    status = table.Column<bool>(type: "bit", nullable: false),
                     price = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
@@ -398,6 +398,7 @@ namespace Project.Migrations
                     pay_type = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     total_money = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     state = table.Column<bool>(type: "bit", nullable: false),
+                    monthPackage = table.Column<int>(type: "int", nullable: true),
                     date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     customer_id = table.Column<int>(type: "int", nullable: true),
                     package_id = table.Column<int>(type: "int", nullable: true),

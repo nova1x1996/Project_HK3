@@ -279,6 +279,9 @@ namespace Project.Migrations
                     b.Property<DateTime>("date")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("monthPackage")
+                        .HasColumnType("int");
+
                     b.Property<int?>("movie_id")
                         .HasColumnType("int");
 
@@ -586,10 +589,8 @@ namespace Project.Migrations
                         .IsRequired()
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("status")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<bool>("status")
+                        .HasColumnType("bit");
 
                     b.HasKey("id");
 

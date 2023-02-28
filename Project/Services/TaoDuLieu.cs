@@ -184,7 +184,7 @@ namespace Project.Services
                     name = "Bronze Pack",
                     duration = 1,
                     details = "80 channels (including R-DTH Cab) + VOD library",
-                    status = "On",
+                    status = true,
                     price = 100
                 });
                 context.Packages.Add(new Package
@@ -193,7 +193,7 @@ namespace Project.Services
                     name = "Sliver Pack",
                     duration = 1,
                     details = "100 channels (including R-DTH Cab) + VOD library",
-                    status = "On",
+                    status = true,
                     price = 130
                 });
                 context.Packages.Add(new Package
@@ -202,7 +202,7 @@ namespace Project.Services
                     name = "Gold Pack",
                     duration = 1,
                     details = "144 channels (including R-DTH Cab) + VOD library",
-                    status = "On",
+                    status = true,
                     price = 150
                 });
                 context.Packages.Add(new Package
@@ -211,7 +211,7 @@ namespace Project.Services
                     name = "Diamond Pack",
                     duration = 1,
                     details = "160 channels (including R-DTH Cab) + VOD library + Premium Galaxy",
-                    status = "On",
+                    status = true,
                     price = 200
                 });
                 context.SaveChanges();
