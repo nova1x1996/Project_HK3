@@ -137,10 +137,16 @@ padding-bottom:0px;
                             @if (role.Equals("customer"))
                             {
                                 <li style="margin-right:10px"><a class="hover-btn-new log" asp-action="Index" asp-controller="Recharge" asp-route-id="@userId"><span>Recharge</span></a></li>
-
-                            }
-                            <li><a class="hover-btn-new log" href="/UserAuthentication/DetailCustomer" ><span>User</span></a></li>
+                                <li><a class="hover-btn-new log" href="/UserAuthentication/DetailCustomer" ><span>User</span></a></li>
                             <li><a class="hover-btn-new log" asp-controller="UserAuthentication" asp-action="Logout"><span>Logout</span></a></li>
+                            }else if (role.Equals("dealer")){
+                                <li><a class="hover-btn-new log" asp-controller="MainAdmin" asp-action="Index" asp-area="Admin" ><span>Dealer</span></a></li>
+                            <li><a class="hover-btn-new log" asp-controller="UserAuthentication" asp-action="Logout"><span>Logout</span></a></li>
+                            }else{
+                                <li><a class="hover-btn-new log" asp-controller="MainAdmin" asp-action="Index" asp-area="Admin" ><span>Admin</span></a></li>
+                                <li><a class="hover-btn-new log" asp-controller="UserAuthentication" asp-action="Logout"><span>Logout</span></a></li>
+                            }
+                        
                         }else{
                               <li style="margin-right:10px"><a class="hover-btn-new log" asp-action="Index" asp-controller="Recharge" ><span>Recharge</span></a></li>
                             <li><a class="hover-btn-new log" href="/UserAuthentication/Login" ><span>Customer Login</span></a></li>

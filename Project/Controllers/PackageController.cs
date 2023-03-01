@@ -13,7 +13,7 @@ namespace Project.Controllers
         {
             db = _db;
         }
-        [Authorize(Roles = "customer")]
+       
         public IActionResult Index()
         {
             var model = db.Packages.ToList();

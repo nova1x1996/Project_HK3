@@ -1,0 +1,109 @@
+﻿@model Project.Models.Customer
+@{
+	Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+	string a = " ";
+}
+
+<style>
+	.create_setup_form {
+		margin-left: 20% !important;
+		margin-right: 20% !important;
+	}
+
+	.input_group {
+		min-widivh: 400px !important;
+	}
+	.row .col-6{
+		font-size:21px;
+		
+	
+	}
+	.row .left{
+		font-weight:bold;
+	}
+	.row .col-6 div{
+		
+		margin-bottom:5px;
+	}
+</style>
+
+<h1 class="text-center mt-4">Details <strong>@Model.ApplicationUser.UserName</strong></h1>
+<div class="card shadow create_setup_form">
+	<div class="card-body">
+		<div class="row">
+			<div class="col-6 left">
+				<div>
+					Customer ID
+				</div>
+
+				<div>
+					First Name
+				</div>
+				<div>
+					Last Name
+				</div>
+				<div>
+					Email
+				</div>
+				<div>
+					Card Number
+				</div>
+				<div>
+					Phone
+				</div>
+				<div>
+					Address
+				</div>
+				<div>
+					Package
+				</div>
+				<div>
+					Sub Date
+				</div>
+				<div>
+					Dateleft
+				</div>
+				<div>
+					State Package
+				</div>
+				<div>
+					Payment/Month
+				</div>
+			
+		
+
+
+
+			</div>
+			<div class="col-6 right">
+				<div>@Model.id</div>
+				<div>@Model.ApplicationUser.FirstName</div>
+				<div>@Model.ApplicationUser.LastName</div>
+				<div>@Model.ApplicationUser.Email</div>
+				<div>@Model.card_number</div>
+				<div>@Model.phone</div>
+				<div>@Model.address@a</div>
+					@if(Model.package == null){
+						<div>@a</div>
+				}else{
+						<div>@Model.package.name</div>
+				}
+
+				<div>@Model.services_sub_date@a</div>
+					<div>@Model.date_left@a</div>
+					@if(Model.statePackage == null){
+						<div class="text text-warning">Not Subscribed</div>
+				}else if(Model.statePackage == true){
+						<div>Active</div>
+				}else {
+						<div>Expired</div>
+				}
+
+				<div>@Model.payment_monthly@a</div>
+
+				</div>
+				<div>
+					<a class="btn btn-primary" style="margin-left:12px;margin-top:5px;"  asp-action="Index">Back to List</a>
+				</div>
+			</div>
+		</div>

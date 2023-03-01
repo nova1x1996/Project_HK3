@@ -47,11 +47,12 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="price" class="control-label">Price</label>
-                    <input asp-for="price" class="form-control input_group" />
+                    <input asp-for="price" id="textPrice" class="form-control input_group" />
+                        <span class="text text-danger" style="display:none" id="error_textPrice">Price from 3 to 500 $</span>
                     <span asp-validation-for="price" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <input type="submit" value="Create" class="btn btn-primary" />
+                    <input type="submit" value="Create" id="dangKy" class="btn btn-primary" />
                 </div>
             </form>
       
@@ -60,6 +61,35 @@
         </div>
     </div>
 </div>
+
+<script>
+    var checkValidation = function () {
+
+
+
+ 
+        var flag = kiemtraso('#textPrice', '#error_textPrice');
+        return Boolean(flag);
+    }
+        function kiemtraso(value, error) {
+            var bientam = document.querySelector(value).value;
+            if (bientam < 3 || bientam > 500) {
+               
+                document.querySelector(error).style.display = "block";
+                document.querySelector(value).style.border = "1px solid red";
+                return false;
+            } else {
+
+                document.querySelector(error).style.display = "none";
+                document.querySelector(value).style.border = "";
+
+                return true;
+            }
+        }
+    
+    document.querySelector('#dangKy').onclick = checkValidation;
+
+</script>
 
 
 
