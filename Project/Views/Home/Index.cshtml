@@ -21,6 +21,9 @@
     .icon-wrapper p {
         padding-left: 0px;
     }
+    .icon-wrapper{
+        border-bottom: 1px solid #9dc15b !important;
+    }
 
     .movie_box {
         display: flex;
@@ -268,7 +271,7 @@
 
                 <div class="col-md-3 col-sm-6 col-xs-12">
                     <div class="icon-wrapper wow fadeIn" data-wow-duration="1s" data-wow-delay="0.2s" style="visibility: visible; animation-duration: 1s; animation-delay: 0.2s; animation-name: fadeIn;">
-                        <img style="width:290px;height:200px;border:solid 1px black;margin:10px" src="@item.img" />
+                        <img style="width:200px;height:200px;border:solid 1px black;margin:10px" src="@item.img" />
 
                         <h3 class="movie_name" title="@item.name">@item.name</h3>
                         <p>
@@ -448,15 +451,15 @@
         speed: 300,
         autoplay: true,
         autoplaySpeed: 5000,
-        slidesToShow: 3,
-        slidesToScroll: 3,
+        slidesToShow: 4,
+        slidesToScroll: 4,
        
         responsive: [
             {
                 breakpoint: 1024,
                 settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 2,
+                    slidesToShow: 3,
+                    slidesToScroll: 3,
                     infinite: true,
                     dots: true,
                     arrows: false,
@@ -465,8 +468,8 @@
             {
                 breakpoint: 600,
                 settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
+                    slidesToShow: 2,
+                    slidesToScroll: 2,
                     arrows: false,
                     dots: true
                 }
