@@ -42,52 +42,64 @@ namespace Project.Areas.Admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Movie movie, IFormFile file)
+            
+
         {
-            var movies_cate = db.Movie_Cates.ToList();
-            var movies_cate_list = new SelectList(movies_cate, "id", "name");
-            ViewBag.listcate = movies_cate_list;
-            if (file == null)
+            try
             {
-                ModelState.AddModelError("img", "You haven't selected an image");
-            }
+                var movies_cate = db.Movie_Cates.ToList();
+                var movies_cate_list = new SelectList(movies_cate, "id", "name");
+                ViewBag.listcate = movies_cate_list;
+                if (file == null)
+                {
+                    ModelState.AddModelError("img", "You haven't selected an image");
+                }
 
-            if (ModelState.IsValid)
-            {
-
-
-                var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
-                var extension = Path.GetExtension(file.FileName).ToLower();
-                if (allowedExtensions.Contains(extension) && file.Length > 0)
+                if (ModelState.IsValid)
                 {
 
-                    var filePath = Path.Combine("wwwroot/img/movie", file.FileName);
-                    if (System.IO.File.Exists(filePath))
+
+                    var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
+                    var extension = Path.GetExtension(file.FileName).ToLower();
+                    if (allowedExtensions.Contains(extension) && file.Length > 0)
                     {
-                        ModelState.AddModelError("img", "The image already exists, please choose another image !");
-                        return View();
+
+                        var filePath = Path.Combine("wwwroot/img/movie", file.FileName);
+                        if (System.IO.File.Exists(filePath))
+                        {
+                            ModelState.AddModelError("img", "The image already exists, please choose another image !");
+                            return View();
+                        }
+                        var stream = new FileStream(filePath, FileMode.Create);
+
+                        file.CopyToAsync(stream);
+
+                        movie.img = "/img/movie/" + file.FileName;
+                        db.Movies.Add(movie);
+                        db.SaveChanges();
+                        stream.Close(); _notify.Success("You have successfully created");
+                        return RedirectToAction("Index");
+
                     }
-                    var stream = new FileStream(filePath, FileMode.Create);
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, "File uploaded is not an image Or you don't select file!");
+                    }
 
-                    file.CopyToAsync(stream);
 
-                    movie.img = "/img/movie/" + file.FileName;
-                    db.Movies.Add(movie);
-                    db.SaveChanges();
-                    stream.Close(); _notify.Success("You have successfully created");
-                    return RedirectToAction("Index");
 
                 }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "File uploaded is not an image Or you don't select file!");
-                }
+
+                return View();
 
 
-
+            }
+            catch(Exception ex )
+            {
+                ModelState.AddModelError(string.Empty, ex.Message);
             }
 
             return View();
-
 
         }
 

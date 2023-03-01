@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Project.Models;
@@ -6,6 +7,7 @@ using Project.Models;
 namespace Project.Areas.Admin.Controllers
 {
     [Area("Admin")]
+   // [Authorize(Roles = "dealer,admin")]
     public class MainAdminController : Controller
     {
         private DatabaseContext db;
@@ -45,7 +47,7 @@ namespace Project.Areas.Admin.Controllers
 
             int TongDonHang = OrderCustomer.Count() + RechargeOrder.Count() + CPOrder.Count();
             ViewBag.TongDonHang = TongDonHang;
-          var Customer = db.Customers.ToList();
+            var Customer = db.Customers.ToList();
             ViewBag.TongNguoi = Customer;
             return View();
         }

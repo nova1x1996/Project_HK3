@@ -20,6 +20,7 @@ namespace Project.Models
 	
 		public string phone { get; set; }
 		public string address { get; set; }
+        public bool? statePackage { get; set; }
 
         [ForeignKey("user_id")]
         public virtual ApplicationUser ApplicationUser { set; get; }

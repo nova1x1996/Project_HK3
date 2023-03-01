@@ -18,14 +18,16 @@ namespace Project.Areas.Admin.Controllers
         // GET: CustomerController
         public ActionResult Index()
         {
-            var model = db.Customers.Include(a=>a.package).ToList();
+            var model = db.Customers.Include(a=>a.package).Include(c=>c.ApplicationUser).ToList();
             return View(model);
         }
 
         // GET: CustomerController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            var model = db.Customers.Include(c=>c.package).Include(c=>c.ApplicationUser).FirstOrDefault(c=>c.id == id);
+
+            return View(model);
         }
 
         // GET: CustomerController/Create

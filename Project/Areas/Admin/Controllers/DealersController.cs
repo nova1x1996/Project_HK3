@@ -1,4 +1,5 @@
-﻿using AspNetCoreHero.ToastNotification.Notyf;
+﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using AspNetCoreHero.ToastNotification.Notyf;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -17,13 +18,15 @@ namespace Project.Areas.Admin.Controllers
     {
         private readonly IUserAuthenticationService _authService;
         private UserManager<ApplicationUser> _userManager;
-        public DatabaseContext db { get; set; }
-        public DealersController(IUserAuthenticationService authService, DatabaseContext _db, UserManager<ApplicationUser> userManager)
+		public INotyfService notyfService { get; }
+		public DatabaseContext db { get; set; }
+        public DealersController(IUserAuthenticationService authService, INotyfService _notyfService, DatabaseContext _db, UserManager<ApplicationUser> userManager)
         {
             this._authService = authService;
             db = _db;
             _userManager = userManager;
-        }
+			notyfService = _notyfService;
+		}
         // GET: DealersController
         public ActionResult Index()
         {
@@ -50,29 +53,40 @@ namespace Project.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(RegistrationModel model, string phone, string address)
         {
-            if (!ModelState.IsValid) { return View(model); }
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var existingUser = await db.Users.AnyAsync(u => u.UserName == model.Username);
+            if (existingUser)
+            {
+                ModelState.AddModelError("Username", "Username already exists.");
+                return View(model);
+            }
+
             model.Role = "dealer";
 
             var result = await this._authService.RegisterAsync(model);
 
             TempData["msg"] = result.Message;
 
-
             if (result.Message.Equals("You have registered successfully"))
             {
                 var u1 = await db.Users.SingleOrDefaultAsync(u => u.UserName.Equals(model.Username));
-
                 var d1 = new Dealers();
                 d1.phone = phone;
                 d1.address = address;
                 d1.user_id = u1.Id;
-
                 await db.Dealers.AddAsync(d1);
                 await db.SaveChangesAsync();
+                notyfService.Success("Create new successfully");
 
-            }
+			}
+
             return RedirectToAction("Index");
         }
+
 
         // GET: DealersController/Edit/5
         public async Task<IActionResult> Edit(int id)
@@ -96,7 +110,8 @@ namespace Project.Areas.Admin.Controllers
                 {
                     // Lưu thay đổi vào cơ sở dữ liệu
                     db.SaveChanges();
-                    return RedirectToAction("Index");
+                    notyfService.Success("Edit successfully");
+					return RedirectToAction("Index");
                 }
                 else
                 {
@@ -139,7 +154,8 @@ namespace Project.Areas.Admin.Controllers
                 }
 
                 await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+				notyfService.Success("Delete successfully");
+				return RedirectToAction("Index");
             }
             catch (Exception ex)
             {

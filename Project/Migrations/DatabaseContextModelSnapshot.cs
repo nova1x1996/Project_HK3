@@ -253,6 +253,9 @@ namespace Project.Migrations
                     b.Property<DateTime?>("services_sub_date")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool?>("statePackage")
+                        .HasColumnType("bit");
+
                     b.Property<string>("user_id")
                         .HasColumnType("nvarchar(450)");
 

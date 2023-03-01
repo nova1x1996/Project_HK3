@@ -177,6 +177,7 @@ namespace Project.Controllers
                     customer.payment_monthly = package.price;
                     customer.package_id = package.id;
                     customer.services_sub_date = DateTime.Now;
+                    customer.statePackage = true;
                     customer.date_left = DateTime.Now.AddMonths(Mo.monthPackage.Value);
                     //customer.date_left = DateTime.Now.AddSeconds(30);
                     db.SaveChanges();
@@ -221,7 +222,7 @@ namespace Project.Controllers
 
             }
         }
-
+        [Authorize(Roles = "customer")]
         //Order
         [HttpGet()]
         public IActionResult PackageOrder(int id)
@@ -310,7 +311,7 @@ namespace Project.Controllers
 
 
 
-
+        [Authorize(Roles = "customer")]
         //Movie
 
         [HttpGet()]
@@ -361,6 +362,7 @@ namespace Project.Controllers
 
 
         }
+        [Authorize(Roles = "customer")]
 
         [HttpGet()]
         public IActionResult SetUpBoxOrder(int id)
