@@ -22,6 +22,7 @@
     .custom-file {
         min-width: 770px !important;
     }
+   
 </style>
 
 <h1 class="text-center mt-5 mb-5">Update Set-Up-Box</h1>
@@ -32,6 +33,7 @@
             <form asp-action="Edit" enctype="multipart/form-data" method="post" asp-controller="SetUpBox">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <input type="hidden" asp-for="id" />
+                
                 <div class="form-group">
                     <label asp-for="name" class="control-label"></label>
                     <input asp-for="name" required id="name" class="form-control input_group" />
@@ -45,7 +47,13 @@
                 <div class="form-group">
 
                     <label>Current Image</label><br />
-                    <img src="@Model.img" width="80" />
+                    @if(Model.img != null){
+                        <img src="@Model.img" width="80" />
+                    }
+                    else{
+                        <img src="@Model.img" width="80" />
+                    }
+
                    
                  
                 </div>

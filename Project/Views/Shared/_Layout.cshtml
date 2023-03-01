@@ -17,7 +17,8 @@
 <meta name="author" content="">
 
 <!-- Site Icons -->
-<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+@*<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />*@
+<link rel="shortcut icon" href="/img/R-DTH_favicon.png" type="image/x-icon" />
 <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
 
 <!-- Bootstrap CSS -->
@@ -234,7 +235,7 @@ padding-bottom:0px;
             visibleItems: 4
         });
     </script>
-    <script>
+   @* <script>
         document.addEventListener("DOMContentLoaded", function (event) {
             var scrollpos = localStorage.getItem('scrollpos');
             if (scrollpos) window.scrollTo(0, scrollpos);
@@ -243,7 +244,7 @@ padding-bottom:0px;
         window.onbeforeunload = function (e) {
             localStorage.setItem('scrollpos', window.scrollY);
         };
-    </script>
+    </script>*@
     
     @await Component.InvokeAsync("Notyf")
     @await RenderSectionAsync("Scripts", required: false) 
