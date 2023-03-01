@@ -12,7 +12,7 @@ using Project.Models;
 namespace Project.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20230228152644_Project")]
+    [Migration("20230301110350_Project")]
     partial class Project
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -254,6 +254,9 @@ namespace Project.Migrations
 
                     b.Property<DateTime?>("services_sub_date")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool?>("statePackage")
+                        .HasColumnType("bit");
 
                     b.Property<string>("user_id")
                         .HasColumnType("nvarchar(450)");

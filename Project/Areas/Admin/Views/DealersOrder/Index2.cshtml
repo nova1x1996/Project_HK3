@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Project.Models.Dealers>
+﻿@model IEnumerable<Project.Models.DealersOrder>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
@@ -18,29 +18,31 @@
 <div class="container-fluid">
 
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800 text-center mt-5 mb-4 setup_title">Dealers</h1>
+    <h1 class="h3 mb-2 text-gray-800 text-center mt-5 mb-4 setup_title">Dealers Order</h1>
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3 card_head">
-            <a asp-area="Admin" asp-action="Create" asp-controller="Dealers" class="btn btn-primary">Create new Account Dealers</a>
+            <a asp-area="Admin" asp-action="Create" asp-controller="DealersOrder" class="btn btn-primary">Create new Order</a>
         </div>
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th>User id</th>
-                            <th>Phone</th>
-                            <th>Address</th>
+                            <th>GetDealer</th>
+                            <th>GetSetUpBox</th>
+                            <th>Status</th>
+                            <th>Date</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
-                            <th>User id</th>
-                            <th>Phone</th>
-                            <th>Address</th>
+                            <th>GetDealer</th>
+                            <th>GetSetUpBox</th>
+                            <th>Status</th>
+                            <th>Date</th>
                             <th></th>
                         </tr>
                     </tfoot>
@@ -48,11 +50,18 @@
                         @foreach (var item in Model)
                         {
                             <tr>
-                                <td>@item.user_id</td>
-                                <td>@item.phone</td>
-                                <td>@item.address</td>
+                                <td>@item.GetDealer.ApplicationUser.UserName </td>
+                                @if (item.dealers_id != null)
+                                {
+                                    <td class="text-warning">@item.GetDealer.user_id</td>
+                                }
+                                else if (item.GetSetUpBox != null)
+                                {
+                                    <td class="text-danger">@item.GetSetUpBox.name</td>
+                                }
+                                <td>@item.status</td>
+                                <td>@item.date</td>
                                 <td>
-                                    <a asp-action="Edit" asp-route-id="@item.id">Edit Password</a> |
                                     <a asp-action="Delete" asp-route-id="@item.id" onclick="return confirm('Are you sure to delete?')">Delete</a>
                                 </td>
                             </tr>

@@ -24,12 +24,12 @@
                 <form asp-action="Create" asp-controller="Dealers" method="post">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
-                        <label>FName*</label>
+                        <label>FName<span style="color:red">*</span></label>
                         <input type="text" class="form-control input_group" asp-for="FirstName" />
                         <span class="text-danger" asp-validation-for="FirstName"></span>
                     </div>
                     <div class="form-group">
-                        <label>LName*</label>
+                        <label>LName<span style="color:red">*</span></label>
                         <input type="text" class="form-control input_group" asp-for="LastName" />
                         <span class="text-danger" asp-validation-for="LastName"></span>
                     </div>
@@ -47,17 +47,17 @@
                         <input type="text" class="form-control input_group" name="address" />
                     </div>
                     <div class="form-group">
-                        <label>Username</label>
+                        <label>Username<span style="color:red">*</span></label>
                         <input type="text" class="form-control input_group" asp-for="Username" />
                         <span class="text-danger" asp-validation-for="Username"></span>
                     </div>
                     <div class="form-group">
-                        <label>Password (eg. John@123)</label>
+                        <label>Password (eg. John@123)<span style="color:red">*</span></label>
                         <input type="password" class="form-control input_group" asp-for="Password" />
                         <span class="text-danger" asp-validation-for="Password"></span>
                     </div>
                     <div class="form-group">
-                        <label>Password confirm</label>
+                        <label>Password confirm<span style="color:red">*</span></label>
                         <input type="password" class="form-control input_group" asp-for="PasswordConfirm" />
                         <span class="text-danger" asp-validation-for="PasswordConfirm"></span>
                     </div>

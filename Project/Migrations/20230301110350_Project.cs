@@ -319,6 +319,7 @@ namespace Project.Migrations
                     card_number = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     address = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    statePackage = table.Column<bool>(type: "bit", nullable: true),
                     user_id = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     services_sub_date = table.Column<DateTime>(type: "datetime2", nullable: true),
                     date_left = table.Column<DateTime>(type: "datetime2", nullable: true),

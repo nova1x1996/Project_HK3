@@ -10,21 +10,17 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta name="description" content="">
 	<meta name="author" content="">
-
-<<<<<<< HEAD
 	<title>SB Admin 2 - Dashboard</title>
 	<!-- Custom fonts for this template-->
 	<link href="/AssetAdmin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 	<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
 		  rel="stylesheet">
-=======
     <title>SB Admin 2 - Dashboard</title>
     <link rel="shortcut icon" href="/img/R-DTH_favicon.png" type="image/x-icon" />
     <!-- Custom fonts for this template-->
     <link href="/AssetAdmin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
           rel="stylesheet">
->>>>>>> d3e41864d95288a4b4f020457d2b5ec6a70bff7f
 
 	<!-- Custom styles for this template-->
 	<link href="/AssetAdmin/css/sb-admin-2.min.css" rel="stylesheet">
@@ -97,8 +93,14 @@
 						<a class="collapse-item" asp-controller="Recharge" asp-action="Index">Recharge Order</a>
 						<a class="collapse-item" asp-controller="ChangePackage" asp-action="Index">Update Package Order</a>
 						<a class="collapse-item" asp-controller="CustomersOrder" asp-action="Index">Customers Order</a>
-						<a class="collapse-item" asp-controller="DealersOrder" asp-action="Index">Dealers Order</a>
-
+						@if (!string.IsNullOrEmpty(User.Identity.Name))
+						{
+							<a class="collapse-item" asp-controller="DealersOrder" asp-action="Index">Dealers Order</a>
+						}
+						else
+						{
+							<a class="collapse-item" asp-controller="DealersOrder" asp-action="Index2">Dealers Order</a>
+						}
 
 					</div>
 				</div>
@@ -263,7 +265,7 @@
 								}
 								else
 								{
-									<span class="mr-2 d-none d-lg-inline text-gray-600 small">Hi Admin & Dealers</span>
+									<span class="mr-2 d-none d-lg-inline text-gray-600 small">Hi</span>
 								}
 
 								<img class="img-profile rounded-circle"

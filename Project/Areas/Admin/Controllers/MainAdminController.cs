@@ -47,7 +47,7 @@ namespace Project.Areas.Admin.Controllers
 
             int TongDonHang = OrderCustomer.Count() + RechargeOrder.Count() + CPOrder.Count();
             ViewBag.TongDonHang = TongDonHang;
-          var Customer = db.Customers.ToList();
+            var Customer = db.Customers.ToList();
             ViewBag.TongNguoi = Customer;
             return View();
         }
