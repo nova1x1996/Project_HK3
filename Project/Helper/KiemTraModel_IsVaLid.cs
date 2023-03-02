@@ -3,15 +3,14 @@
     public class KiemTraModel_IsVaLid
     {
 
-        
-/*                if (!ModelState.IsValid)
-                            {
-                                string a = "";
-                                foreach (var item in ModelState.Values)
-                                {
-                                    a = a + item.Errors.ToString();
-                                }
-                                return Content(a);
-                } */
+
+        /*               if (!ModelState.IsValid)
+        {
+            var errors = ModelState.Values.SelectMany(v => v.Errors)
+                                           .Select(e => e.ErrorMessage);
+
+            return Content(string.Join("\n", errors));
+        }
+                         */
     }
 }

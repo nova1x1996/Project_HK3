@@ -32,6 +32,8 @@ namespace Project.Models
         public DbSet<Dealers> Dealers { get; set; }
         public DbSet<DealersOrder> Dealer_Orders { get; set; }
 
+        public DbSet<Feedback> Feed_Backs { get; set; }
+
     }
 
 }

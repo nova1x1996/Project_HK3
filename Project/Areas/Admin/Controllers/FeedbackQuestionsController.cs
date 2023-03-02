@@ -1,69 +1,52 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Org.BouncyCastle.Asn1.Ess;
+using Project.Models;
 
 namespace Project.Areas.Admin.Controllers
 {
     [Area("Admin")]
     public class FeedbackQuestionsController : Controller
     {
-        // GET: FeedbackQuestionsController
+
+        private DatabaseContext db;
+        public INotyfService notyfService;
+        public FeedbackQuestionsController(DatabaseContext _db, INotyfService _notyfService)
+        {
+            db = _db;
+            notyfService = _notyfService;
+        }
+
         public ActionResult Index()
         {
-            return View();
+            var model = db.Feed_Backs.Include(f => f.GetCustomer.ApplicationUser).ToList();
+            return View(model);
         }
 
-        // GET: FeedbackQuestionsController/Details/5
+        
         public ActionResult Details(int id)
         {
-            return View();
+            var model = db.Feed_Backs.Include(f => f.GetCustomer.ApplicationUser).Where(f => f.id == id).FirstOrDefault();
+            return View(model);
         }
 
-        // GET: FeedbackQuestionsController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: FeedbackQuestionsController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: FeedbackQuestionsController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: FeedbackQuestionsController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+  
 
         // GET: FeedbackQuestionsController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var model = db.Feed_Backs.Find(id);
+            if(model != null)
+            {
+                db.Feed_Backs.Remove(model);
+                db.SaveChanges();
+                notyfService.Success("Delete successfully!");
+                return RedirectToAction("Index");
+            }
+            notyfService.Error("Delete unsuccessful !");
+            return RedirectToAction("Index");
         }
 
         // POST: FeedbackQuestionsController/Delete/5

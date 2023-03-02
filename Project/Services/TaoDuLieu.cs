@@ -90,7 +90,7 @@ namespace Project.Services
                 context.Movies.AddRange(new Movie
                 {
                    name= "The Dark Knight",
-                   img= "/img/movie/inception.jpg",
+                   img= "/img/movie/TheDK.jpg",
                    content = "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.",
                    price = 10,
                     movie_cate_id = 2 ,
@@ -106,21 +106,21 @@ namespace Project.Services
                 }, new Movie
                 {
                     name = "Inception",
-                    img = "/img/movie/TheDK.jfif",
+                    img = "/img/movie/inception.jpg",
                     content = "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O., but his tragic past may doom the project and his team to disaster.",
                     price = 20,
                     movie_cate_id = 2,
                 }, new Movie
                 {
                     name = "You People",
-                    img = "/img/movie/YourPOM.jpg",
+                    img = "/img/movie/You_People_Film_Poster.jpg",
                     content = "Follows a new couple and their families, who find themselves examining modern love and family dynamics amidst clashing cultures, societal expectations and generational differences.",
                     price = 10,
                     movie_cate_id = 1,
                 }, new Movie
                 {
                     name = "Your Place or Mine",
-                    img = "/img/movie/TheDK.jfif",
+                    img = "/img/movie/Your_Place_Or_Mine.jpg",
                     content = "Two long-distance best friends change each other's lives when she decides to pursue a lifelong dream and he volunteers to keep an eye on her teenage son.",
                     price = 15,
                     movie_cate_id = 1,
@@ -160,20 +160,20 @@ namespace Project.Services
                 context.SetUpBoxes.AddRange(new SetUpBox{
                 name = "R-DTH Digital TV SD",
                 details = "R-DTH Digital TV SD is a type of digital television service that provides standard definition (SD) channels to viewers. ",
-                img = "SUBSD.jpg",
+                img = "/img/setupbox/SUBSD.jpg",
                 price = 500,
                 
                
                 },new SetUpBox {
                     name = "R-DTH Digital TV HD",
                     details = "R - DTH Digital TV HD is a type of digital television service that provides high definition(HD) channels to viewers. ",
-                    img = "SUBHD.jpg",
+                    img = "/img/setupbox/SUBHD.jpg",
                     price = 700,
 
                 },new SetUpBox { 
                     name= "R-DTH Digital TV 4K",
                     details = "R-DTH Digital TV 4K is a type of digital television service that provides ultra-high definition (UHD) 4K channels to viewers.",
-                    img = "SUB4K.jpg",
+                    img = "/img/setupbox/SUB4K.jpg",
                     price = 1000,
                 });
 

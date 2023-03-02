@@ -38,6 +38,7 @@ namespace Project.Models
         public virtual List<Recharge>? GetRecharges { get; set; }
 
         public virtual List<ChangePackage>? GetChangePackages { get; set; }
+        public virtual List<Feedback>? GetFeedbacks { get; set; }
 
     }
 }
