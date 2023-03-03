@@ -30,14 +30,20 @@ namespace Project.Controllers
         [HttpPost]
         public IActionResult Index(string customerId,string? s)
         {
+            if(customerId == null)
+            {
+                notyf.Error("Customer ID is not entered !");
+                return View();
+            }
             var model = db.Customers.Include(c=>c.package).SingleOrDefault(c=>c.id==int.Parse(customerId));
             
-            if(model != null)
+            if(model == null)
             {
-                return View(model);
+                notyf.Error("Customer ID does not exist !");
+                return View();
             }
-            
-            return View();
+
+            return View(model);
         }
 
         //========================PayPal==============================

@@ -106,18 +106,20 @@ padding-bottom:0px;
                 </button>
                 <div class="collapse navbar-collapse" id="navbars-host">
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item active"><a class="nav-link"  asp-controller="Home" asp-action="Index">Home</a></li>
+                        <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Home" ? "active" : "")">
+                            <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
                        
-                        <li class="nav-item"><a class="nav-link" asp-controller="SetUpBox" asp-action="Index" >Set-up Box</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-controller="Package" asp-action="Index" >Package </a></li>
-                               <li class="nav-item"><a class="nav-link" asp-controller="Movie" asp-action="Index" >Movie Booking</a></li>
+                        <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "SetUpBox" ? "active" : "")"><a class="nav-link" asp-controller="SetUpBox" asp-action="Index">Set-up Box</a></li>
+                        <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Package" ? "active" : "")"><a class="nav-link" asp-controller="Package" asp-action="Index">Package </a></li>
+                        <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Movie" ? "active" : "")"><a class="nav-link" asp-controller="Movie" asp-action="Index">Movie Booking</a></li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="dropdown-a" data-toggle="dropdown">Other </a>
                             <div class="dropdown-menu" aria-labelledby="dropdown-a">
-                                <a class="dropdown-item" asp-controller="AboutUs" asp-action="Index">About Us</a>
+                                <a class="dropdown-item @(ViewContext.RouteData.Values["Controller"].ToString() == "AboutUs" ? "active" : "")" asp-controller="AboutUs" asp-action="Index">About Us</a>
                        
-                                <a class="dropdown-item" asp-controller="CustomerCare" asp-action="CustomerCare">Customer Care</a>
-                                <a class="dropdown-item" asp-controller="Contact" asp-action="Index">Contact</a>
+                                <a class="dropdown-item @(ViewContext.RouteData.Values["Controller"].ToString() == "CustomerCare" ? "active" : "")" asp-controller="CustomerCare" asp-action="CustomerCare">Customer Care</a>
+                                <a class="dropdown-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Contact" ? "active" : "")" asp-controller="Contact" asp-action="Index">Contact</a>
                            
                             </div>
                         </li>
