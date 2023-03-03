@@ -7,6 +7,8 @@ using Project.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Identity;
+using Project.Models.Domain;
 
 namespace Project.Controllers
 {
@@ -15,11 +17,13 @@ namespace Project.Controllers
         private readonly IUserAuthenticationService _authService;
         private readonly DatabaseContext db;
         private readonly INotyfService _notyf;
-        public UserAuthenticationController(IUserAuthenticationService authService,DatabaseContext _db, INotyfService notyf)
+        private  UserManager<ApplicationUser> userManager;
+        public UserAuthenticationController(IUserAuthenticationService authService,DatabaseContext _db, INotyfService notyf, UserManager<ApplicationUser> _userManager)
         {
             this._authService = authService;
             db = _db;
             _notyf = notyf;
+            userManager = _userManager;
         }
 
         
@@ -55,13 +59,39 @@ namespace Project.Controllers
         [HttpPost]
         public async Task<IActionResult> Registration(RegistrationModel model,string card_number,string phone,string address)
         {
-            if (!ModelState.IsValid) { return View(model); }
+            var cardExists = db.Customers.Where(c => c.card_number.Equals(card_number)).FirstOrDefault();
+
+            if (cardExists != null)
+            {
+                TempData["Error"] = "Card Number already exist.";
+
+            }
+            if (String.IsNullOrEmpty(card_number))
+            {
+                TempData["Error1"] = "The Card number field is required.";
+            }
+
+            if (String.IsNullOrEmpty(phone))
+            {
+                TempData["Error2"] = "The Phone field is required.";
+            }
+
+            if (String.IsNullOrEmpty(address))
+            {
+                TempData["Error3"] = "The Address field is required.";
+            }
+
+            if (!ModelState.IsValid) 
+            { 
+                return View(model); 
+            }
+
             model.Role = "customer";
             
             var result = await this._authService.RegisterAsync(model);
 
             TempData["msg"] = result.Message;
-          
+            
 
             //Thêm vào để add Customer
             if (result.Message.Equals("You have registered successfully"))
@@ -73,13 +103,12 @@ namespace Project.Controllers
                 c1.phone = phone;
                 c1.address = address;
                 c1.user_id = u1.Id;
-              
+                
                 await db.Customers.AddAsync(c1);
                 await db.SaveChangesAsync();
 
             }
-            return RedirectToAction(nameof(Registration));
-            // return RedirectToAction(nameof(Registration));
+            return RedirectToAction("Index", "Home");
         }
 
         //[Authorize]
@@ -163,6 +192,27 @@ namespace Project.Controllers
                 .Where(c => c.customer_id.Equals(customerID.id))
                 .ToList();
             return View(model);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Save(string firstName, string lastName,string phone,string address,string email)
+        {
+            var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var customer = db.Customers.Where(c => c.user_id.Equals(userId)).SingleOrDefault();
+            customer.phone = phone;
+            customer.address = address;
+
+            var user = await userManager.FindByIdAsync(userId);
+
+            user.FirstName = firstName;
+            user.LastName = lastName;
+            user.Email = email;
+            var result = await userManager.UpdateAsync(user);
+
+            return RedirectToAction("DetailCustomer");
+         
+            
         }
     }
 }
