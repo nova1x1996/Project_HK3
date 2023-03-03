@@ -1,7 +1,51 @@
-﻿@{
-    
+﻿@model IEnumerable<Project.Models.Movie>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<style>
+    .movie_title {
+        font-size: 42px;
+        font-weight: 500;
+        line-height: 62px;
+        margin: 0 0 25px;
+        padding: 0;
+        text-transform: none;
+    }
+
+    .row .icon-wrapper {
+        margin-bottom: 20px;
+    }
+
+    .icon-wrapper p {
+        padding-left: 0px;
+    }
+
+    .movie_box {
+        display: flex;
+        gap: 15px 0;
+        flex-wrap: wrap;
+        min-height: 400px !important;
+    }
+   
+    .movie_name {
+        white-space: nowrap !important;
+        overflow: hidden !important;
+    }
+    .slick-next:before{
+        color: #9dc15b !important;
+    }  
+   
+
+    .slick-prev:before{
+        color: #9dc15b !important;
+    }
+
+    .movie_section {
+        margin-bottom: 200px !important;
+    }
+</style>
 <div id="carouselExampleControls" class="carousel slide bs-slider box-slider" data-ride="carousel" data-pause="hover" data-interval="false">
     <!-- Indicators -->
     <ol class="carousel-indicators">
@@ -11,17 +55,17 @@
     </ol>
     <div class="carousel-inner" role="listbox">
         <div class="carousel-item active">
-            <div id="home" class="first-section" style="background-image:url('images/slider-01.jpg');">
+            <div id="home" class="first-section img" style="background-image:url('images/slider-01.jpg');">
                 <div class="dtab">
                     <div class="container">
                         <div class="row">
                             <div class="col-md-12 col-sm-12 text-right">
                                 <div class="big-tagline">
-                                    <h2><strong>Shared Hosting</strong> Company</h2>
-                                    <p class="lead">With Landigoo responsive landing page template, you can promote your all hosting, domain and email services. </p>
-                                    <a href="#" class="hover-btn-new"><span>Contact Us</span></a>
+                                    <h2><strong>R-DTH</strong> Company</h2>
+                                    <p class="lead">Connecting you to the world, with R-DTH. </p>
+                                    <a asp-controller="Contact" asp-action="Index" class="hover-btn-new"><span>Contact Us</span></a>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <a href="#" class="hover-btn-new"><span>Read More</span></a>
+                                 
                                 </div>
                             </div>
                         </div><!-- end row -->
@@ -36,11 +80,11 @@
                         <div class="row">
                             <div class="col-md-12 col-sm-12 text-left">
                                 <div class="big-tagline">
-                                    <h2 data-animation="animated zoomInRight">Find the right <strong>Hosting</strong></h2>
-                                    <p class="lead" data-animation="animated fadeInLeft">With Landigoo responsive landing page template, you can promote your all hosting, domain and email services. </p>
-                                    <a href="#" class="hover-btn-new"><span>Contact Us</span></a>
+                                    <h2 data-animation="animated zoomInRight"> Best Set-Up Box Collection <strong>Here</strong></h2>
+                                    <p class="lead" data-animation="animated fadeInLeft">Transform your TV experience with our set-up box.</p>
+                                    <a asp-action="index" asp-controller="SetUpBox" class="hover-btn-new"><span>Set Up Box</span></a>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <a href="#" class="hover-btn-new"><span>Read More</span></a>
+                               
                                 </div>
                             </div>
                         </div><!-- end row -->
@@ -55,15 +99,13 @@
                         <div class="row">
                             <div class="col-md-12 col-sm-12 text-center">
                                 <div class="big-tagline">
-                                    <h2 data-animation="animated zoomInRight"><strong>VPS Servers</strong> Company</h2>
+                                    <h2 data-animation="animated zoomInRight"><strong>Movie</strong> Library</h2>
                                     <p class="lead" data-animation="animated fadeInLeft">
-                                        1 IP included with each server
-                                        Your Choice of any OS (CentOS, Windows, Debian, Fedora)
-                                        FREE Reboots
+                                      Unleash a world of new movies at your fingertips.
                                     </p>
-                                    <a href="#" class="hover-btn-new"><span>Contact Us</span></a>
+                                    <a asp-action="Index" asp-controller="Movie" class="hover-btn-new"><span>Booking Movie</span></a>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <a href="#" class="hover-btn-new"><span>Read More</span></a>
+                                  
                                 </div>
                             </div>
                         </div><!-- end row -->
@@ -215,7 +257,48 @@
         </div>
     </div>
 </section>
+<section class="page-section movie_section">
+    <h1 class="text-center mb-5 movie_title">Featured movies</h1>
+    <div class="container">
 
+        <div class="movie_box">
+            
+            @foreach (var item in Model)
+            {
+
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="icon-wrapper wow fadeIn" data-wow-duration="1s" data-wow-delay="0.2s" style="visibility: visible; animation-duration: 1s; animation-delay: 0.2s; animation-name: fadeIn;">
+                        <img style="width:290px;height:200px;border:solid 1px black;margin:10px" src="@item.img" />
+
+                        <h3 class="movie_name" title="@item.name">@item.name</h3>
+                        <p>
+                            @if (item.content.Length > 20)
+                            {
+                                item.content = item.content.Substring(0, 70) + "...";
+
+                            }
+                            @item.content
+
+                        </p>
+                        <div class="d-flex justify-content-between">
+                            <p><strong>@item.price $</strong></p>
+                           <a class="btn btn-success mt-2" asp-action="MovieOrder" asp-controller="CustomerOrder" asp-route-id="@item.id">Booking </a>
+
+                        </div>
+
+
+
+                    </div><!-- end icon-wrapper -->
+                </div>
+
+                <!-- end col -->
+            }
+
+
+        </div><!-- end row -->
+    </div>
+
+</section>
 <div class="section cl">
     <div class="container">
         <div class="row text-left stat-wrap">
@@ -337,23 +420,70 @@
     <div class="container">
         <div class="row logos">
             <div class="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
-                <a href="#"><img src="./public/images/logo_01.png" alt="" class="img-repsonsive"></a>
+                <a href="#"><img src="./public/images/logo_01.png" alt="" class="img-repsonsive" /></a>
             </div>
             <div class="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
-                <a href="#"><img src="./public/images/logo_02.png" alt="" class="img-repsonsive"></a>
+                <a href="#"><img src="./public/images/logo_02.png" alt="" class="img-repsonsive" /></a>
             </div>
             <div class="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
-                <a href="#"><img src="./public/images/logo_03.png" alt="" class="img-repsonsive"></a>
+                <a href="#"><img src="./public/images/logo_03.png" alt="" class="img-repsonsive" /></a>
             </div>
             <div class="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
-                <a href="#"><img src="./public/images/logo_04.png" alt="" class="img-repsonsive"></a>
+                <a href="#"><img src="./public/images/logo_04.png" alt="" class="img-repsonsive" /></a>
             </div>
             <div class="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
-                <a href="#"><img src="./public/images/logo_05.png" alt="" class="img-repsonsive"></a>
+                <a href="#"><img src="./public/images/logo_05.png" alt="" class="img-repsonsive" /></a>
             </div>
             <div class="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
-                <a href="#"><img src="./public/images/logo_06.png" alt="" class="img-repsonsive"></a>
+                <a href="#"><img src="./public/images/logo_06.png" alt="" class="img-repsonsive" /></a>
             </div>
         </div><!-- end row -->
     </div><!-- end container -->
 </div><!-- end section -->
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+<script>
+    $('.movie_box').slick({
+        dots: false,
+        infinite: true,
+        speed: 300,
+        autoplay: true,
+        autoplaySpeed: 5000,
+        slidesToShow: 3,
+        slidesToScroll: 3,
+       
+        responsive: [
+            {
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 2,
+                    infinite: true,
+                    dots: true,
+                    arrows: false,
+                }
+            },
+            {
+                breakpoint: 600,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    arrows: false,
+                    dots: true
+                }
+            },
+            {
+                breakpoint: 480,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    arrows: false,
+                    dots: true
+                }
+            }
+            // You can unslick at a given breakpoint now by adding:
+            // settings: "unslick"
+            // instead of a settings object
+        ]
+    });
+</script>
+

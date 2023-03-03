@@ -34,10 +34,11 @@
     <div class="row">
         <div class="col-md-4">
             <form asp-action="Create" method="post" enctype="multipart/form-data" asp-controller="SetUpBox">
-                @*<div asp-validation-summary="ModelOnly" class="text-danger"></div>*@
-                <div class="form-group">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+              @*  <div class="form-group">
                     <span class="text-danger">@ViewBag.msg</span>
-                </div>
+                  
+                </div>*@
                 <div class="form-group">
                     <label asp-for="name" class="control-label"></label>
                     <input asp-for="name" name="name" class="form-control input_group" placeholder="Enter name..."/>
@@ -49,12 +50,13 @@
                     <span asp-validation-for="details" class="text-danger"></span>
                 </div>
 
-                <label asp-for="img" class="control-label"></label>
+                <label asp-for="img" class="control-label">Upload Image</label>
                 <div class="form-group custom-file">
                     <label asp-for="img" class="custom-file-label">Choose file...</label>
                     <input asp-for="img" type="file" name="file" id="file" onchange="document.getElementById('Image').src = window.URL.createObjectURL(this.files[0])" class="form-control input_group custom-file-input" />
-                    <span asp-validation-for="img" class="text-danger error_msg" id="file_error"></span>
+                    <span asp-validation-for="img" class="text-danger error_msg"></span>
                 </div>
+             
                 <img src="" id="Image" width="100px" />
 
                 <div class="form-group">
@@ -63,7 +65,7 @@
                     <span asp-validation-for="price" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <input type="submit" value="Create" onclick="return ValidateFile()" class="btn btn-primary" />
+                    <input type="submit" value="Create" class="btn btn-primary" />
                 </div>
                
             </form>
@@ -74,7 +76,7 @@
         <a asp-action="Index">Back to List</a>
     </div>
 </div>
-<script src="~/js/ValidateFile.js"></script>
+
 <script>
     // Add the following code if you want the name of the file appear on select
     $(".custom-file-input").on("change", function () {

@@ -7,29 +7,39 @@ using Project.Helper;
 using AspNetCoreHero.ToastNotification.Notyf.Models;
 using System.Security.Policy;
 using System.Diagnostics.Eventing.Reader;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNetCore.Authorization;
+using AspNetCoreHero.ToastNotification.Abstractions;
+
 
 namespace Project.Controllers
 {
+
+
     public class CustomerOrderController : Controller
     {
+        private readonly INotyfService _notyf;
         private readonly DatabaseContext db;
-       
+
+
+
         private static string Mode = "sb-pjm9425080818@business.example.com";
-        
-        public CustomerOrderController(DatabaseContext _db, IConfiguration config)
+
+        public CustomerOrderController(DatabaseContext _db, IConfiguration config, INotyfService notyf)
         {
             db = _db;
-            
-       
+            _notyf = notyf;
+
         }
- 
-        
 
 
-                 protected string  Page_Load(int ItemId,string price ,int customerId,string loaiSanPham)
-                {
+
+
+        protected string Page_Load(int ItemId, string price, int customerId, string loaiSanPham)
+        {
             
-                    var APIContext = HelperPayPal.GetAPIContext();
+            
+            var APIContext = HelperPayPal.GetAPIContext();
 
             // Thiết lập chi tiết đơn hàng
             var itemList = new ItemList
@@ -39,7 +49,7 @@ namespace Project.Controllers
                                                 new Item
                                                 {
 
-                                                    
+                                                   
                                                     description = customerId.ToString(),
                                                     name = ItemId.ToString(),
                                                     currency = "USD",
@@ -48,22 +58,22 @@ namespace Project.Controllers
                                                     sku = loaiSanPham
                                                 }
                                             }
-                            };
+            };
 
-                            // Tính tổng giá trị đơn hàng
-                                            var total = new Amount
-                            {
-                                currency = "USD",
-                                total = price
-                                            };
+            // Tính tổng giá trị đơn hàng
+            var total = new Amount
+            {
+                currency = "USD",
+                total = price
+            };
 
-                            // Tạo chi tiết thanh toán
-                            var payment = new Payment
-                            {
-                               
-                                intent = "sale",
-                                payer = new Payer { payment_method = "paypal" },
-                                transactions = new List<Transaction>
+            // Tạo chi tiết thanh toán
+            var payment = new Payment
+            {
+
+                intent = "sale",
+                payer = new Payer { payment_method = "paypal" },
+                transactions = new List<Transaction>
                             {
                                 new Transaction
                                 {
@@ -77,15 +87,16 @@ namespace Project.Controllers
                                     }
                                 }
                             },
-                                redirect_urls = new RedirectUrls
-                                {
-                                    return_url = "http://localhost:5296/CustomerOrder/btnPayment",
-                                    cancel_url = "http://localhost:5296/Home/Index"
-                                }
+                redirect_urls = new RedirectUrls
+                {
+                    return_url = "http://localhost:5296/CustomerOrder/btnPayment",
+                    cancel_url = "http://localhost:5296/Home/Index"
+                }
             };
 
-            // Tạo thanh toán và lưu trữ thông tin trong session để sử dụng sau này
-            var createdPayment = payment.Create(APIContext);
+          
+                // Tạo thanh toán và lưu trữ thông tin trong session để sử dụng sau này
+                var createdPayment = payment.Create(APIContext);
             HttpContext.Session.SetString("payment_id", createdPayment.id);
             string s = "";
             // Chuyển hướng đến trang thanh toán PayPal để người dùng thanh toán
@@ -96,7 +107,7 @@ namespace Project.Controllers
                 if (link.rel.ToLower().Trim().Equals("approval_url"))
                 {
                     // Sử dụng JavaScript để chuyển hướng đến trang thanh toán
-                  s = link.href;
+                    s = link.href;
                 }
             }
             return s;
@@ -111,10 +122,10 @@ namespace Project.Controllers
 
             // Xác nhận thanh toán
             var paymentExecution = new PaymentExecution { payer_id = PayerID };
-          
-                var executedPayment = payment.Execute(APIContext, paymentExecution);
-         
-   
+
+            var executedPayment = payment.Execute(APIContext, paymentExecution);
+
+
 
             // Kiểm tra trạng thái thanh toán
             if (executedPayment.state.ToLower() != "approved")
@@ -133,16 +144,30 @@ namespace Project.Controllers
 
                 if (items.sku.Equals("package"))
                 {
-                    
-                    var package = db.Packages.Find(int.Parse(items.name));
 
+                    var package = db.Packages.Find(int.Parse(items.name));
+                    var tongtien = decimal.Parse(total_money);
 
                     var Mo = new Customer_order();
+                    
+                    if(tongtien/ package.price == 1)
+                    {
+                        Mo.monthPackage = 1;
+                    }
+                    else if(tongtien / package.price == 6)
+                    {
+                        Mo.monthPackage = 6;
+                    }
+                    else if(tongtien/package.price == 12)
+                    {
+                        Mo.monthPackage = 13;
+                    }
 
-                    Mo.total_money = decimal.Parse(total_money);
+                    Mo.total_money = tongtien;
                     Mo.pay_type = pay_type;
                     Mo.customer_id = int.Parse(customerId);
                     Mo.package_id = package.id;
+                    Mo.state = true;
                     Mo.date = DateTime.Now;
                     db.Customer_orders.Add(Mo);
 
@@ -152,7 +177,8 @@ namespace Project.Controllers
                     customer.payment_monthly = package.price;
                     customer.package_id = package.id;
                     customer.services_sub_date = DateTime.Now;
-                    customer.date_left = DateTime.Now.AddMonths(package.duration.Value);
+                    customer.date_left = DateTime.Now.AddMonths(Mo.monthPackage.Value);
+                    //customer.date_left = DateTime.Now.AddSeconds(30);
                     db.SaveChanges();
 
 
@@ -175,7 +201,7 @@ namespace Project.Controllers
                     return RedirectToAction("PaymentSuccess");
 
                 }
-                else if(items.sku.Equals("setupbox"))
+                else if (items.sku.Equals("setupbox"))
                 {
                     var setupbox = db.SetUpBoxes.Find(int.Parse(items.name));
 
@@ -191,7 +217,7 @@ namespace Project.Controllers
                     db.SaveChanges();
                     return RedirectToAction("PaymentSuccess");
                 }
-                return Content("PaymentFailed");
+                return RedirectToAction("PaymentFailed");
 
             }
         }
@@ -204,20 +230,43 @@ namespace Project.Controllers
 
             return View(model);
         }
+        [HttpPost()]
+        public IActionResult PackageOrder(int id, int month)
+        {
+            var model = db.Packages.Find(id);
+            ViewBag.Month = month;
+            return View(model);
+        }
 
         [HttpPost()]
-        public IActionResult PackageOrder(string pay_type, string total_money, int package_id)
+        public IActionResult PackageOrderKhac(string pay_type, string total_money, int package_id, int monthPackage)
         {
             //Lấy Id của Phiên Đăng nhập hiện tại
             var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
             //Tìm Customer dựa trên ID của Phiên Đăng nhập hiện tại
             var customer = db.Customers.Where(c => c.user_id.Equals(userId)).SingleOrDefault();
+            if (customer.package_id != null)
+            {
+
+                _notyf.Warning("Your current package is still valid, so you cannot order a new package. You can recharge or switch to a different package.");
+                return RedirectToAction("Index", "Package");
+            }
+
+            var CusOrder = db.Customer_orders.Where(c => c.state == false && c.customer_id == customer.id && c.package_id != null).SingleOrDefault();
+            if (CusOrder != null)
+            {
+                _notyf.Warning("You have an order to purchase a package that has not been paid yet. Please cancel it to order a different package.");
+                return RedirectToAction("HistoryCustomerOrder", "UserAuthentication");
+            }
+
+
             var package = db.Packages.Find(package_id);
 
 
-            if (pay_type.Equals("paypal")){
+            if (pay_type.Equals("paypal"))
+            {
 
-                return Redirect(Page_Load(package.id,package.price.ToString(), customer.id,"package"));
+                return Redirect(Page_Load(package.id, total_money, customer.id, "package"));
 
             }
 
@@ -227,17 +276,18 @@ namespace Project.Controllers
             Mo.pay_type = pay_type;
             Mo.customer_id = customer.id;
             Mo.package_id = package_id;
+            Mo.monthPackage = monthPackage;
             Mo.date = DateTime.Now;
             db.Customer_orders.Add(Mo);
 
             //Customer thanh toán Packed thành công
-           
+
             db.SaveChanges();
 
 
-            TempData["thongBaoPackage"] = "You have successfully placed an order.";
+            _notyf.Success("You have successfully placed an order, my staff will contact you soon.");
 
-            return RedirectToAction("Index","Package");
+            return RedirectToAction("Index", "Package");
         }
 
 
@@ -246,7 +296,7 @@ namespace Project.Controllers
 
         public IActionResult PaymentSuccess()
         {
-          
+
 
             return View();
         }
@@ -266,9 +316,12 @@ namespace Project.Controllers
         [HttpGet()]
         public IActionResult MovieOrder(int id)
         {
+
             var model = db.Movies.Find(id);
 
             return View(model);
+
+
         }
 
         [HttpPost()]
@@ -284,7 +337,7 @@ namespace Project.Controllers
             if (pay_type.Equals("paypal"))
             {
 
-                return Redirect(Page_Load(movie.id, movie.price.ToString(), customer.id,"movie"));
+                return Redirect(Page_Load(movie.id, movie.price.ToString(), customer.id, "movie"));
 
             }
 
@@ -302,11 +355,11 @@ namespace Project.Controllers
 
 
 
-            TempData["thongBao"] = "You have successfully placed an order.";
+            _notyf.Success("You have successfully placed an order, my staff will contact you soon.");
             return RedirectToAction("Index", "Movie");
 
 
-          
+
         }
 
         [HttpGet()]
@@ -348,7 +401,7 @@ namespace Project.Controllers
 
 
 
-                TempData["thongBao"] = "You have successfully placed an order.";
+                _notyf.Success("You have successfully placed an order, my staff will contact you soon.");
                 return RedirectToAction("Index", "SetUpBox");
             }
         }

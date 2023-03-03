@@ -1,0 +1,88 @@
+﻿@model IEnumerable<Project.Models.Recharge>
+@{
+    ViewData["Title"] = "History Recharge";
+
+}
+
+<style>
+    .card_head {
+        display: flex !important;
+        justify-content: space-between !important;
+    }
+
+    .setup_title {
+        font-size: 40px !important;
+    }
+
+    .table-responsive td {
+        font-weight: 700;
+    }
+
+    .table-responsive th {
+        font-weight: 500;
+    }
+</style>
+
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800 text-center mt-5 mb-4 setup_title">History Recharge</h1>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 card_head">
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Package</th>
+                            <th>Pay Type</th>
+                            <th>State</th>
+                            <th>Payment</th>
+                            <th>Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                
+
+                                <td>@item.GetPackage.name</td>
+                                <td>@item.pay_type.ToUpper()</td>
+                                @if (item.state == true)
+                                {
+                                    <td><button type="button" class="btn btn-success">Paid</button></td>
+                                }
+                                else
+                                {
+                                    <td><button type="button" class="btn btn-warning">Unpaid</button></td>
+                                }
+                                @{
+                                    int total = item.month * (int)item.GetPackage.price.Value;
+                                }
+                                <td>@total$(@item.month month)</td>
+
+                                <td>@item.date</td>
+                                @if (item.state == false)
+                                {
+                                    <td><a class="btn btn-danger" asp-action="Delete" asp-controller="Recharge" asp-route-id="@item.id" onclick="return confirm('Are you sure ?')">Delete</a></td>
+                                }else{
+                                    <td></td>
+                                }
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+@section Scripts {
+    <script type="text/javascript" src="/AssetAdmin/js/demo/datatables-demo.js"></script>
+}

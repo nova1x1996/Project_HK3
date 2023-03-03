@@ -155,6 +155,39 @@ namespace Project.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Project.Models.ChangePackage", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"), 1L, 1);
+
+                    b.Property<int?>("customer_id")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("packageNew")
+                        .HasColumnType("int");
+
+                    b.Property<int>("packageOld")
+                        .HasColumnType("int");
+
+                    b.Property<int>("price")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("state")
+                        .HasColumnType("bit");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("customer_id");
+
+                    b.ToTable("ChangePackages");
+                });
+
             modelBuilder.Entity("Project.Models.ContactUs", b =>
                 {
                     b.Property<int>("id")
@@ -246,6 +279,9 @@ namespace Project.Migrations
                     b.Property<DateTime>("date")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("monthPackage")
+                        .HasColumnType("int");
+
                     b.Property<int?>("movie_id")
                         .HasColumnType("int");
 
@@ -288,7 +324,8 @@ namespace Project.Migrations
 
                     b.Property<string>("Phone")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(11)
+                        .HasColumnType("nvarchar(11)");
 
                     b.Property<int?>("location_id")
                         .HasColumnType("int");
@@ -468,7 +505,8 @@ namespace Project.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.HasKey("Id");
 
@@ -485,7 +523,8 @@ namespace Project.Migrations
 
                     b.Property<string>("content")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("img")
                         .HasColumnType("nvarchar(max)");
@@ -495,7 +534,8 @@ namespace Project.Migrations
 
                     b.Property<string>("name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.Property<decimal>("price")
                         .HasColumnType("decimal(18,2)");
@@ -517,7 +557,8 @@ namespace Project.Migrations
 
                     b.Property<string>("name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("id");
 
@@ -550,10 +591,8 @@ namespace Project.Migrations
                         .IsRequired()
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("status")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<bool>("status")
+                        .HasColumnType("bit");
 
                     b.HasKey("id");
 
@@ -678,6 +717,15 @@ namespace Project.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Project.Models.ChangePackage", b =>
+                {
+                    b.HasOne("Project.Models.Customer", "GetCustomer")
+                        .WithMany("GetChangePackages")
+                        .HasForeignKey("customer_id");
+
+                    b.Navigation("GetCustomer");
+                });
+
             modelBuilder.Entity("Project.Models.Customer", b =>
                 {
                     b.HasOne("Project.Models.Package", "package")
@@ -781,16 +829,16 @@ namespace Project.Migrations
 
             modelBuilder.Entity("Project.Models.Customer", b =>
                 {
+                    b.Navigation("GetChangePackages");
+
                     b.Navigation("GetCustomer_Orders");
 
                     b.Navigation("GetRecharges");
-
                 });
 
             modelBuilder.Entity("Project.Models.Location", b =>
                 {
-                    b.Navigation("GetCustomerCare")
-                        .IsRequired();
+                    b.Navigation("GetCustomerCare");
                 });
 
             modelBuilder.Entity("Project.Models.Movie", b =>

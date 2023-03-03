@@ -4,7 +4,7 @@
 }
 
 <style>
-
+    
     .row .icon-wrapper {
         margin-bottom: 20px;
     }
@@ -15,6 +15,19 @@
 
     .icon-wrapper p {
         padding-left: 0px;
+    }
+
+    #overviews {
+        padding-bottom: 0px;
+    }
+    .card .card-body .table-responsive .form-group label{
+    font-size:19px;
+    font-weight:bold;
+    }
+
+    .card .card-body .table-responsive .form-group p {
+        font-size: 19px;
+        
     }
 </style>
 <div class="all-title-box">
@@ -32,50 +45,76 @@
                 <div class="col-md-12">
                     <div class="tab-content">
                         <div class="tab-pane active fade show" id="tab1">
-                            <div class="row text-center">
-                                <div class="col-md-6 col-sm-6 col-xs-6">
-                                    <div class="icon-wrapper wow fadeIn" data-wow-duration="1s" data-wow-delay="0.2s" style="visibility: visible; animation-duration: 1s; animation-delay: 0.2s; animation-name: fadeIn;">
-                                        <img style="width:190px;height:190px;border:solid 1px black;margin:0 0 5px 20px" src="@Model.img"></img>
-                                        <h1>@Model.name</h1>
-                                        <p>
-
-                                            @Model.content
-
-                                        </p>
-                                        <div class="d-flex justify-content-between">
-                                            <h2><strong>@Model.price $</strong></h2>
-
+                            <div class="row ">
+                              
+                                <div class="col-md-6 col-sm-6 col-xs-6 text-center">
+                                    <div class="pricing-table pricing-table-highlighted">
+                                        <div class="pricing-table-header grd1">
+                                            <img style="width:200px;height:200px;" src="@Model.img" alt="" class="img-fluid">
+                                            <h2>@Model.name</h2>
+                                            <h3>@Model.price $</h3>
                                         </div>
 
-                                    </div><!-- end icon-wrapper -->
+                                        <div class="pricing-table-space"></div>
+                                        <div class="pricing-table-features">
+
+                                            <p> <strong>@Model.content </strong></p>
+
+                                        </div>
+                                    </div>
                                 </div>
+
+
+
+
+                                <!---->
                                 <div class="col-md-6 col-sm-6 col-xs-6">
+                                    <div class="card shadow ">
+                                        <div class="card-body">
+                                            <div class="table-responsive">
+                                                <h1 style="text-align:center;font-weight:bold">Order Details</h1>
+                                                <hr />
+                                                <input class="form-check-input" name="movies_id" type="text" hidden value="@Model.id" />
+                                                <div class="form-group">
+                                                    <label>Total Payment :</label>
+                                                    <p>@Model.price $</p>
+                                                    <input name="total_money" hidden type="text" value="@Model.price" />
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Payment :</label>
+                                                    <div class="form-check d-flex">
+                                                        <div class="RadioMonth " style="margin-right:30px;">
+                                                            <input class="form-check-input" type="radio" checked="" name="pay_type" value="paypal" id="flexRadioDefault1">
 
-                                    <div>
-                                        <div>
+                                                            <img src="/img/logo/paypal-ge18babb59_1280.png" style="width:80px;transform: translateY(-5px);">
 
-                                            <h3>Pay Type</h3>
-                                            <div>
-                                                <input type="radio" name="pay_type" value="paypal"
-                                                       checked>
-                                                <label for="huey">Paypal Banking</label>
-                                            </div>
 
-                                            <div>
-                                                <input type="radio" name="pay_type" value="COD">
-                                                <label for="dewey">COD</label>
+                                                        </div>
+                                                        <div class="RadioMonth">
+
+                                                            <input class="form-check-input" type="radio" name="pay_type" value="COD" id="flexRadioDefault1">
+                                                            <p class="form-check-label" for="flexRadioDefault1">
+                                                                COD
+                                                            </p>
+                                                        </div>
+
+
+                                                    </div>
+                                                </div>
+                                                <hr />
+                                                <button type="submit" class="btn btn-light btn-radius btn-brd grd1">Submit</button>
+
+
                                             </div>
                                         </div>
-                                        <div>
-                                            <h3>Total Payment</h3>
-                                            <input name="total_money" type="text" readonly value="@Model.price" />$
-                                        </div>
 
-                                        <input name="movies_id" type="text" hidden value="@Model.id" />
-
-                                        <button type="submit" class="btn btn-success">Submit</button>
+                                    </div>
                                 </div>
+                            
+                                 
                             </div>
+                               
+                                <!---->
                         </div>
                     </div><!-- end row -->
                 </div><!-- end pane -->

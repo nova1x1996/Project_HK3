@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Project.Models;
+using System.ComponentModel;
 
 namespace Project.Areas.Admin.Controllers
 {
@@ -8,10 +11,12 @@ namespace Project.Areas.Admin.Controllers
     public class MoviesCategoryController : Controller
 
     {
+        public INotyfService _notify { get; set; }
         private DatabaseContext db { get; set; }
-        public MoviesCategoryController(DatabaseContext _db)
+        public MoviesCategoryController(DatabaseContext _db , INotyfService notify)
         {
             db = _db;
+            _notify = notify;
         }
         // GET: MoviesCategoryController
         public ActionResult Index()
@@ -24,9 +29,18 @@ namespace Project.Areas.Admin.Controllers
         [HttpGet()]
         public ActionResult Delete(int id)
         {
+            var moviecate = db.Movies.FirstOrDefault(m => m.movie_cate_id == id);
+            if(moviecate != null)
+            {
+                _notify.Error("You can't delete a category that contains movies");
+                return RedirectToAction("Index");
+            }
             var model = db.Movie_Cates.Find(id);
+            
+
             db.Remove(model);
             db.SaveChanges();
+            _notify.Success("You delete successfully !");
             return RedirectToAction("Index");
         }
 
@@ -44,11 +58,17 @@ namespace Project.Areas.Admin.Controllers
             var model = db.Movie_Cates.Where(m => m.name.Equals(movie.name)).SingleOrDefault();
             if(model != null)
             {
-                return Content("Đã tồn tại ");
+                ModelState.AddModelError(string.Empty,"The name of movie category already exists");
+           
             }
-            db.Movie_Cates.Add(movie);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                db.Movie_Cates.Add(movie);
+                db.SaveChanges();
+                _notify.Success("You have successfully created");
+                return RedirectToAction("Index");
+            }
+            return View();
         }
      
 
@@ -63,17 +83,25 @@ namespace Project.Areas.Admin.Controllers
         // POST: MoviesCategoryController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id,string name)
+        public ActionResult Edit(Movie_cate movive_cate)
         {
-            var model = db.Movie_Cates.Where(m => m.name.Equals(name)).SingleOrDefault();
+            var model = db.Movie_Cates.Where(m => m.name.Equals(movive_cate.name)).FirstOrDefault();
             if(model != null)
             {
-                return Content("Đã tồn tại ");
+                ModelState.AddModelError(string.Empty, "The name of movie category already exists");
             }
-            var model_2 = db.Movie_Cates.Find(id);
-            model_2.name = name;
+            if (ModelState.IsValid)
+            {
+                var model_2 = db.Movie_Cates.Find(movive_cate.id);
+            model_2.name = movive_cate.name;
+
+
             db.SaveChanges();
-            return RedirectToAction("Index");
+                _notify.Success("You have successfully Edited");
+                return RedirectToAction("Index");
+            }
+            return View();
+     
         }
 
     

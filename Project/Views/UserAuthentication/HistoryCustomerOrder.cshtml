@@ -1,0 +1,109 @@
+﻿@model IEnumerable<Project.Models.Customer_order>
+@{
+    ViewData["Title"] = "Index Customer Order";
+}
+
+<style>
+    .card_head {
+        display: flex !important;
+        justify-content: space-between !important;
+    }
+
+    .setup_title {
+        font-size: 40px !important;
+    }
+
+    .table-responsive td {
+        font-weight: 700;
+    }
+
+    .table-responsive th {
+        font-weight: 500;
+    }
+</style>
+
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800 text-center mt-5 mb-4 setup_title">Customer Order</h1>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 card_head">
+            <h6 class="m-0 font-weight-bold text-primary">
+                Type Order:<br />
+                <span class="text-warning mr-1">Package</span>
+                <span class="text-danger mr-1">Movie</span>
+                <span class="text-dark mr-1">Set Up Box</span>
+            </h6>
+            <!--
+
+             <a asp-area="Admin" asp-action="Create" asp-controller="CustomersOrder" class="btn btn-primary">Create new Package</a>
+            -->
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+
+                            <th>Order</th>
+                            <th>Pay Type</th>
+                            <th>State</th>
+                            <th>Total</th>
+                            <th>Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                @if (item.package_id != null)
+                                {
+                                    <td class="text-warning">@item.GetPackage.name</td>
+                                }
+                                else if (item.GetMovie != null)
+                                {
+                                    <td class="text-danger">@item.GetMovie.name</td>
+                                }
+                                else
+                                {
+                                    <td class="text-dark">@item.GetSetUpBox.name</td>
+                                }
+
+
+
+                                <td style="font-weight:bold;">@item.pay_type.ToUpper() </td>
+                                @if (item.state == true)
+                                {
+                                    <td><button type="button" class="btn btn-success">Paid</button></td>
+                                }
+                                else
+                                {
+                                    <td><button type="button" class="btn btn-warning">Unpaid</button></td>
+                                }
+
+
+                                <td>@item.total_money$</td>
+                                <td style="width:100px;">@item.date</td>
+
+                                @if(item.state == false){
+    <td><a class="btn btn-danger" asp-action="Delete" asp-controller="UserAuthentication" asp-route-id="@item.id" onclick="return confirm('Are you sure ?')">Cancel</a></td>
+                                }else{
+                                    <td></td>
+                                }
+                            
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+@section Scripts {
+    <script type="text/javascript" src="/AssetAdmin/js/demo/datatables-demo.js"></script>
+}

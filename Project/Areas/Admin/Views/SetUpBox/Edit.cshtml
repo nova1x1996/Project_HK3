@@ -45,14 +45,15 @@
                 <div class="form-group">
 
                     <label>Current Image</label><br />
-                    <img src="@Url.Content(Model.img)" width="80" />
+                    <img src="@Model.img" width="80" />
+                   
                  
                 </div>
-                <label asp-for="img" class="control-label">Update Image</label>
+                <label asp-for="img" class="control-label">Upload Image</label>
                 <div class="form-group custom-file">
                     <label asp-for="img" class="custom-file-label">Choose file...</label>
-                    <input asp-for="img" type="file" id="file" name="file" onchange="document.getElementById('Image').src = window.URL.createObjectURL(this.files[0])" class="form-control input_group custom-file-input" />
-                    <span class="text-danger" id="file_error"></span>
+                    <input asp-for="img" name="file" type="file" accept="image/jpg, image/png, image/jpeg, image/gif" id="file" onchange="document.getElementById('Image').src = window.URL.createObjectURL(this.files[0])" class="form-control input_group custom-file-input" />
+                    <span asp-validation-for="img" class="text-danger"></span>
                 </div>
 
                 <img src="" id="Image" width="100"/>
@@ -60,10 +61,10 @@
                 <div class="form-group">
                     <label asp-for="price" class="control-label"></label>
                     <input asp-for="price" id="price" required min="100" max="1000" class="form-control input_group" />
-                    <span asp-validation-for="price" class="text-danger">@ViewBag.priceMsg</span>
+                    <span asp-validation-for="price" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <input type="submit" onclick="return ValidateFile()" value="Update" class="btn btn-warning" />
+                    <input type="submit" value="Update" class="btn btn-warning" />
                 </div>
             </form>
         </div>
@@ -73,7 +74,7 @@
         <a asp-action="Index">Back to List</a>
     </div>
 </div>
-<script src="~/js/ValidateFile.js"></script>
+
 <script>
     // Add the following code if you want the name of the file appear on select
     $(".custom-file-input").on("change", function () {

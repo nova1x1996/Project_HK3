@@ -3,7 +3,6 @@ using AspNetCoreHero.ToastNotification.Notyf;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Project.Migrations;
 using Project.Models;
 
 namespace Project.Areas.Admin.Controllers

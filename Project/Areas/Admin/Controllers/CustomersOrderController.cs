@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Project.Models;
@@ -10,9 +11,11 @@ namespace Project.Areas.Admin.Controllers
     {
 
         private DatabaseContext db;
-        public CustomersOrderController(DatabaseContext _db)
+        private INotyfService notyf;
+        public CustomersOrderController(DatabaseContext _db,INotyfService _notyf)
         {
             db = _db;
+            notyf = _notyf;
         }
 
         // GET: CustomersOrderController
@@ -43,9 +46,10 @@ namespace Project.Areas.Admin.Controllers
                 customer.payment_monthly = package.price;
                 customer.package_id = package.id;
                 customer.services_sub_date = DateTime.Now;
-                customer.date_left = DateTime.Now.AddMonths(package.duration.Value);
-             
+                customer.date_left = DateTime.Now.AddMonths(model.monthPackage.Value);
+               
             }
+            notyf.Success("Confirm Payment Success");
             db.SaveChanges();
             return RedirectToAction("Index");
         }

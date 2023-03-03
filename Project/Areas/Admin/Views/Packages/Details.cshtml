@@ -54,7 +54,12 @@
                 @Html.DisplayNameFor(model => model.customers)
             </dt>
             <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.customers)
+                @foreach (var customer in Model.customers)
+                {
+                    <span>@customer.id</span>
+
+                    @(customer != Model.customers.Last() ? "," : "")
+                }
             </dd>
         </dl>
         <div>

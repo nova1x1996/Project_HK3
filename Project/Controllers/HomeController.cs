@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
+using PagedList.Core;
 using Project.Models;
 using Project.Services;
 using System.Diagnostics;
@@ -21,7 +24,13 @@ namespace Project.Controllers
      
         public IActionResult Index()
         {
-            return View();
+            var movies = db.Movies.ToList();
+
+            //ViewBag.cate_movies = cate_movies;
+            //var model = db.Movies.Include(m => m.movie_Cate).ToList();
+            //return View(movies);
+
+            return View(movies);
         }
 
         public IActionResult Privacy()

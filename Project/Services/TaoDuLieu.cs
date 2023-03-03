@@ -35,6 +35,46 @@ namespace Project.Services
                 //Tạo User
 
 
+                //Tạo FAQ
+                //Tạo Movies_Category
+                context.Faq.AddRange(new Faq
+                {
+                    question = "What is satellite television and how does it work?",
+                    answer = "Satellite television is a broadcast delivery system that uses communication satellites orbiting the earth to transmit television signals. A satellite dish installed at the user's location receives the satellite signals and sends them to a set-top box or integrated television with a built-in receiver. The user can then watch the satellite television channels using their television set.",
+                    status = "show",
+                }, new Faq
+                {
+                    question = "What are the advantages of satellite television over other broadcast methods?",
+                    answer = "Satellite television offers a wider selection of channels than cable or over-the-air broadcasts, and the signal quality is often superior. It can also be accessed from remote or rural areas where other broadcast methods may be unavailable.",
+                    status = "show",
+                }, new Faq
+                {
+                    question = "How can I subscribe to your satellite television service?",
+                    answer = "To subscribe to our satellite television service, please visit our website or call our customer service hotline. Our representatives will assist you in choosing a package that best suits your needs and schedule a convenient time for installation.",
+                    status = "show",
+                }, new Faq
+                {
+                    question = "What types of packages do you offer, and how much do they cost?",
+                    answer = "We offer a variety of packages to fit different viewing needs and budgets, including basic, standard, and premium options. Please visit our website or contact our customer service hotline for detailed information on package offerings and pricing.",
+                    status = "show",
+                }, new Faq
+                {
+                    question = "Can I watch satellite television on multiple devices?",
+                    answer = "Yes, you can connect multiple televisions or other devices to your satellite service, depending on your package and equipment. Please contact our customer service hotline for more information on multi-room viewing options.",
+                    status = "show",
+                }, new Faq
+                {
+                    question = "What channels and programs are included in your packages?",
+                    answer = "We offer a wide range of channels and programs, including local and international news, sports, entertainment, movies, and more. Please visit our website or contact our customer service hotline for more information on specific channel lineups and programming.",
+                    status = "show",
+                }, new Faq
+                {
+                    question = "How can I troubleshoot problems with my satellite service?",
+                    answer = "If you are experiencing issues with your satellite service, please first check your equipment connections and power supply. If the issue persists, please contact our customer service hotline for further troubleshooting assistance.",
+                    status = "show",
+                }
+                );
+
                 //Tạo Movies_Category
                 context.Movie_Cates.AddRange(new Movie_cate {
                     name = "Romatic",
@@ -120,20 +160,20 @@ namespace Project.Services
                 context.SetUpBoxes.AddRange(new SetUpBox{
                 name = "R-DTH Digital TV SD",
                 details = "R-DTH Digital TV SD is a type of digital television service that provides standard definition (SD) channels to viewers. ",
-                img = "/img/setupbox/SUBSD.jpg",
+                img = "SUBSD.jpg",
                 price = 500,
                 
                
                 },new SetUpBox {
                     name = "R-DTH Digital TV HD",
                     details = "R - DTH Digital TV HD is a type of digital television service that provides high definition(HD) channels to viewers. ",
-                    img = "/img/setupbox/SUBHD.jpg",
+                    img = "SUBHD.jpg",
                     price = 700,
 
                 },new SetUpBox { 
                     name= "R-DTH Digital TV 4K",
                     details = "R-DTH Digital TV 4K is a type of digital television service that provides ultra-high definition (UHD) 4K channels to viewers.",
-                    img = "/img/setupbox/SUB4K.jpg",
+                    img = "SUB4K.jpg",
                     price = 1000,
                 });
 
@@ -144,7 +184,7 @@ namespace Project.Services
                     name = "Bronze Pack",
                     duration = 1,
                     details = "80 channels (including R-DTH Cab) + VOD library",
-                    status = "On",
+                    status = true,
                     price = 100
                 });
                 context.Packages.Add(new Package
@@ -153,7 +193,7 @@ namespace Project.Services
                     name = "Sliver Pack",
                     duration = 1,
                     details = "100 channels (including R-DTH Cab) + VOD library",
-                    status = "On",
+                    status = true,
                     price = 130
                 });
                 context.Packages.Add(new Package
@@ -162,7 +202,7 @@ namespace Project.Services
                     name = "Gold Pack",
                     duration = 1,
                     details = "144 channels (including R-DTH Cab) + VOD library",
-                    status = "On",
+                    status = true,
                     price = 150
                 });
                 context.Packages.Add(new Package
@@ -171,7 +211,7 @@ namespace Project.Services
                     name = "Diamond Pack",
                     duration = 1,
                     details = "160 channels (including R-DTH Cab) + VOD library + Premium Galaxy",
-                    status = "On",
+                    status = true,
                     price = 200
                 });
                 context.SaveChanges();

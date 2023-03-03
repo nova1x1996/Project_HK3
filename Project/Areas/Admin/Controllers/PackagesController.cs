@@ -23,14 +23,14 @@ namespace Project.Areas.Admin.Controllers
         // GET: PackagesController
         public ActionResult Index()
         {
-            var model = db.Packages.ToList();
+            var model = db.Packages.Include(p => p.customers).ToList();
             return View(model);
         }
 
         // GET: PackagesController/Details/5
         public ActionResult Details(int id)
         {
-            var model = db.Packages.SingleOrDefault(m => m.id.Equals(id));
+            var model = db.Packages.Include(p => p.customers).SingleOrDefault(m => m.id.Equals(id));
             return View(model);
         }
 
@@ -45,8 +45,6 @@ namespace Project.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Package newPackage)
         {
-      
-
             try
             {
                 if (ModelState.IsValid)

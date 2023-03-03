@@ -96,22 +96,21 @@ namespace Project.Areas.Admin.Controllers
         // GET: DealersOrderController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
-        }
-
-        // POST: DealersOrderController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
             try
             {
-                return RedirectToAction(nameof(Index));
+                var model = db.Dealer_Orders.SingleOrDefault(m => m.id.Equals(id));
+                if (model != null)
+                {
+                    db.Dealer_Orders.Remove(model);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                ModelState.AddModelError(string.Empty, ex.Message);
             }
+            return View();
         }
     }
 }

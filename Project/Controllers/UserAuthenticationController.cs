@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using Project.Repositories.Implementation;
 using Project.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
+using AspNetCoreHero.ToastNotification.Abstractions;
 
 namespace Project.Controllers
 {
@@ -12,10 +14,12 @@ namespace Project.Controllers
     {
         private readonly IUserAuthenticationService _authService;
         private readonly DatabaseContext db;
-        public UserAuthenticationController(IUserAuthenticationService authService,DatabaseContext _db)
+        private readonly INotyfService _notyf;
+        public UserAuthenticationController(IUserAuthenticationService authService,DatabaseContext _db, INotyfService notyf)
         {
             this._authService = authService;
             db = _db;
+            _notyf = notyf;
         }
 
         
@@ -52,7 +56,7 @@ namespace Project.Controllers
         public async Task<IActionResult> Registration(RegistrationModel model,string card_number,string phone,string address)
         {
             if (!ModelState.IsValid) { return View(model); }
-            model.Role = "user";
+            model.Role = "customer";
             
             var result = await this._authService.RegisterAsync(model);
 
@@ -120,11 +124,44 @@ namespace Project.Controllers
         }
 
 
-        public ActionResult Index()
+        public ActionResult DetailCustomer()
         {
-            var model = db.Customers.Include(r => r.ApplicationUser)
-                .ToList();
+            var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
+            var model = db.Customers.Include(r => r.ApplicationUser)
+                .SingleOrDefault(c => c.user_id.Equals(userId));
+
+            return View(model);
+        }
+
+
+        public ActionResult Delete(int id)
+        {
+            var model = db.Customer_orders.Find(id);
+            if(model != null && model.state == false)
+            {
+                db.Customer_orders.Remove(model);
+                db.SaveChanges();
+                _notyf.Success("You cancel successfully !");
+                return RedirectToAction("HistoryCustomerOrder");
+            }
+          
+            return View(HistoryCustomerOrder);
+        }
+        public ActionResult HistoryCustomerOrder()
+        {
+            var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var customerID = db.Customers
+               .SingleOrDefault(c => c.user_id.Equals(userId));
+
+            var model = db.Customer_orders
+                .Include(c => c.GetCustomer)
+                    .ThenInclude(c => c.ApplicationUser)
+                .Include(c => c.GetMovie)
+                .Include(c => c.GetSetUpBox)
+                .Include(c => c.GetPackage)
+                .Where(c => c.customer_id.Equals(customerID.id))
+                .ToList();
             return View(model);
         }
     }
