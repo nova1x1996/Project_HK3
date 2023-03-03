@@ -81,6 +81,20 @@ namespace Project.Areas.Admin.Controllers
         // GET: LocationController/Delete/5
         public ActionResult Delete(int id)
         {
+            try
+            {
+                var lc = db.Location.SingleOrDefault(m => m.Id.Equals(id));
+                if (lc != null)
+                {
+                    db.Location.Remove(lc);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, ex.Message);
+            }
             return View();
         }
 
