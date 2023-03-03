@@ -432,6 +432,29 @@ namespace Project.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "feedback",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    type = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    star = table.Column<int>(type: "int", nullable: false),
+                    content = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
+                    date = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    customer_id = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_feedback", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_feedback_customer_customer_id",
+                        column: x => x.customer_id,
+                        principalTable: "customer",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "recharge",
                 columns: table => new
                 {
@@ -557,6 +580,11 @@ namespace Project.Migrations
                 column: "setup_box_id");
 
             migrationBuilder.CreateIndex(
+                name: "IX_feedback_customer_id",
+                table: "feedback",
+                column: "customer_id");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_movie_movie_cate_id",
                 table: "movie",
                 column: "movie_cate_id");
@@ -606,6 +634,9 @@ namespace Project.Migrations
 
             migrationBuilder.DropTable(
                 name: "faq");
+
+            migrationBuilder.DropTable(
+                name: "feedback");
 
             migrationBuilder.DropTable(
                 name: "recharge");
