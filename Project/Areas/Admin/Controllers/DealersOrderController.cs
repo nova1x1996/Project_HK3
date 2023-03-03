@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,22 +12,42 @@ namespace Project.Areas.Admin.Controllers
 {
     [Area("Admin")]
     public class DealersOrderController : Controller
-    {
-        public DatabaseContext db { get; set; }
-        public DealersOrderController(DatabaseContext _db)
+	{
+		public INotyfService notyfService { get; }
+		public DatabaseContext db { get; set; }
+        public DealersOrderController(DatabaseContext _db, INotyfService _notyfService)
         {
             db = _db;
-        }
+			notyfService = _notyfService;
+		}
         // GET: DealersOrderController
+        [Authorize(Roles = "dealer")]
         public ActionResult Index()
+        {
+            var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var model = db.Dealer_Orders
+                .Include(d => d.GetDealer)
+                .ThenInclude(d => d.ApplicationUser)
+                .Include(d => d.GetSetUpBox)
+                .Where(d => d.GetDealer.user_id == userId)
+                .ToList();
+
+            return View(model);
+        }
+
+        //[Authorize(Roles = "dealer")]
+        public ActionResult Index2()
         {
             var model = db.Dealer_Orders
                 .Include(d => d.GetDealer)
-                    .ThenInclude(d => d.ApplicationUser)
+                .ThenInclude(d => d.ApplicationUser)
                 .Include(d => d.GetSetUpBox)
                 .ToList();
+
             return View(model);
         }
+
 
         // GET: DealersOrderController/Details/5
         public ActionResult Details(int id)
@@ -33,9 +55,19 @@ namespace Project.Areas.Admin.Controllers
             return View();
         }
 
-        // GET: DealersOrderController/Create
-        public ActionResult Create()
+		// GET: DealersOrderController/Create
+		[Authorize(Roles = "dealer")]
+		public ActionResult Create()
         {
+            var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            // Find the current dealer based on their user ID
+            var dealer = db.Dealers.SingleOrDefault(d => d.user_id == userId);
+
+            if (dealer == null)
+            {
+                return NotFound();
+            }
             ViewBag.data = new SelectList(db.SetUpBoxes.ToList(), "id", "name");
             return View();
         }
@@ -57,7 +89,8 @@ namespace Project.Areas.Admin.Controllers
                     
                     db.Dealer_Orders.Add(newDealersOrder);
                     db.SaveChanges();
-                    return RedirectToAction("Index");
+					notyfService.Success("Create new successfully");
+					return RedirectToAction("Index");
                 }
                 else
                 {
@@ -103,7 +136,8 @@ namespace Project.Areas.Admin.Controllers
                 {
                     db.Dealer_Orders.Remove(model);
                     db.SaveChanges();
-                    return RedirectToAction("Index");
+					notyfService.Success("Delete successfully");
+					return RedirectToAction("Index");
                 }
             }
             catch (Exception ex)

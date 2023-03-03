@@ -1,61 +1,108 @@
 ﻿@model IEnumerable<Project.Models.Customer>
 @{
-    ViewData["Title"] = "Index";
-    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+	ViewData["Title"] = "Index";
+	Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
+<style>
+	.card_head {
+		display: flex !important;
+		justify-content: space-between !important;
+	}
+
+	.setup_title {
+		font-size: 40px !important;
+	}
+
+
+</style>
 
 <div class="container-fluid">
 
-    <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Tables</h1>
-    <p class="mb-4">
-        DataTables is a third party plugin that is used to generate the demo table below.
-        For more information about DataTables, please visit the <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.
-    </p>
+	<!-- Page Heading -->
+	<h1 class="h2 mb-2 text-gray-800 text-center">Customer List</h1>
 
-    <!-- DataTales Example -->
-    <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-              
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Phone</th>
-                            <th>Address</th>
-                            <th>services sub date</th>
-                            <th>Date left</th>
-                            <th>Payment monthly</th>
-                        </tr>
-                    </thead>
 
-                    <tfoot>
-                        <tr>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Phone</th>
-                            <th>Address</th>
-                            <th>services sub date</th>
-                            <th>Date left</th>
-                            <th>Payment monthly</th>
-                        </tr>
-                    </tfoot>
+	<!-- DataTales Example -->
+	<div class="card shadow mb-4">
+		<div class="card-header py-3">
+		
+		</div>
+		<div class="card-body">
+			<div class="table-responsive">
 
-                    <tbody>
-                   
-   
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+				<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+					<thead>
+						<tr>
+							<th>Username</th>
+							<th>Card</th>
+							<th>Package</th>
+							<th>Sub Date</th>
+							<th>Date Left</th>
+							<th>State</th>
+							<th>Payment Monthly</th>
+							<th>Action</th>
+						</tr>
+					</thead>
+
+					<tfoot>
+						<tr>
+							<th>User Name</th>
+							<th>Card Number</th>
+							<th>Package</th>
+							<th>Sub Date</th>
+							<th>Date Left</th>
+							<th>State</th>
+							<th>Payment monthly</th>
+							<th>Action</th>
+						</tr>
+					</tfoot>
+
+					<tbody>
+						@foreach (var item in Model)
+						{
+							<tr>
+						<td>@item.ApplicationUser.UserName</td>
+						<td>@item.card_number</td>
+							@if (item.package != null)
+							{
+							<td>@item.package.name</td>
+							}
+							else
+							{
+							<td></td>
+							}
+
+						<td style="width:100px;">@item.services_sub_date</td>
+						<td style="width:100px;">@item.date_left</td>
+							@if (item.statePackage == true)
+							{
+							<td class="text text-success">
+								Valid
+							</td>
+							}
+							else if(item.statePackage == false)
+							{
+							<td class="text text-alert">  Expired</td>
+							}else{
+								<td class="text text-warning">Not Subscribed</td>
+							}
+
+
+						<td>@item.payment_monthly</td>
+						<td>
+							<a class="btn btn-info" asp-controller="Customers" asp-action="Details" asp-route-id="@item.id">Details</a>
+					
+						</td>
+							</tr>
+						}
+
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
 
 </div>
 @section Scripts {
-    <script type="text/javascript" src="/AssetAdmin/js/demo/datatables-demo.js"></script>
+	<script type="text/javascript" src="/AssetAdmin/js/demo/datatables-demo.js"></script>
 }

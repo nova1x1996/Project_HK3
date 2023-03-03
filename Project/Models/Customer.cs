@@ -14,12 +14,14 @@ namespace Project.Models
         [Key]
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public int id { get; set; }
-
-		public string card_number { get; set; }
-	
-	
+        [Required(ErrorMessage = "Please enter 8 digits.")]
+        [RegularExpression(@"^\d{8}$", ErrorMessage = "Please enter 8 digits.")]
+        public string card_number { get; set; }
+        [Required]	
 		public string phone { get; set; }
-		public string address { get; set; }
+        [Required]
+        public string address { get; set; }
+        public bool? statePackage { get; set; }
 
         [ForeignKey("user_id")]
         public virtual ApplicationUser ApplicationUser { set; get; }
@@ -37,6 +39,7 @@ namespace Project.Models
         public virtual List<Recharge>? GetRecharges { get; set; }
 
         public virtual List<ChangePackage>? GetChangePackages { get; set; }
+        public virtual List<Feedback>? GetFeedbacks { get; set; }
 
     }
 }

@@ -253,6 +253,9 @@ namespace Project.Migrations
                     b.Property<DateTime?>("services_sub_date")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool?>("statePackage")
+                        .HasColumnType("bit");
+
                     b.Property<string>("user_id")
                         .HasColumnType("nvarchar(450)");
 
@@ -493,6 +496,39 @@ namespace Project.Migrations
                     b.HasKey("id");
 
                     b.ToTable("faq");
+                });
+
+            modelBuilder.Entity("Project.Models.Feedback", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"), 1L, 1);
+
+                    b.Property<string>("content")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<int>("customer_id")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("star")
+                        .HasColumnType("int");
+
+                    b.Property<string>("type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("customer_id");
+
+                    b.ToTable("feedback");
                 });
 
             modelBuilder.Entity("Project.Models.Location", b =>
@@ -801,6 +837,17 @@ namespace Project.Migrations
                     b.Navigation("GetSetUpBox");
                 });
 
+            modelBuilder.Entity("Project.Models.Feedback", b =>
+                {
+                    b.HasOne("Project.Models.Customer", "GetCustomer")
+                        .WithMany("GetFeedbacks")
+                        .HasForeignKey("customer_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("GetCustomer");
+                });
+
             modelBuilder.Entity("Project.Models.Movie", b =>
                 {
                     b.HasOne("Project.Models.Movie_cate", "movie_Cate")
@@ -832,6 +879,8 @@ namespace Project.Migrations
                     b.Navigation("GetChangePackages");
 
                     b.Navigation("GetCustomer_Orders");
+
+                    b.Navigation("GetFeedbacks");
 
                     b.Navigation("GetRecharges");
                 });

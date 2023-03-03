@@ -32,7 +32,7 @@ namespace Project.Areas.Admin.Controllers
             var moviecate = db.Movies.FirstOrDefault(m => m.movie_cate_id == id);
             if(moviecate != null)
             {
-                _notify.Error("You can't delete a category that contains movies");
+                _notify.Error("You cannot delete a category that contains movies");
                 return RedirectToAction("Index");
             }
             var model = db.Movie_Cates.Find(id);

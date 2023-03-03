@@ -146,56 +146,63 @@ namespace Project.Areas.Admin.Controllers
                 }
                 if (ModelState.IsValid)
                 {
-                    if (file != null)
-                    {
-                        var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
-                        var extension = Path.GetExtension(file.FileName).ToLower();
-                        if (allowedExtensions.Contains(extension) && file.Length > 0)
+                   
+                        if (file != null)
                         {
-                            var newSetUpBox = db.SetUpBoxes.Find(setUpBox.id);
-                            // Kiểm tra nếu tệp tin đã tồn tại thì xóa tệp tin đó trước khi tải lên tệp tin mới
-                            //.TrimStart(/):Để xóa ký tự '/' đầu tiên vì Path.Combine yêu cầu các tham số ko bắt đầu bằng "/
-                            var filePathCu = Path.Combine("wwwroot", newSetUpBox.img.TrimStart('/'));
-                            if (System.IO.File.Exists(filePathCu))
+
+                            var checkfileExist = Path.Combine("wwwroot/img/setupbox", file.FileName);
+                            if (System.IO.File.Exists(checkfileExist))
                             {
-                                System.IO.File.Delete(filePathCu);
-                            }
-                            var filePath = Path.Combine("wwwroot/img/setupbox", file.FileName);
-                            var fileItem = db.SetUpBoxes.Where(i=>i.img.Equals(filePath));
-                            if (fileItem != null)
-                            {
-                                ModelState.AddModelError("img", "The image already exists, please choose another image !");
-                                return View();
+                                //ModelState.AddModelError("img", "The image already exists, please choose another image !");
+                                notyfService.Error("The image already exists!");
+                                //return View(setUpBox);
+                                return RedirectToAction("Edit");
                             }
                             else
                             {
-                                var stream = new FileStream(filePath, FileMode.Create);
-                                file.CopyToAsync(stream);
-                                newSetUpBox.name = setUpBox.name;
-                                newSetUpBox.details = setUpBox.details;
-                                newSetUpBox.price = setUpBox.price;
+                                var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
+                                var extension = Path.GetExtension(file.FileName).ToLower();
+                                if (allowedExtensions.Contains(extension) && file.Length > 0)
+                                {
+                                    var newSetUpBox = db.SetUpBoxes.Find(setUpBox.id);
+                                    // Kiểm tra nếu tệp tin đã tồn tại thì xóa tệp tin đó trước khi tải lên tệp tin mới
+                                    //.TrimStart(/):Để xóa ký tự '/' đầu tiên vì Path.Combine yêu cầu các tham số ko bắt đầu bằng "/
+                                    var filePathCu = Path.Combine("wwwroot", newSetUpBox.img.TrimStart('/'));
+                                    if (System.IO.File.Exists(filePathCu))
+                                    {
+                                        System.IO.File.Delete(filePathCu);
+                                    }
+                                    var filePath = Path.Combine("wwwroot/img/setupbox", file.FileName);
 
-                                newSetUpBox.img = "/img/setupbox/" + file.FileName;
-                                db.SaveChanges();
-                                stream.Close();
-                                notyfService.Success("Update successfully");
-                                return RedirectToAction("Index");
+                                    var stream = new FileStream(filePath, FileMode.Create);
+                                    file.CopyToAsync(stream);
+                                    newSetUpBox.name = setUpBox.name;
+                                    newSetUpBox.details = setUpBox.details;
+                                    newSetUpBox.price = setUpBox.price;
+
+                                    newSetUpBox.img = "/img/setupbox/" + file.FileName;
+                                    db.SaveChanges();
+                                    stream.Close();
+                                    notyfService.Success("Update successfully");
+                                    return RedirectToAction("Index");
+
+                                }
                             }
-                           
-                        }
-                      
 
-                    }
-                    else
-                    {
-                        var newSetUpBox = db.SetUpBoxes.Find(setUpBox.id);
-                        newSetUpBox.name = setUpBox.name;
-                        newSetUpBox.details = setUpBox.details;
-                        newSetUpBox.price = setUpBox.price;
-                        db.SaveChanges();
-                        notyfService.Success("Update successfully");
-                        return RedirectToAction("Index");
-                    }
+
+                        }
+                        else
+                        {
+                            var newSetUpBox = db.SetUpBoxes.Find(setUpBox.id);
+                            newSetUpBox.name = setUpBox.name;
+                            newSetUpBox.details = setUpBox.details;
+                            newSetUpBox.price = setUpBox.price;
+                            db.SaveChanges();
+                            notyfService.Success("Update successfully");
+                            return RedirectToAction("Index");
+                        }
+                    
+                    
                     //else
                     //{
                     //    ModelState.AddModelError(string.Empty, "File uploaded is not an image Or you don't select file!");

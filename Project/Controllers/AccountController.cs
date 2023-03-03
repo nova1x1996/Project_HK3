@@ -15,13 +15,14 @@ namespace Project.Controllers
         {
             string url = Request.Headers["Referer"].ToString();
 
-            if (url != null)
+            if (url != null && url != "")
             {
                 // Redirect về trang trước đó
                 _notyf.Error("You do not have permission to access this page !");
                 return Redirect(url);
             }
-            else
+      
+            else 
             {
                 // Nếu không có trang trước đó thì redirect về trang chủ
                 _notyf.Error("You do not have permission to access this page !");

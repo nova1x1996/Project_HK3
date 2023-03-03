@@ -115,7 +115,8 @@ namespace Project.Areas.Admin.Controllers
                 {
                     db.Packages.Remove(model);
                     db.SaveChanges();
-                    return RedirectToAction("Index");
+					notyfService.Success("Delete successfully");
+					return RedirectToAction("Index");
                 }
             }
             catch (Exception ex)

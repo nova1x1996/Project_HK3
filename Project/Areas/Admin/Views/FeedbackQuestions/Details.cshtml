@@ -1,0 +1,27 @@
+﻿@model Project.Models.Feedback
+@{
+}
+
+<style>
+    .create_setup_form {
+        margin-left: 20% !important;
+        margin-right: 20% !important;
+    }
+
+    .input_group {
+        min-width: 400px !important;
+    }
+</style>
+
+<h1 class="text-center mt-4">Feedback Of @Model.GetCustomer.ApplicationUser.UserName</h1>
+<div class="card shadow create_setup_form">
+    <div class="card-body">
+        <h3 class="text-center">Content</h3>
+        <p>@Model.content</p>
+
+
+        <div>
+            <a class="btn btn-info" asp-action="Index">Back to List</a>
+        </div>
+    </div>
+</div>

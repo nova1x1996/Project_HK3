@@ -17,7 +17,8 @@
 <meta name="author" content="">
 
 <!-- Site Icons -->
-<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+@*<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />*@
+<link rel="shortcut icon" href="/img/R-DTH_favicon.png" type="image/x-icon" />
 <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
 
 <!-- Bootstrap CSS -->
@@ -105,17 +106,22 @@ padding-bottom:0px;
                 </button>
                 <div class="collapse navbar-collapse" id="navbars-host">
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item active"><a class="nav-link"  asp-controller="Home" asp-action="Index">Home</a></li>
+                        <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Home" ? "active" : "")">
+                            <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
                        
-                        <li class="nav-item"><a class="nav-link" asp-controller="SetUpBox" asp-action="Index" >Set-up Box</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-controller="Package" asp-action="Index" >Package </a></li>
-                               <li class="nav-item"><a class="nav-link" asp-controller="Movie" asp-action="Index" >Movie Booking</a></li>
+                        <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "SetUpBox" ? "active" : "")"><a class="nav-link" asp-controller="SetUpBox" asp-action="Index">Set-up Box</a></li>
+                        <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Package" ? "active" : "")"><a class="nav-link" asp-controller="Package" asp-action="Index">Package </a></li>
+                        <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Movie" ? "active" : "")"><a class="nav-link" asp-controller="Movie" asp-action="Index">Movie Booking</a></li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="dropdown-a" data-toggle="dropdown">Other </a>
                             <div class="dropdown-menu" aria-labelledby="dropdown-a">
-                                <a class="dropdown-item" asp-controller="AboutUs" asp-action="Index">About Us</a>
-                                <a class="dropdown-item" asp-controller="CustomerCare" asp-action="Index">Customer Care</a>
-                                <a class="dropdown-item" asp-controller="Contact" asp-action="Index">Contact</a>
+
+                                <a class="dropdown-item @(ViewContext.RouteData.Values["Controller"].ToString() == "AboutUs" ? "active" : "")" asp-controller="AboutUs" asp-action="Index">About Us</a>
+                       
+                                <a class="dropdown-item @(ViewContext.RouteData.Values["Controller"].ToString() == "CustomerCare" ? "active" : "")" asp-controller="CustomerCare" asp-action="CustomerCare">Customer Care</a>
+                                <a class="dropdown-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Contact" ? "active" : "")" asp-controller="Contact" asp-action="Index">Contact</a>
+                           
                             </div>
                         </li>
                         <li class="nav-item"><a class="nav-link"  asp-controller="Faq" asp-action="Index">F.A.Q</a></li>
@@ -135,10 +141,16 @@ padding-bottom:0px;
                             @if (role.Equals("customer"))
                             {
                                 <li style="margin-right:10px"><a class="hover-btn-new log" asp-action="Index" asp-controller="Recharge" asp-route-id="@userId"><span>Recharge</span></a></li>
-
-                            }
-                            <li><a class="hover-btn-new log" href="/UserAuthentication/DetailCustomer" ><span>User</span></a></li>
+                                <li><a class="hover-btn-new log" href="/UserAuthentication/DetailCustomer" ><span>User</span></a></li>
                             <li><a class="hover-btn-new log" asp-controller="UserAuthentication" asp-action="Logout"><span>Logout</span></a></li>
+                            }else if (role.Equals("dealer")){
+                                <li><a class="hover-btn-new log" asp-controller="MainAdmin" asp-action="Index" asp-area="Admin" ><span>Dealer</span></a></li>
+                            <li><a class="hover-btn-new log" asp-controller="UserAuthentication" asp-action="Logout"><span>Logout</span></a></li>
+                            }else{
+                                <li><a class="hover-btn-new log" asp-controller="MainAdmin" asp-action="Index" asp-area="Admin" ><span>Admin</span></a></li>
+                                <li><a class="hover-btn-new log" asp-controller="UserAuthentication" asp-action="Logout"><span>Logout</span></a></li>
+                            }
+                        
                         }else{
                               <li style="margin-right:10px"><a class="hover-btn-new log" asp-action="Index" asp-controller="Recharge" ><span>Recharge</span></a></li>
                             <li><a class="hover-btn-new log" href="/UserAuthentication/Login" ><span>Customer Login</span></a></li>
@@ -226,7 +238,7 @@ padding-bottom:0px;
             visibleItems: 4
         });
     </script>
-    <script>
+   @* <script>
         document.addEventListener("DOMContentLoaded", function (event) {
             var scrollpos = localStorage.getItem('scrollpos');
             if (scrollpos) window.scrollTo(0, scrollpos);
@@ -235,8 +247,8 @@ padding-bottom:0px;
         window.onbeforeunload = function (e) {
             localStorage.setItem('scrollpos', window.scrollY);
         };
-    </script>
-    
+    </script>*@
+   
     @await Component.InvokeAsync("Notyf")
     @await RenderSectionAsync("Scripts", required: false) 
   

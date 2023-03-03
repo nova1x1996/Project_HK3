@@ -46,6 +46,7 @@ namespace Project.Areas.Admin.Controllers
                 customer.payment_monthly = package.price;
                 customer.package_id = package.id;
                 customer.services_sub_date = DateTime.Now;
+                customer.statePackage = true;
                 customer.date_left = DateTime.Now.AddMonths(model.monthPackage.Value);
                
             }

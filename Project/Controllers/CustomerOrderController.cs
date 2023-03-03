@@ -177,6 +177,7 @@ namespace Project.Controllers
                     customer.payment_monthly = package.price;
                     customer.package_id = package.id;
                     customer.services_sub_date = DateTime.Now;
+                    customer.statePackage = true;
                     customer.date_left = DateTime.Now.AddMonths(Mo.monthPackage.Value);
                     //customer.date_left = DateTime.Now.AddSeconds(30);
                     db.SaveChanges();
@@ -221,7 +222,7 @@ namespace Project.Controllers
 
             }
         }
-
+        [Authorize(Roles = "customer")]
         //Order
         [HttpGet()]
         public IActionResult PackageOrder(int id)
@@ -310,14 +311,24 @@ namespace Project.Controllers
 
 
 
-
+        [Authorize(Roles = "customer")]
         //Movie
 
         [HttpGet()]
         public IActionResult MovieOrder(int id)
         {
+            var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var customer = db.Customers.Where(c => c.user_id.Equals(userId)).SingleOrDefault();
 
             var model = db.Movies.Find(id);
+
+            var orderMovie = db.Customer_orders.Where(c => c.customer_id == customer.id && c.movie_id == id).SingleOrDefault();
+            if(orderMovie != null)
+            {
+                _notyf.Error("You have booked this movie.");
+                return RedirectToAction("Index","Movie");
+            }
 
             return View(model);
 
@@ -361,6 +372,7 @@ namespace Project.Controllers
 
 
         }
+        [Authorize(Roles = "customer")]
 
         [HttpGet()]
         public IActionResult SetUpBoxOrder(int id)
