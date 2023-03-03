@@ -59,13 +59,39 @@ namespace Project.Controllers
         [HttpPost]
         public async Task<IActionResult> Registration(RegistrationModel model,string card_number,string phone,string address)
         {
-            if (!ModelState.IsValid) { return View(model); }
+            var cardExists = db.Customers.Where(c => c.card_number.Equals(card_number)).FirstOrDefault();
+
+            if (cardExists != null)
+            {
+                TempData["Error"] = "Card Number already exist.";
+
+            }
+            if (String.IsNullOrEmpty(card_number))
+            {
+                TempData["Error1"] = "The Card number field is required.";
+            }
+
+            if (String.IsNullOrEmpty(phone))
+            {
+                TempData["Error2"] = "The Phone field is required.";
+            }
+
+            if (String.IsNullOrEmpty(address))
+            {
+                TempData["Error3"] = "The Address field is required.";
+            }
+
+            if (!ModelState.IsValid) 
+            { 
+                return View(model); 
+            }
+
             model.Role = "customer";
             
             var result = await this._authService.RegisterAsync(model);
 
             TempData["msg"] = result.Message;
-          
+            
 
             //Thêm vào để add Customer
             if (result.Message.Equals("You have registered successfully"))
@@ -77,13 +103,12 @@ namespace Project.Controllers
                 c1.phone = phone;
                 c1.address = address;
                 c1.user_id = u1.Id;
-              
+                
                 await db.Customers.AddAsync(c1);
                 await db.SaveChangesAsync();
 
             }
-            return RedirectToAction(nameof(Registration));
-            // return RedirectToAction(nameof(Registration));
+            return RedirectToAction("Index", "Home");
         }
 
         //[Authorize]
