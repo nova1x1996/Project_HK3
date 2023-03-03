@@ -317,8 +317,18 @@ namespace Project.Controllers
         [HttpGet()]
         public IActionResult MovieOrder(int id)
         {
+            var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var customer = db.Customers.Where(c => c.user_id.Equals(userId)).SingleOrDefault();
 
             var model = db.Movies.Find(id);
+
+            var orderMovie = db.Customer_orders.Where(c => c.customer_id == customer.id && c.movie_id == id).SingleOrDefault();
+            if(orderMovie != null)
+            {
+                _notyf.Error("You have booked this movie.");
+                return RedirectToAction("Index","Movie");
+            }
 
             return View(model);
 
