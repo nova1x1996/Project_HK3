@@ -116,9 +116,10 @@ padding-bottom:0px;
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="dropdown-a" data-toggle="dropdown">Other </a>
                             <div class="dropdown-menu" aria-labelledby="dropdown-a">
+
                                 <a class="dropdown-item @(ViewContext.RouteData.Values["Controller"].ToString() == "AboutUs" ? "active" : "")" asp-controller="AboutUs" asp-action="Index">About Us</a>
                        
-                                <a class="dropdown-item @(ViewContext.RouteData.Values["Controller"].ToString() == "CustomerCare" ? "active" : "")" asp-controller="CustomerCare" asp-action="CustomerCare">Customer Care</a>
+                                <a class="dropdown-item @(ViewContext.RouteData.Values["Controller"].ToString() == "CustomerCare" ? "active" : "")" asp-controller="CustomerCare" asp-action="Index">Customer Care</a>
                                 <a class="dropdown-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Contact" ? "active" : "")" asp-controller="Contact" asp-action="Index">Contact</a>
                            
                             </div>
