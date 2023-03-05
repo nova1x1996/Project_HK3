@@ -1,10 +1,10 @@
-﻿@model IEnumerable<Project.Models.Location>
+﻿@model IEnumerable<Project.Models.CustomerCare>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>Location</h1>
+<h1>Customer Care</h1>
 <div class="container-fluid">
 
     <!-- Page Heading -->
@@ -18,7 +18,7 @@
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
-            <a asp-area="Admin" asp-action="Create" asp-controller="Location" class="btn btn-primary">Create new</a>
+            <a asp-area="Admin" asp-action="Create" asp-controller="CustomerCare" class="btn btn-primary">Create new</a>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -26,12 +26,14 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
+                            <th>Phone</th>
                             <th>Address</th>
                         </tr>
                     </thead>
 
                     <tfoot>
                         <tr>
+                            <th>Phone</th>
                             <th>Address</th>
                         </tr>
                     </tfoot>
@@ -40,7 +42,8 @@
                         @foreach (var item in Model)
                         {
                             <tr>
-                                <td>@item.Name</td>
+                                <td>@item.Phone</td>
+                                <td>@item.GetLocation.Name</td>
                                 <td style="width:300px;">
                                     <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Update</a> |
                                     <a asp-action="Delete" asp-route-id="@item.Id" onclick="return confirm('Are you sure to delete?')" class="btn btn-danger">Delete</a>

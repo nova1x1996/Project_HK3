@@ -9,7 +9,9 @@ namespace Project.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { get; set; }
+        [Required]
         public string question { get; set; }
+        [Required]
         public string answer { get; set; }
         public string status { get; set; }
     }
