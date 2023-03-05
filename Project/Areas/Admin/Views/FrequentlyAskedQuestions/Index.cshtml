@@ -23,7 +23,7 @@
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3 card_head">
-            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+            
             <a asp-area="Admin" asp-action="Create" asp-controller="FrequentlyAskedQuestions" class="btn btn-primary">Create new Faq</a>
         </div>
         <div class="card-body">
@@ -51,7 +51,17 @@
                             <tr>
                                 <td>@item.question</td>
                                 <td>@item.answer</td>
-                                <td>@item.status</td>
+                                @if(item.status.Equals("show")){
+
+                                    <td class="text-success">@item.status.ToUpper()</td>
+                                    
+                                }else if(item.status.Equals("hidden")){
+                                    <td class="text-danger">@item.status.ToUpper()</td>
+                                }else{
+                                    <td>@item.status</td>
+                                }
+
+
                                 <td style="width:300px;">
                                     <a asp-action="Edit" asp-route-id="@item.id" class="btn btn-warning">Update</a> |
                                     <a asp-action="Details" asp-route-id="@item.id" class="btn btn-primary">Details</a> |

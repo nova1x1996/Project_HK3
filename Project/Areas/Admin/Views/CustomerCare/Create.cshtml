@@ -26,21 +26,22 @@
                     <div class="form-group">
                         <label asp-for="location_id" class="control-label">Location</label>
                         <select asp-for="location_id" class="form-control input_group" asp-items="@ViewBag.data">
-                            <option>--Selected--</option>
+                            <option value="0">--Selected--</option>
                         </select>
                         <span asp-validation-for="location_id" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label>Phone</label>
                         <input type="text" class="form-control input_group" name="phone" />
+                        <span asp-validation-for="Phone" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <input type="submit" value="Create" class="btn btn-primary" />
+                        <input type="submit"  value="Create" class="btn btn-primary" />
                     </div>
                 </form>
             </table>
             <div>
-                <a asp-action="Index">Back to List</a>
+                <a asp-action="Index" class="btn btn-info">Back to List</a>
             </div>
         </div>
     </div>

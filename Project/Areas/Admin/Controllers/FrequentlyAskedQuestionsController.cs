@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Project.Controllers;
 using Project.Models;
@@ -8,10 +9,12 @@ namespace Project.Areas.Admin.Controllers
     [Area("Admin")]
     public class FrequentlyAskedQuestionsController : Controller
     {
+        public INotyfService notyf;
         public DatabaseContext db { get; set; }
-        public FrequentlyAskedQuestionsController(DatabaseContext _db)
+        public FrequentlyAskedQuestionsController(DatabaseContext _db,INotyfService _notyf)
         {
             db = _db;
+            notyf = _notyf;
         }
         // GET: FrequentlyAskedQuestionsController
         public ActionResult Index()
@@ -44,11 +47,12 @@ namespace Project.Areas.Admin.Controllers
                 {
                     db.Faq.Add(newFaq);
                     db.SaveChanges();
+                    notyf.Success("You creation was successful!");
                     return RedirectToAction("Index");
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, ModelState.ErrorCount.ToString());
+                    ModelState.AddModelError(string.Empty, "Your creation was unsuccessful ");
                 }
             }
             catch (Exception ex)
@@ -81,6 +85,7 @@ namespace Project.Areas.Admin.Controllers
                     FAQ.answer = faq.answer;
                     FAQ.status = faq.status;
                     db.SaveChanges();
+                    notyf.Success("You edit was successful!");
                     return RedirectToAction("Index");
                 }
                 else
@@ -105,6 +110,7 @@ namespace Project.Areas.Admin.Controllers
                 {
                     db.Faq.Remove(FAQQ);
                     db.SaveChanges();
+                    notyf.Success("You Delete was successful!");
                     return RedirectToAction("Index");
                 }
             }

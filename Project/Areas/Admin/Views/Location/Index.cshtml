@@ -4,21 +4,14 @@
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>Location</h1>
+<h1 class="text-center">Location</h1>
 <div class="container-fluid">
-
-    <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Tables</h1>
-    <p class="mb-4">
-        DataTables is a third party plugin that is used to generate the demo table below.
-        For more information about DataTables, please visit the <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.
-    </p>
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
-            <a asp-area="Admin" asp-action="Create" asp-controller="Location" class="btn btn-primary">Create new</a>
+           
+            <a asp-area="Admin" asp-action="Create" asp-controller="Location" class="btn btn-primary">Create </a>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -27,12 +20,14 @@
                     <thead>
                         <tr>
                             <th>Address</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
 
                     <tfoot>
                         <tr>
                             <th>Address</th>
+                            <th>Action</th>
                         </tr>
                     </tfoot>
 
@@ -42,7 +37,7 @@
                             <tr>
                                 <td>@item.Name</td>
                                 <td style="width:300px;">
-                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Update</a> |
+                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Update</a> 
                                     <a asp-action="Delete" asp-route-id="@item.Id" onclick="return confirm('Are you sure to delete?')" class="btn btn-danger">Delete</a>
                                 </td>
                             </tr>

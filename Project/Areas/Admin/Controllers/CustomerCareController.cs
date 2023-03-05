@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using Project.Controllers;
 using Project.Models;
@@ -41,28 +42,52 @@ namespace Project.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CustomerCare newCustomerCare)
         {
+            var location = db.Location.ToList();
+            var locations = new SelectList(location, "Id", "Name");
+            ViewBag.data = locations;
+
             try
             {
+                var LocationCC = db.CustomerCare.Where(c => c.location_id == newCustomerCare.location_id).FirstOrDefault();
+                if(LocationCC != null)
+                {
+                    ModelState.AddModelError("location_id", "This location has already set up a phone, please choose another location.");
+
+
+
+                    return View();
+                }
+                if (newCustomerCare.location_id == 0)
+                {
+                    ModelState.AddModelError("location_id", "You must select Location");
+
+
+                   
+                    return View();
+                }
+
                 if (ModelState.IsValid)
                 {
+                    
                     db.CustomerCare.Add(newCustomerCare);
                     db.SaveChanges();
+                    notyfService.Success("Edit successfully");
                     return RedirectToAction("Index");
                 }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, ModelState.ErrorCount.ToString());
-                }
+
             }
             catch (Exception ex)
             {
 
                 ModelState.AddModelError(string.Empty, ex.Message);
             }
+        
+            ViewBag.data = locations;
             return View();
         }
-        public async Task<IActionResult> Edit(int id)
+        public  IActionResult Edit(int id)
         {
+         
             var deal = db.CustomerCare.SingleOrDefault(d => d.Id.Equals(id));
             return View(deal);
         }
@@ -71,12 +96,19 @@ namespace Project.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(CustomerCare customercare)
         {
+   
+           
             try
             {
+                
+               
+
                 var pac = db.CustomerCare.SingleOrDefault(e => e.Id.Equals(customercare.Id));
                 if (pac != null && ModelState.IsValid)
                 {
-                    pac.Id = customercare.Id;
+
+                    pac.Phone = customercare.Phone;
+
                     db.SaveChanges();
                     notyfService.Success("Edit successfully");
                     return RedirectToAction("Index");
@@ -90,7 +122,7 @@ namespace Project.Areas.Admin.Controllers
             {
                 ModelState.AddModelError(string.Empty, ex.Message);
             }
-            return View();
+            return View(customercare);
         }
 
         public ActionResult Delete(int id)
@@ -102,6 +134,7 @@ namespace Project.Areas.Admin.Controllers
                 {
                     db.CustomerCare.Remove(model);
                     db.SaveChanges();
+                    notyfService.Success("Delete successfully");
                     return RedirectToAction("Index");
                 }
             }

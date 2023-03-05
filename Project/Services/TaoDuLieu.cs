@@ -1,18 +1,29 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Project.Models;
+using Project.Models.Domain;
+using Project.Models.DTO;
+using Project.Repositories.Abstract;
+using Project.Repositories.Implementation;
 
 namespace Project.Services
 {
     public class TaoDuLieu
     {
+        private readonly IUserAuthenticationService _authService1;
 
-       
+
+
+      
         public static  void SeedData(DatabaseContext context)
         {
             if (context.Movies.Count() < 3)
             {
+              
+
 
                 //Tạo role
                 context.Roles.AddRange(new IdentityRole {

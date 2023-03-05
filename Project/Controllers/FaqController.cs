@@ -12,7 +12,7 @@ namespace Project.Controllers
         }
         public IActionResult Index()
         {
-            var model = db.Faq.ToList();
+            var model = db.Faq.Where(f=>f.status.Equals("show")).ToList();
             return View(model);
         }
     }

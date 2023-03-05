@@ -107,12 +107,7 @@
                         <h6 class="collapse-header">Login Screens:</h6>
                    
                         <a class="collapse-item" asp-controller="FeedbackQuestions" asp-action="Index">Feedback Questions</a>
-                        <a class="collapse-item" asp-controller="CustomerFeedbackReview" asp-action="Index">
-                            Customer Feedback Review
-                        </a>
-                        <div class="collapse-divider"></div>
-                        <h6 class="collapse-header">Other Pages:</h6>
-     
+                       
                      
                         <a class="collapse-item" asp-controller="FrequentlyAskedQuestions" asp-action="Index">
                             Frequently Asked Questions
@@ -120,50 +115,15 @@
                         <a class="collapse-item" asp-controller="CustomerCare" asp-action="Index">
                             Customer Care
                         </a>
+						<a class="collapse-item" asp-controller="Location" asp-action="Index">	Location</a>
                     </div>
                 </div>
             </li>
 
-			<!-- Divider -->
-			<hr class="sidebar-divider">
-
-			<!-- Heading -->
-			<div class="sidebar-heading">
-				Addons
-			</div>
-
-			<!-- Nav Item - Pages Collapse Menu -->
-			<li class="nav-item">
-				<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-				   aria-expanded="true" aria-controls="collapsePages">
-					<i class="fas fa-fw fa-folder"></i>
-					<span>Pages</span>
-				</a>
-				<div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-					<div class="bg-white py-2 collapse-inner rounded">
-						<h6 class="collapse-header">Login Screens:</h6>
-
-						<a class="collapse-item" asp-controller="FeedbackQuestions" asp-action="Index">Feedback</a>
-						
-						<div class="collapse-divider"></div>
-						<h6 class="collapse-header">Other Pages:</h6>
-
-
-						<a class="collapse-item" asp-controller="FrequentlyAskedQuestions" asp-action="Index">
-							Frequently Asked Questions
-						</a>
-					</div>
-				</div>
-			</li>
-
-			<!-- Nav Item - Charts -->
-			<li class="nav-item">
-				<a class="nav-link" asp-controller="Location" asp-action="Index">
-					<i class="fas fa-fw fa-chart-area"></i>
-					<span>Location</span>
-				</a>
-			</li>
+		
+		
 			<!-- Nav Item - Tables -->
+		
 			<li class="nav-item">
 				<a class="nav-link" asp-controller="Packages" asp-action="Index">
 					<i class="fas fa-fw fa-table"></i>
@@ -181,6 +141,18 @@
 				<a class="nav-link" asp-controller="ContactUs" asp-action="Index">
 					<i class="fas fa-fw fa-table"></i>
 					<span>Contact</span>
+				</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" asp-controller="Movies" asp-action="Index">
+					<i class="fas fa-fw fa-table"></i>
+					<span>Movie</span>
+				</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" asp-controller="MoviesCategory" asp-action="Index">
+					<i class="fas fa-fw fa-table"></i>
+					<span>Movie Category</span>
 				</a>
 			</li>
 

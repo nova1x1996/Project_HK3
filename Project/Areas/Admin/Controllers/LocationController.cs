@@ -3,6 +3,7 @@ using AspNetCoreHero.ToastNotification.Notyf;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Org.BouncyCastle.Asn1.Ess;
 using Project.Models;
 
 namespace Project.Areas.Admin.Controllers
@@ -41,7 +42,13 @@ namespace Project.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Location newlocation)
         {
-            
+
+            var model = db.Location.Where(l => l.Name.Equals(newlocation.Name)).SingleOrDefault();
+            if(model != null)
+            {
+                notyfService.Error("The name already exists");
+                return RedirectToAction("Index");
+            }
             
                 if (ModelState.IsValid)
                 {
@@ -50,32 +57,52 @@ namespace Project.Areas.Admin.Controllers
                     notyfService.Success("Create new successfully");
                     return RedirectToAction("Index");
                 }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "New creation failed.\r\nPlease enter full information.");
-                }
+                
             return View();
         }
 
         // GET: LocationController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var FAQ = db.Location.SingleOrDefault(e => e.Id == id);
+            return View(FAQ);
+         
         }
 
         // POST: LocationController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(Location location)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                var model = db.Location.Where(l => l.Name.Equals(location.Name)).SingleOrDefault();
+                if (model != null)
+                {
+                    notyfService.Error("The name already exists");
+                  
+                    return View();
+                }
+
+
+                var Location = db.Location.SingleOrDefault(e => e.Id == location.Id);
+                if (Location != null && ModelState.IsValid)
+                {                    
+                    Location.Name = location.Name;
+                    db.SaveChanges();
+                    notyfService.Success("You edit was successful!");
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Edit failed.\r\nPlease correct valid information.");
+                }
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                ModelState.AddModelError(string.Empty, ex.Message);
             }
+            return View();
         }
 
         // GET: LocationController/Delete/5
@@ -83,11 +110,19 @@ namespace Project.Areas.Admin.Controllers
         {
             try
             {
+                var lcExists = db.CustomerCare.Where(c => c.location_id == id).FirstOrDefault();
+                if(lcExists != null)
+                {
+                    notyfService.Error("You can only delete Location without CustomerCare.");
+                    return RedirectToAction("Index");
+                }
+                
                 var lc = db.Location.SingleOrDefault(m => m.Id.Equals(id));
                 if (lc != null)
                 {
                     db.Location.Remove(lc);
                     db.SaveChanges();
+                    notyfService.Success("You Delete was successful!");
                     return RedirectToAction("Index");
                 }
             }
