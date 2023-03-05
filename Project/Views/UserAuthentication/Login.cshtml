@@ -96,9 +96,9 @@ input[type=text], input[type=password] {
                                 </div>
 
 
-                                @if (TempData["msg"] != null)
+                                @if (TempData["msgLogin"] != null)
                                 {
-                                    <div class="msg">@TempData["msg"]</div>
+                                    <div class="msg text-danger">@TempData["msgLogin"]</div>
                                 }
 
                                 <div class="form-group">

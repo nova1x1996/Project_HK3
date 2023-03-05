@@ -41,11 +41,12 @@ namespace Project.Controllers
             var result = await _authService.LoginAsync(model);
             if(result.StatusCode==1)
             {
+               
                 return RedirectToAction("Index", "Home");
             }
             else
             {
-                TempData["msg"] = result.Message;
+                TempData["msgLogin"] = result.Message;
                 return RedirectToAction(nameof(Login));
             }
         }
@@ -108,7 +109,8 @@ namespace Project.Controllers
                 await db.SaveChangesAsync();
 
             }
-            return RedirectToAction("Index", "Home");
+             _notyf.Success("You have registered successfully\"");
+            return RedirectToAction("Login");
         }
 
         //[Authorize]

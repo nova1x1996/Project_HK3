@@ -10,7 +10,13 @@ using System.Diagnostics.Eventing.Reader;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Authorization;
 using AspNetCoreHero.ToastNotification.Abstractions;
-
+using AspNetCoreHero.ToastNotification.Notyf;
+using Microsoft.AspNetCore.Identity;
+using MimeKit;
+using MailKit.Net.Smtp;
+using System.Text;
+using Project.Models.Domain;
+using Microsoft.AspNetCore.Identity;
 
 namespace Project.Controllers
 {
@@ -20,20 +26,72 @@ namespace Project.Controllers
     {
         private readonly INotyfService _notyf;
         private readonly DatabaseContext db;
-
+        private Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> userManager;
 
 
         private static string Mode = "sb-pjm9425080818@business.example.com";
 
-        public CustomerOrderController(DatabaseContext _db, IConfiguration config, INotyfService notyf)
+        public CustomerOrderController(DatabaseContext _db, IConfiguration config, INotyfService notyf, Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> _userManager)
         {
             db = _db;
             _notyf = notyf;
+            userManager = _userManager;
 
         }
+        public  string TraTenHienTai()
+        {
+
+            var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user =  userManager.FindByIdAsync(userId).Result;
+
+            return user.FirstName;
+        }
+
+        public string TraEmailHienTai()
+        {
+           
+            var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = userManager.FindByIdAsync(userId).Result;
+            
+            return user.Email;
+        }
+        public static void SendEmail(string email,string first_name,string product,string quantity, string price,string total,string SanPham )
+        {
 
 
+            var body = new StringBuilder();
+       
+            body.AppendLine("<table>");
+            body.AppendLine($"<tr><th>{SanPham.ToUpper()}</th><th>Quantity</th><th>Unit Price</th><th>Total</th></tr>");
+            body.AppendLine($"<tr><td>{product}</td><td>{quantity}</td><td>{price} $</td><td>{total} $</td></tr>");
+            body.AppendLine("</table>");
+  
 
+            string CSS = "<!DOCTYPE html>\r\n<html>\r\n<head>\r\n\t<meta charset=\"utf-8\">\r\n\t<title>Hóa đơn của bạn</title>\r\n\t<style type=\"text/css\">\r\n\t\tbody {\r\n\t\t\tfont-family: Arial, sans-serif;\r\n\t\t\tfont-size: 14px;\r\n\t\t\tline-height: 1.5;\r\n\t\t\tcolor: #333333;\r\n\t\t}\r\n\t\ttable {\r\n\t\t\twidth: 100%;\r\n\t\t\tborder-collapse: collapse;\r\n\t\t}\r\n\t\ttd, th {\r\n\t\t\tpadding: 10px;\r\n\t\t\tborder: 1px solid #cccccc;\r\n\t\t}\r\n\t\tth {\r\n\t\t\tbackground-color: #f2f2f2;\r\n\t\t}\r\n\t\t.total-row {\r\n\t\t\tfont-weight: bold;\r\n\t\t}\r\n\t\t.grand-total {\r\n\t\t\tfont-size: 16px;\r\n\t\t\tfont-weight: bold;\r\n\t\t}\r\n\t h1{text-align:center;}</style>\r\n</head>";
+
+            using (var client = new SmtpClient())
+            {
+                client.Connect("smtp.gmail.com", 465);
+                client.Authenticate("hoangdeptraibodoiqua4321@gmail.com", "gcbhrgquuqrfwohx");
+
+                var bodyBuilder = new BodyBuilder
+                {
+                    HtmlBody = CSS + $"<h1>Hi, {first_name}</h1><p>You have just successfully paid for your order on {DateTime.Now.ToString()}</p>" + body.ToString() + "<p>Thank you for using our service !</p>",
+                  
+                };
+
+                var message = new MimeMessage
+                {
+                    Body = bodyBuilder.ToMessageBody(),
+                };
+                message.From.Add(new MailboxAddress("R-DTH", "hoangdeptraibodoiqua4321@gmail.com"));
+                message.To.Add(new MailboxAddress("User", email));
+                message.Subject = "You have just made a payment !";
+                client.Send(message);
+                client.Disconnect(true);
+            }
+       
+        }
 
         protected string Page_Load(int ItemId, string price, int customerId, string loaiSanPham)
         {
@@ -115,6 +173,7 @@ namespace Project.Controllers
         [HttpGet()]
         public IActionResult btnPayment(string PayerID)
         {
+
             // Lấy thông tin thanh toán từ session
             var APIContext = HelperPayPal.GetAPIContext();
             var paymentId = HttpContext.Session.GetString("payment_id");
@@ -134,7 +193,10 @@ namespace Project.Controllers
                 return RedirectToAction("PaymentFailed");
             }
             else
-            {
+            {  //Lay De Gui Mail
+                var tenNguoiDung = TraTenHienTai();
+                var emailhientai = TraEmailHienTai();
+                //
 
                 var items = executedPayment.transactions[0].item_list.items.FirstOrDefault();
                 var total_money = executedPayment.transactions[0].amount.total;
@@ -182,7 +244,7 @@ namespace Project.Controllers
                     //customer.date_left = DateTime.Now.AddSeconds(30);
                     db.SaveChanges();
 
-
+                    SendEmail(emailhientai.ToString(), tenNguoiDung.ToString(), package.name, Mo.monthPackage.ToString() + " Month", package.price.ToString(), total_money, items.sku);
                     // Xử lý khi thanh toán thành công
                     return RedirectToAction("PaymentSuccess");
                 }
@@ -199,6 +261,11 @@ namespace Project.Controllers
                     Mo.date = DateTime.Now;
                     db.Customer_orders.Add(Mo);
                     db.SaveChanges();
+
+                  
+                   
+                    
+                    SendEmail(emailhientai.ToString(), tenNguoiDung.ToString(),movie.name,"1",movie.price.ToString(),total_money,items.sku);
                     return RedirectToAction("PaymentSuccess");
 
                 }
@@ -216,6 +283,9 @@ namespace Project.Controllers
                     Mo.date = DateTime.Now;
                     db.Customer_orders.Add(Mo);
                     db.SaveChanges();
+
+
+                    SendEmail(emailhientai.ToString(), tenNguoiDung.ToString(), setupbox.name, "1", setupbox.price.ToString(), total_money, items.sku);
                     return RedirectToAction("PaymentSuccess");
                 }
                 return RedirectToAction("PaymentFailed");
