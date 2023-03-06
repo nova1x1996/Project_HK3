@@ -1,12 +1,16 @@
 ﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MimeKit;
 using PayPal.Api;
 using Project.Helper;
 using Project.Models;
 using System.Diagnostics.Eventing.Reader;
 using System.Linq;
+
 using System.Security.Claims;
+using System.Text;
 
 namespace Project.Controllers
 {
@@ -19,7 +23,9 @@ namespace Project.Controllers
             db = _db;
             notyf = _notyf;
         }
-        
+
+     
+
         public IActionResult Index(string? id)
         {
           
@@ -182,10 +188,15 @@ namespace Project.Controllers
                 
 
             }
-            return RedirectToAction("PaymentSuccess", "CustomerOrder");
+            return RedirectToAction("PaymentSuccess");
         }
         //========================PayPAl===========================
 
+
+        public IActionResult PaymentSuccess()
+        {
+            return View();
+        }
         [HttpPost]
         public IActionResult RechargeOrder(string pay_type,int month, int packageId , int CustomerIdOrder,string card_number)
         {

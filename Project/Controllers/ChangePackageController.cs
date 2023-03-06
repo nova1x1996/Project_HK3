@@ -179,7 +179,7 @@ namespace Project.Controllers
                 customer.package_id = int.Parse(items.name);
                 db.SaveChanges();
 
-                return RedirectToAction("PaymentSuccess","CustomerOrder");
+                return RedirectToAction("PaymentSuccess","Recharge");
 
             }
         }

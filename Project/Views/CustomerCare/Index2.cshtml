@@ -1,0 +1,90 @@
+﻿@model IEnumerable<Project.Models.CustomerCare>
+@{
+    var cate = ViewBag.data as List<Location>;
+}
+<style>
+    .section {
+        padding: 10px 0 70px 0;
+    }
+
+    .row .icon-wrapper {
+        margin-bottom: 20px;
+    }
+
+    .section-title {
+        margin-bottom: 0px;
+    }
+
+    .icon-wrapper p {
+        padding-left: 0px;
+    }
+
+    .alert-success {
+        font-weight: bold;
+    }
+
+    #overviews {
+        padding-top:50px;
+        padding-bottom: 100px;
+      
+     
+    }
+
+    p {
+        color: #999;
+        font-weight: 400;
+        font-size: 20px;
+        line-height: 33px;
+        margin: 0;
+    }
+</style>
+
+
+<div class="all-title-box">
+    <div class="container text-center">
+        <h1>Customer Care<span class="m_1">"R-DTH provides tailored, professional service to each client"</span></h1>
+    </div>
+</div>
+
+<div id="overviews" class="section lb">
+    <div class="container">
+        <div>
+            <div class="dropdown">
+
+                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                    Choose Location
+                </a>
+
+
+
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <li><a class="dropdown-item" asp-action="Index">All</a></li>
+                    @foreach (var item in cate)
+                    {
+                        <li><a class="dropdown-item" asp-action="Index2" asp-route-id="@item.Id">@item.Name</a></li>
+
+                    }
+
+                </ul>
+            </div>
+            <p>
+                If you need assistance or have any questions, please do not hesitate to contact our team. Our dedicated staff is available 24 hours a day, 7 days a week to provide you with support whenever you need it.<br /> Whether you have a technical issue or a general inquiry, we are here to help. Please find the phone number below that corresponds to the address.
+            </p>
+    <div class="section-title row text-center">
+        <div class="col-md-8 offset-md-2">
+            <div class="dropdown">
+                        <h1>Phone Number</h1>
+                @foreach (var item in Model)
+                {
+                    <h3>(+084) @item.Phone</h3>
+                    <h3>@item.GetLocation.Name</h3>
+                }
+                         <h1>Phone Number</h1>
+                       
+            </div>
+        </div>
+    </div><!-- end title -->
+            <p> Thank you for considering our services.</p>
+        </div>
+    </div><!-- end title -->
+</div>

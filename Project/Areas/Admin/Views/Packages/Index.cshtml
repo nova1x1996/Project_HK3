@@ -13,7 +13,9 @@
     .setup_title {
         font-size: 40px !important;
     }
-
+    tr td a {
+        margin-bottom:2px;
+    }
 </style>
 
 <div class="container-fluid">
@@ -68,8 +70,8 @@
                                 <td>$@item.price</td>
                                 <td>
                                     <a asp-action="Edit" asp-route-id="@item.id" class="btn btn-warning" style="padding: 0.3rem 0.3rem !important">Update</a>
-                                    <a asp-action="Details" asp-route-id="@item.id" class="btn btn-info" style="padding: 0.3rem 0.3rem !important">Details</a>
-                                    <a asp-action="Delete" asp-route-id="@item.id" class="btn btn-primary" style="padding: 0.3rem 0.3rem !important" onclick="return confirm('Are you sure to delete?')">Delete</a>
+                                    <a asp-action="Details" asp-route-id="@item.id" class="btn btn-info " style="padding: 0.3rem 0.3rem !important">Details</a>
+                                    <a asp-action="Delete" asp-route-id="@item.id" class="btn btn-primary " style="padding: 0.3rem 0.3rem !important" onclick="return confirm('Are you sure to delete?')">Delete</a>
                                 </td>
                             </tr>
                         }

@@ -9,6 +9,7 @@ using System.Security.Claims;
 using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Identity;
 using Project.Models.Domain;
+using System.Text.RegularExpressions;
 
 namespace Project.Controllers
 {
@@ -41,11 +42,12 @@ namespace Project.Controllers
             var result = await _authService.LoginAsync(model);
             if(result.StatusCode==1)
             {
+               
                 return RedirectToAction("Index", "Home");
             }
             else
             {
-                TempData["msg"] = result.Message;
+                TempData["msgLogin"] = result.Message;
                 return RedirectToAction(nameof(Login));
             }
         }
@@ -60,7 +62,10 @@ namespace Project.Controllers
         public async Task<IActionResult> Registration(RegistrationModel model,string card_number,string phone,string address)
         {
             var cardExists = db.Customers.Where(c => c.card_number.Equals(card_number)).FirstOrDefault();
-
+            if (!Regex.IsMatch(card_number, @"^\d{8}$"))
+            {
+                TempData["Error4"] = "Please enter 8 digits";
+            }
             if (cardExists != null)
             {
                 TempData["Error"] = "Card Number already exist.";
@@ -108,7 +113,8 @@ namespace Project.Controllers
                 await db.SaveChangesAsync();
 
             }
-            return RedirectToAction("Index", "Home");
+             _notyf.Success("You have registered successfully\"");
+            return RedirectToAction("Login");
         }
 
         //[Authorize]
@@ -146,10 +152,22 @@ namespace Project.Controllers
         public async Task<IActionResult>ChangePassword(ChangePasswordModel model)
         {
             if (!ModelState.IsValid)
-              return View(model);
-            var result = await _authService.ChangePasswordAsync(model, User.Identity.Name);
-            TempData["msg"] = result.Message;
-            return RedirectToAction(nameof(ChangePassword));
+            {
+                return View(model);
+
+            }
+
+            if (string.Compare(model.CurrentPassword, model.NewPassword) == 0)
+            {
+                TempData["Error"] = "The new password cannot be the same as the old password.";
+            }
+            else
+            {
+                var result = await _authService.ChangePasswordAsync(model, User.Identity.Name);
+                TempData["msg"] = result.Message;
+            }
+                return RedirectToAction(nameof(ChangePassword));
+          
         }
 
 

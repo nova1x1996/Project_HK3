@@ -1,0 +1,46 @@
+﻿@model Project.Models.Location
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<style>
+    .create_setup_form {
+        margin-left: 20% !important;
+        margin-right: 20% !important;
+    }
+
+    .input_group {
+        min-width: 400px !important;
+    }
+
+    .form-group {
+        font-weight: bold;
+    }
+</style>
+<h1 class="text-center">Create Location</h1>
+<div class="card shadow create_setup_form">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table-bordered">
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+            </table>
+            <div>
+                <a asp-action="Index" class="btn btn-info">Back to List</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+

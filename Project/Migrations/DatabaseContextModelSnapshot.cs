@@ -327,7 +327,8 @@ namespace Project.Migrations
 
                     b.Property<string>("Phone")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(11)
+                        .HasColumnType("nvarchar(11)");
 
                     b.Property<int?>("location_id")
                         .HasColumnType("int");
@@ -540,7 +541,8 @@ namespace Project.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.HasKey("Id");
 
@@ -885,8 +887,7 @@ namespace Project.Migrations
 
             modelBuilder.Entity("Project.Models.Location", b =>
                 {
-                    b.Navigation("GetCustomerCare")
-                        .IsRequired();
+                    b.Navigation("GetCustomerCare");
                 });
 
             modelBuilder.Entity("Project.Models.Movie", b =>

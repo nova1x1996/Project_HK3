@@ -8,7 +8,8 @@ namespace Project.Models
     {
         public int Id { get; set; }
         [Required]
+        [StringLength(30, MinimumLength = 3, ErrorMessage = "Name From 3 To 30 Characters")]
         public string Name { get; set; }    
-        public CustomerCare GetCustomerCare { get; set; }
+        public CustomerCare? GetCustomerCare { get; set; }
     }
 }
