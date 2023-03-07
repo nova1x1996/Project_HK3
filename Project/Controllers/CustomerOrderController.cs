@@ -292,7 +292,6 @@ namespace Project.Controllers
 
             }
         }
-        [Authorize(Roles = "customer")]
         //Order
         [HttpGet()]
         public IActionResult PackageOrder(int id)
@@ -309,7 +308,10 @@ namespace Project.Controllers
             return View(model);
         }
 
+
         [HttpPost()]
+
+        [Authorize(Roles = "customer")]
         public IActionResult PackageOrderKhac(string pay_type, string total_money, int package_id, int monthPackage)
         {
             //Lấy Id của Phiên Đăng nhập hiện tại
@@ -381,8 +383,9 @@ namespace Project.Controllers
 
 
 
-        [Authorize(Roles = "customer")]
         //Movie
+
+        [Authorize(Roles = "customer")]
 
         [HttpGet()]
         public IActionResult MovieOrder(int id)
@@ -405,7 +408,10 @@ namespace Project.Controllers
 
         }
 
+        [Authorize(Roles = "customer")]
+
         [HttpPost()]
+    
         public IActionResult MovieOrder(string pay_type, string total_money, int movies_id)
         {
             //Lấy Id của Phiên Đăng nhập hiện tại
@@ -442,7 +448,7 @@ namespace Project.Controllers
 
 
         }
-        [Authorize(Roles = "customer")]
+
 
         [HttpGet()]
         public IActionResult SetUpBoxOrder(int id)
@@ -451,7 +457,7 @@ namespace Project.Controllers
 
             return View(model);
         }
-
+        [Authorize(Roles = "customer")]
         [HttpPost()]
         public IActionResult SetUpBoxOrder(string pay_type, string total_money, int package_id)
         {

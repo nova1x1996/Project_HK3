@@ -4,9 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 using Project.Models;
 using MailKit.Net.Smtp;
 using MimeKit;
+using Microsoft.AspNetCore.Authorization;
+
 namespace Project.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "admin")]
     public class ContactUsController : Controller
     {
         private DatabaseContext db;

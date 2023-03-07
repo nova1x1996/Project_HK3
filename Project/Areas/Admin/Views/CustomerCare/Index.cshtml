@@ -42,7 +42,7 @@
                                 <td>@item.Phone</td>
                                 <td>@item.GetLocation.Name</td>
                                 <td style="width:300px;">
-                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Update</a> |
+                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Update</a> 
                                     <a asp-action="Delete" asp-route-id="@item.Id" onclick="return confirm('Are you sure to delete?')" class="btn btn-danger">Delete</a>
                                 </td>
                             </tr>
