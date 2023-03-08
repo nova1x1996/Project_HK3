@@ -62,28 +62,45 @@ namespace Project.Controllers
         public async Task<IActionResult> Registration(RegistrationModel model,string card_number,string phone,string address)
         {
             var cardExists = db.Customers.Where(c => c.card_number.Equals(card_number)).FirstOrDefault();
-            if (!Regex.IsMatch(card_number, @"^\d{8}$"))
+            if (card_number == null || card_number.Length != 8 )
             {
                 TempData["Error4"] = "Please enter 8 digits";
+                return View();
+
+            }
+            if (card_number == null || !Regex.IsMatch(card_number, @"^[0-9]+$")){
+                TempData["Error5"] = "The card number must be number";
+                return View();
             }
             if (cardExists != null)
             {
                 TempData["Error"] = "Card Number already exist.";
+                return View();
 
             }
-            if (String.IsNullOrEmpty(card_number))
+            if (card_number == null)
             {
                 TempData["Error1"] = "The Card number field is required.";
+                return View();
             }
 
-            if (String.IsNullOrEmpty(phone))
+            if (phone == null)
             {
                 TempData["Error2"] = "The Phone field is required.";
+                return View();
+
+            }
+            if (phone == null || !Regex.IsMatch(phone, @"^[0-9]+$"))
+            {
+                TempData["Error6"] = "The phone must be number";
+                return View();
             }
 
-            if (String.IsNullOrEmpty(address))
+            if (address == null)
             {
                 TempData["Error3"] = "The Address field is required.";
+                return View();
+
             }
 
             if (!ModelState.IsValid) 
