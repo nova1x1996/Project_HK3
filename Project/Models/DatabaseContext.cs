@@ -33,7 +33,6 @@ namespace Project.Models
         public DbSet<DealersOrder> Dealer_Orders { get; set; }
 
         public DbSet<Feedback> Feed_Backs { get; set; }
-
     }
 
 }
