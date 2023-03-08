@@ -53,8 +53,10 @@
 				Interface
 			</div>
 
-			<!-- Nav Item - Pages Collapse Menu -->
-			<li class="nav-item">
+			<!-- Nav Item - Pages Collapse Menu --> 
+				@if (User.FindFirst(ClaimTypes.Role).Value.Equals("admin"))
+						{
+								<li class="nav-item">
 				<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
 				   aria-expanded="true" aria-controls="collapseTwo">
 					<i class="fas fa-fw fa-cog"></i>
@@ -78,20 +80,14 @@
 				</a>
 				<div id="collapseOrder" class="collapse" aria-labelledby="headingOrder" data-parent="#accordionSidebar">
 					<div class="bg-white py-2 collapse-inner rounded">
-						<h6 class="collapse-header">Custom Order:</h6>
+						
 						<a class="collapse-item" asp-controller="Recharge" asp-action="Index">Recharge Order</a>
 						<a class="collapse-item" asp-controller="ChangePackage" asp-action="Index">Update Package Order</a>
 						<a class="collapse-item" asp-controller="CustomersOrder" asp-action="Index">Customers Order</a>
-						@if (!string.IsNullOrEmpty(User.Identity.Name))
-						{
-							<a class="collapse-item" asp-controller="DealersOrder" asp-action="Index">Dealers Order</a>
-						}
-						else
-						{
-							<a class="collapse-item" asp-controller="DealersOrder" asp-action="Index2">Dealers Order</a>
-						}
-
-					</div>
+					
+							<a class="collapse-item" asp-controller="AdminDealerOrder" asp-action="Index">Dealers Order</a>
+					
+					
 				</div>
 			</li>
 
@@ -104,7 +100,7 @@
                 </a>
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Login Screens:</h6>
+                    
                    
                         <a class="collapse-item" asp-controller="FeedbackQuestions" asp-action="Index">Feedback Questions</a>
                        
@@ -155,7 +151,20 @@
 					<span>Movie Category</span>
 				</a>
 			</li>
-
+		}else{
+				<li class="nav-item">
+					<a class="nav-link" asp-controller="DealersOrder" asp-action="Index">
+						<i class="fas fa-fw fa-table"></i>
+						<span>Dealers Order</span>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" asp-controller="ContactUs" asp-action="Index">
+						<i class="fas fa-fw fa-table"></i>
+						<span>Change Password</span>
+					</a>
+				</li>
+		}
 		</ul>
 		<!-- End of Sidebar -->
 		<!-- Content Wrapper -->

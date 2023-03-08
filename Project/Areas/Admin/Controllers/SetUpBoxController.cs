@@ -7,10 +7,12 @@ using PagedList.Core;
 using Project.Models;
 using System.Xml.Linq;
 using System.IO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Project.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "admin")]
     public class SetUpBoxController : Controller
     {
         private DatabaseContext db;

@@ -148,9 +148,9 @@ namespace Project.Controllers
             {
                 Username = "admin",
                 Email = "admin@gmail.com",
-                FirstName = "Do Chi",
-                LastName = "Tai",
-                Password = "Admin@12345#"
+                FirstName = "R-DTH",
+                LastName = "Company",
+                Password = "Admin@123"
             };
             model.Role = "admin";
             var result = await this._authService.RegisterAsync(model);
@@ -181,7 +181,17 @@ namespace Project.Controllers
             else
             {
                 var result = await _authService.ChangePasswordAsync(model, User.Identity.Name);
-                TempData["msg"] = result.Message;
+
+
+                if (result.Message.Equals("Some error occcured"))
+                {
+                    TempData["Error"] = "Current password is incorrect";
+
+                }
+                else
+                {
+                    TempData["success"] = result.Message;
+                }
             }
                 return RedirectToAction(nameof(ChangePassword));
           
@@ -244,7 +254,7 @@ namespace Project.Controllers
             user.LastName = lastName;
             user.Email = email;
             var result = await userManager.UpdateAsync(user);
-
+            _notyf.Success("Update Success");
             return RedirectToAction("DetailCustomer");
          
             

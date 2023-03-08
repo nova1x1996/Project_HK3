@@ -11,6 +11,7 @@ using System.Security.Claims;
 namespace Project.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "dealer")]
     public class DealersOrderController : Controller
 	{
 		public INotyfService notyfService { get; }
@@ -20,7 +21,7 @@ namespace Project.Areas.Admin.Controllers
             db = _db;
 			notyfService = _notyfService;
 		}
-        // GET: DealersOrderController
+        // Cho Dealer
         [Authorize(Roles = "dealer")]
         public ActionResult Index()
         {
@@ -36,7 +37,10 @@ namespace Project.Areas.Admin.Controllers
             return View(model);
         }
 
-        //[Authorize(Roles = "dealer")]
+
+
+        // Cho ADMIN
+        [Authorize(Roles = "dealer")]
         public ActionResult Index2()
         {
             var model = db.Dealer_Orders
@@ -86,6 +90,11 @@ namespace Project.Areas.Admin.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    if(newDealersOrder.date.Day <= DateTime.Now.Day)
+                    {
+                        notyfService.Error("Order Date must be greater than today");
+                        return View();
+                    }
                     
                     db.Dealer_Orders.Add(newDealersOrder);
                     db.SaveChanges();

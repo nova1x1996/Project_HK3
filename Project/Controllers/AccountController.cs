@@ -1,8 +1,10 @@
 ﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Project.Controllers
 {
+  
     public class AccountController : Controller
     {
         private readonly INotyfService _notyf;
@@ -29,7 +31,7 @@ namespace Project.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            _notyf.Error("Đã xảy ra lỗi!");
+            _notyf.Error("Fail !");
             return RedirectToAction("Index","Home");
         }
     }

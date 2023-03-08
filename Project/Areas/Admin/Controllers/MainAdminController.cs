@@ -7,7 +7,7 @@ using Project.Models;
 namespace Project.Areas.Admin.Controllers
 {
     [Area("Admin")]
-   // [Authorize(Roles = "dealer,admin")]
+    [Authorize(Roles = "admin,dealer")]
     public class MainAdminController : Controller
     {
         private DatabaseContext db;
@@ -45,10 +45,13 @@ namespace Project.Areas.Admin.Controllers
             //Chart Tổng Tiền
 
 
+
             int TongDonHang = OrderCustomer.Count() + RechargeOrder.Count() + CPOrder.Count();
             ViewBag.TongDonHang = TongDonHang;
             var Customer = db.Customers.ToList();
             ViewBag.TongNguoi = Customer;
+
+            ViewBag.TongFB = db.Feed_Backs.Count();
             return View();
         }
 
