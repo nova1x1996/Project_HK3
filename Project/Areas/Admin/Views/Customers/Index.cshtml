@@ -34,12 +34,12 @@
 					<thead>
 						<tr>
 							<th>Username</th>
-							<th>Card</th>
+					
 							<th>Package</th>
 							<th>Sub Date</th>
 							<th>Date Left</th>
 							<th>State</th>
-							<th>Payment Monthly</th>
+							<th style="width:20px;">Pay/Month</th>
 							<th>Action</th>
 						</tr>
 					</thead>
@@ -47,12 +47,12 @@
 					<tfoot>
 						<tr>
 							<th>User Name</th>
-							<th>Card Number</th>
+						
 							<th>Package</th>
 							<th>Sub Date</th>
 							<th>Date Left</th>
 							<th>State</th>
-							<th>Payment monthly</th>
+							<th style="width:20px;">Pay/Month</th>
 							<th>Action</th>
 						</tr>
 					</tfoot>
@@ -62,7 +62,6 @@
 						{
 							<tr>
 						<td>@item.ApplicationUser.UserName</td>
-						<td>@item.card_number</td>
 							@if (item.package != null)
 							{
 							<td>@item.package.name</td>
@@ -76,23 +75,41 @@
 						<td style="width:100px;">@item.date_left</td>
 							@if (item.statePackage == true)
 							{
-							<td class="text text-success">
-								Valid
+							<td class="text text-success"> Valid
 							</td>
+							
 							}
 							else if(item.statePackage == false)
 							{
-							<td class="text text-alert">  Expired</td>
+									<td class="text text-danger">  Invalid</td>
+								
 							}else{
 								<td class="text text-warning">Not Subscribed</td>
 							}
 
-
-						<td>@item.payment_monthly</td>
-						<td>
-							<a class="btn btn-info" asp-controller="Customers" asp-action="Details" asp-route-id="@item.id">Details</a>
+							@if(item.payment_monthly != null){
+									<td>@item.payment_monthly $</td>
+							}else{
+									<td>@item.payment_monthly</td>
+							}
 					
-						</td>
+
+								@if (item.statePackage == true){
+									<td>
+										<a class="btn btn-info" asp-controller="Customers" asp-action="Details" asp-route-id="@item.id">Details</a>
+										<a asp-action="ChangeToInvalid" asp-route-id="@item.id"><button onclick="return confirm('Are you sure change to Invalid')" class="btn btn-danger">Change</button></a>
+
+									</td>
+
+								}else if(item.statePackage == false){
+									<td>
+										<a class="btn btn-info" asp-controller="Customers" asp-action="Details" asp-route-id="@item.id">Details</a>
+										<a asp-action="ChangeToValid" asp-route-id="@item.id"><button onclick="return confirm('Are you sure change to Valid?')" class="btn btn-danger">Change</button></a>
+										</td>
+								}else{
+									<td><a class="btn btn-info" asp-controller="Customers" asp-action="Details" asp-route-id="@item.id">Details</a></td>
+								}
+				
 							</tr>
 						}
 
