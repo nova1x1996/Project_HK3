@@ -32,6 +32,23 @@ namespace Project.Areas.Admin.Controllers
             return View(model);
         }
 
+
+        [HttpGet]
+        public ActionResult ChangeToInvalid(int id)
+        {
+            var model = db.Customers.Find(id);
+            model.statePackage = false;
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+        [HttpGet]
+        public ActionResult ChangeToValid(int id)
+        {
+            var model = db.Customers.Find(id);
+            model.statePackage = true;
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
         // GET: CustomerController/Create
         public ActionResult Create()
         {
