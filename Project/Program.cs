@@ -15,11 +15,12 @@ using Project.Repositories.Implementation;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
-builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
+//builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
+builder.Services.AddControllersWithViews();
 builder.Services.AddNotyf(config => { config.DurationInSeconds = 10; config.IsDismissable = true; config.Position = NotyfPosition.BottomRight; });
 builder.Services.AddDbContext<DatabaseContext>(options => 
 
-options.UseSqlServer(builder.Configuration.GetConnectionString("WebDatabasePhong")));
+options.UseSqlServer(builder.Configuration.GetConnectionString("WebDatabaseThuong")));
 
 
 
