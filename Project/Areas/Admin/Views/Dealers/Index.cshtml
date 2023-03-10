@@ -56,8 +56,8 @@
                                 <td>@item.phone</td>
                                 <td>@item.address</td>
                                 <td>
-                                    <a asp-action="Edit" asp-route-id="@item.id">Edit Password</a> |
-                                    <a asp-action="Delete" asp-route-id="@item.id" onclick="return confirm('Are you sure to delete?')">Delete</a>
+                                    <a asp-action="Edit" asp-route-id="@item.id" class="btn btn-warning">Edit Password</a>
+                                    <a asp-action="Delete" asp-route-id="@item.id" class="btn btn-primary" onclick="return confirm('Are you sure to delete?')">Delete</a>
                                 </td>
                             </tr>
                         }
