@@ -37,18 +37,14 @@ namespace Project.Controllers
         public IActionResult Create(Feedback model)
         {
 
-                           if (!ModelState.IsValid)
-            {
-                var errors = ModelState.Values.SelectMany(v => v.Errors)
-                                               .Select(e => e.ErrorMessage);
-
-                return Content(string.Join("\n", errors));
-            }
-                             
             var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var customer = db.Customers.Where(c => c.user_id.Equals(userId)).SingleOrDefault();
+            ViewBag.cus = customer.id;
+
             if (ModelState.IsValid)
             {
+
+
                 model.date = DateTime.Now;
                 db.Feed_Backs.Add(model);
                 db.SaveChanges();
