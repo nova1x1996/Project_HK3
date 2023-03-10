@@ -42,8 +42,14 @@ namespace Project.Controllers
             var result = await _authService.LoginAsync(model);
             if(result.StatusCode==1)
             {
-               
-                return RedirectToAction("Index", "Home");
+                if (model.Username == "admin")
+                {
+                    return RedirectToAction("Index", "Admin");
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Home");
+                }
             }
             else
             {

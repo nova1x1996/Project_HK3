@@ -6,8 +6,8 @@
 
 <style>
 	.create_setup_form {
-		margin-left: 20% !important;
-		margin-right: 20% !important;
+		margin-left: 10% !important;
+		margin-right: 10% !important;
 	}
 
 	.input_group {
@@ -31,51 +31,22 @@
 <div class="card shadow create_setup_form">
 	<div class="card-body">
 		<div class="row">
-			<div class="col-6 left">
-				<div>
-					Customer ID
-				</div>
-
-				<div>
-					First Name
-				</div>
-				<div>
-					Last Name
-				</div>
-				<div>
-					Email
-				</div>
-				<div>
-					Card Number
-				</div>
-				<div>
-					Phone
-				</div>
-				<div>
-					Address
-				</div>
-				<div>
-					Package
-				</div>
-				<div>
-					Sub Date
-				</div>
-				<div>
-					Dateleft
-				</div>
-				<div>
-					State Package
-				</div>
-				<div>
-					Payment/Month
-				</div>
-			
-		
-
-
-
+			<div class="col-4 left">
+				<div>Customer ID</div>
+				<div>First Name</div>
+				<div>Last Name</div>
+				<div>Email</div>
+				<div>Card Number</div>
+				<div>Phone</div>
+				<div>Address</div>
+				<div>Package</div>
+				<div>Sub Date</div>
+				<div>Dateleft</div>
+				<div>State Package</div>
+				<div>Payment/Month</div>
 			</div>
-			<div class="col-6 right">
+
+			<div class="col-8 right">
 				<div>@Model.id</div>
 				<div>@Model.ApplicationUser.FirstName</div>
 				<div>@Model.ApplicationUser.LastName</div>
@@ -85,19 +56,19 @@
 				<div>@Model.address@a</div>
 					@if(Model.package == null){
 						<div>@a</div>
-				}else{
+					}else{
 						<div>@Model.package.name</div>
-				}
+					}
 
 				<div>@Model.services_sub_date@a</div>
-					<div>@Model.date_left@a</div>
+				<div>@Model.date_left@a</div>
 					@if(Model.statePackage == null){
 						<div class="text text-warning">Not Subscribed</div>
-				}else if(Model.statePackage == true){
+					}else if(Model.statePackage == true){
 						<div>Active</div>
-				}else {
+					}else {
 						<div>Expired</div>
-				}
+					}
 
 				<div>@Model.payment_monthly@a</div>
 
