@@ -4,7 +4,7 @@
 They offer satellite TV packages and also provide online entertainment services such as watching movies.</p>
 <p><strong>Programming languages: </strong> C# (.Net Core).
 <p><strong>Main functions: </strong>Authorization, Login, Register, Change password, Logout, Order management, Online payment (Paypal), Send Email.</p>
-<p><strong>Installation Guide:</strong>Open MS SQL Server and run the attached file Database2.sql will create a database named ProjectHK3 with data.
+<p><strong>Installation Guide: </strong>Open MS SQL Server and run the attached file Database2.sql will create a database named ProjectHK3 with data.
 <p><strong>Team:</strong>
 <br>
 1. Tran Minh Khoi. (Leader)
